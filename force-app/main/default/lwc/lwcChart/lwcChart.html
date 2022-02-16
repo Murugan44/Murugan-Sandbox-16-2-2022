@@ -1,0 +1,56 @@
+<!--
+  @description       : 
+  @author            : Murugan
+  @group             : 
+  @last modified on  : 07-05-2021
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+  Modifications Log 
+  Ver   Date         Author                               Modification
+  1.0   07-05-2021   Murugan.SFDOc  Initial Version
+-->
+<template>
+    <lightning-card icon-name="standard:chart" title="Charts">
+        <lightning-button-group slot="actions">
+            <lightning-button-icon icon-name="utility:open" variant="border-filled" alternative-text="Open" onclick={show}></lightning-button-icon>
+            <lightning-button-icon icon-name="utility:close" variant="border-filled" alternative-text="Close" onclick={close}></lightning-button-icon>
+        </lightning-button-group>
+       <template if:true={isShowChart}>
+            <template if:true={loader}>
+                <div class="slds-backdrop slds-backdrop_open" style="padding: 20px;">
+                <div class="loader pos"></div>
+                </div>
+            </template>
+            <template if:false={loader}>
+                <lightning-layout multiple-rows>
+                    <lightning-layout-item size="6" padding="around-small" >
+                        <div class="slds-p-around_medium slds-box">
+                            <lightning-card title="Account Industries">
+                                <template if:true={pieChartLabels.length}>
+                                    <c-chart type="bar"
+                                    chart-heading="Account Industries"
+                                    chart-data={pieChartData}
+                                    chart-labels={pieChartLabels}>
+                                    </c-chart>
+                                </template>
+                            </lightning-card>
+                        </div>
+                    </lightning-layout-item>
+
+                    <lightning-layout-item size="6" padding="around-small">
+                        <div class="slds-p-around_medium slds-box">
+                            <lightning-card title="Policy Status">
+                                <template if:true={polpieChartLabels.length}>
+                                    <c-chart type="doughnut"
+                                    chart-heading="Policy Status"
+                                    chart-data={polpieChartData}
+                                    chart-labels={polpieChartLabels}>
+                                    </c-chart>
+                                </template>
+                            </lightning-card>
+                        </div>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </template>
+        </template> 
+    </lightning-card>
+</template>

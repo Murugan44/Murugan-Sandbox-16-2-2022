@@ -1,0 +1,298 @@
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.pos{
+  position: absolute;
+  left: 40%;
+  top: 40%;
+  right: 40%;
+  bottom: 40%;
+}
+.back_container{
+    background-image: url(https://static.radulescu.me/examples/clouds/clouds1200_1.png),radial-gradient(circle, #F9A72B 0%, #FA9026 70%, #FB6C1F 100%);
+    /* position: relative; */
+    animation: wind 30s linear infinite;
+	/* border-radius: 12px; */
+}
+.lightning-Card{
+	background:#e7bb7a;
+	border-radius: 12px;
+}
+.heading{
+	margin-top: 12px;
+    margin-left: 16px;
+    font: message-box;
+}
+.font{
+	font: message-box;
+}
+.modalColor{
+	background: antiquewhite;
+}
+.content{
+	text-align: center;
+    font-size: 20px;
+    font: message-box;
+    background: antiquewhite;
+}
+.scorePanel{
+    text-align: left;
+    margin-bottom: 12px;
+}
+.timer{
+    display: inline-block;
+    margin: 0 1rem;
+}
+.restart{
+    float: right;
+    cursor: pointer;
+    margin: 0px 8px;
+}
+.grid-container{
+    display: grid;
+    background: #4779e1;
+    padding: 1rem;
+    border-radius: 4px;
+    box-shadow: 8px 9px 26px 0;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5,0fr);
+    grid-column-gap: 22px;
+    grid-row-gap: 17px;
+}
+
+.grid-container .card{
+    height: 3.7rem;
+    width: 3.7rem;
+    margin: 0.2rem;
+    background: rgb(0, 255, 255);
+    font-size: 0px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 5px 2px 20px rgb(46 61 73 / 50%);
+}
+.grid-container .card.open{
+    transform: rotateY(0);
+    background: #02b3e4;
+	cursor: default;
+	animation-name: flipInY;
+	-webkit-backface-visibility: visible !important;
+	backface-visibility: visible !important;
+	animation-duration: .75s;
+}
+.grid-container .card.show{
+    font-size: 33px;
+    visibility: visible !important;
+	opacity: 100 !important;
+}
+.grid-container .card.disabled{
+    pointer-events: none;
+    opacity: 0.9;
+}
+
+.grid-container .card.match{
+    cursor: default;
+	background: #E5F720;
+	font-size: 33px;
+	animation-name: rubberBand;
+	-webkit-backface-visibility: visible !important;
+	backface-visibility: visible !important;
+	animation-duration: .75s;
+}
+.grid-container .card.unmatched{
+    animation-name: pulse;
+	-webkit-backface-visibility: visible !important;
+	backface-visibility: visible !important;
+	animation-duration: .75s;
+	background: #e2043b;
+}
+
+
+@keyframes flipInY {
+	from {
+		transform: perspective(400px) rotate3d(0, 1, 0, 90deg);
+		animation-timing-function: ease-in;
+		opacity: 0;
+	}
+
+	40% {
+		transform: perspective(400px) rotate3d(0, 1, 0, -20deg);
+		animation-timing-function: ease-in;
+	}
+
+	60% {
+		transform: perspective(400px) rotate3d(0, 1, 0, 10deg);
+		opacity: 1;
+	}
+
+	80% {
+		transform: perspective(400px) rotate3d(0, 1, 0, -5deg);
+	}
+
+	to {
+		transform: perspective(400px);
+	}
+}
+
+@keyframes rubberBand {
+	from {
+		transform: scale3d(1, 1, 1);
+	}
+
+	30% {
+		transform: scale3d(1.25, 0.75, 1);
+	}
+
+	40% {
+		transform: scale3d(0.75, 1.25, 1);
+	}
+
+	50% {
+		transform: scale3d(1.15, 0.85, 1);
+	}
+
+	65% {
+		transform: scale3d(.95, 1.05, 1);
+	}
+
+	75% {
+		transform: scale3d(1.05, .95, 1);
+	}
+
+	to {
+		transform: scale3d(1, 1, 1);
+	}
+}
+@keyframes pulse {
+	from {
+		transform: scale3d(1, 1, 1);
+	}
+
+	50% {
+		transform: scale3d(1.2, 1.2, 1.2);
+	}
+
+	to {
+		transform: scale3d(1, 1, 1);
+	}
+}
+
+@keyframes wind{
+    0% {
+      background-position: 0 200px, 0 300px, 100px 250px;
+    }
+    100% {
+      background-position: 1000px 200px, 1200px 300px, 1100px 250px;
+    }
+  
+  }
+
+
+
+  /* --------------------------***********LOADER*********-------------------------------- */
+
+  /* .loader {
+    width: 175px;
+    height: 80px;
+    display: block;
+    margin:auto;
+    background-image: radial-gradient(circle 25px at 25px 25px, #FFF 100%, transparent 0), radial-gradient(circle 50px at 50px 50px, #FFF 100%, transparent 0), radial-gradient(circle 25px at 25px 25px, #FFF 100%, transparent 0), linear-gradient(#FFF 50px, transparent 0);
+    background-size: 50px 50px, 100px 76px, 50px 50px, 120px 40px;
+    background-position: 0px 30px, 37px 0px, 122px 30px, 25px 40px;
+    background-repeat: no-repeat;
+    
+    box-sizing: border-box;
+  }
+  .loader::before {
+    content: '';  
+    left: 60px;
+    bottom: 18px;
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #FF3D00;
+    background-image: radial-gradient(circle 8px at 18px 18px, #FFF 100%, transparent 0), radial-gradient(circle 4px at 18px 0px, #FFF 100%, transparent 0), radial-gradient(circle 4px at 0px 18px, #FFF 100%, transparent 0), radial-gradient(circle 4px at 36px 18px, #FFF 100%, transparent 0), radial-gradient(circle 4px at 18px 36px, #FFF 100%, transparent 0), radial-gradient(circle 4px at 30px 5px, #FFF 100%, transparent 0), radial-gradient(circle 4px at 30px 5px, #FFF 100%, transparent 0), radial-gradient(circle 4px at 30px 30px, #FFF 100%, transparent 0), radial-gradient(circle 4px at 5px 30px, #FFF 100%, transparent 0), radial-gradient(circle 4px at 5px 5px, #FFF 100%, transparent 0);
+    background-repeat: no-repeat;
+    box-sizing: border-box;
+    animation: rotationBack 3s linear infinite;
+  }
+  .loader::after {
+    content: '';  
+    left: 94px;
+    bottom: 15px;
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: #FF3D00;
+    background-image: radial-gradient(circle 5px at 12px 12px, #FFF 100%, transparent 0), radial-gradient(circle 2.5px at 12px 0px, #FFF 100%, transparent 0), radial-gradient(circle 2.5px at 0px 12px, #FFF 100%, transparent 0), radial-gradient(circle 2.5px at 24px 12px, #FFF 100%, transparent 0), radial-gradient(circle 2.5px at 12px 24px, #FFF 100%, transparent 0), radial-gradient(circle 2.5px at 20px 3px, #FFF 100%, transparent 0), radial-gradient(circle 2.5px at 20px 3px, #FFF 100%, transparent 0), radial-gradient(circle 2.5px at 20px 20px, #FFF 100%, transparent 0), radial-gradient(circle 2.5px at 3px 20px, #FFF 100%, transparent 0), radial-gradient(circle 2.5px at 3px 3px, #FFF 100%, transparent 0);
+    background-repeat: no-repeat;
+    box-sizing: border-box;
+    animation: rotationBack 4s linear infinite reverse;
+  }
+  
+  @keyframes rotationBack {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(-360deg);
+    }
+  } */
+
+
+  .loader {
+    width: 100%;
+    height: 8px;
+    display: inline-block;
+    /* position: relative; */
+    overflow: hidden;
+    position: sticky;
+    top: 50%;
+    bottom: 50%;
+    background: radial-gradient(circle, #f8a221 0%, #fd8f20 70%, #fc610d 100%);
+    padding: 17px;
+    border-radius: 20px;
+  }
+  .loader::before {
+    content: '';  
+    box-sizing: border-box;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.15);
+    background-image: linear-gradient(45deg, rgba(0, 0, 0, 0.25) 25%, transparent 25%, transparent 50%, rgba(0, 0, 0, 0.25) 50%, rgba(0, 0, 0, 0.25) 75%, transparent 75%, transparent);
+    background-size: 15px 15px;
+    z-index: 10;
+  }
+  .loader::after {
+    content: '';  
+    box-sizing: border-box;
+    width: 0%;
+    height: 100%;
+    background-color: #FFF;
+    position: absolute;
+    border-radius: 0 4px 4px 0;
+    top: 0;
+    left: 0;
+    animation: animFw 10s ease-in infinite;
+  }
+  
+  
+  @keyframes animFw {
+    0% {
+      width: 0;
+    }
+    100% {
+      width: 100%;
+    }
+  }

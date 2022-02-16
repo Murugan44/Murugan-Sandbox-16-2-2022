@@ -1,0 +1,51 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 09-04-2021
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+    <lightning-card title="Google Sheet Entry">
+        <template if:true={loader}>
+            <div class="backgroundInverse">
+                <lightning-spinner alternative-text="Loading" variant="brand"></lightning-spinner>
+            </div>
+        </template>
+        <div class="slds-p-around_medium">
+            <div class="slds-box card">
+                <lightning-input variant="label-inline" type="text" label="First Name" name="First Name" onchange={formChanges} required></lightning-input>
+                <lightning-input variant="label-inline" type="text" label="Last Name" name="Last Name" onchange={formChanges} required></lightning-input>
+                <lightning-input variant="label-inline" type="tel" label="Mobile No" name="Mobile No" onchange={formChanges}  required></lightning-input>
+                <lightning-input variant="label-inline" type="email" label="Email" name="Email" onchange={formChanges} required></lightning-input>
+                <lightning-input variant="label-inline" type="text" label="State" name="State" onchange={formChanges} required></lightning-input>
+                <lightning-input variant="label-inline" type="text" label="City" name="City" onchange={formChanges} required></lightning-input>
+            </div>
+        </div>
+        <lightning-button slot="actions" variant="success" label="Success" title="Successful action" onclick={fetchData} class="slds-p-around_medium"></lightning-button>
+    </lightning-card>
+    <template if:true={notifications}>
+        <div class="demo-only demo-only_viewport" style="height:4.5rem">
+            <div class="slds-notification-container">
+               <!-- <div aria-live="assertive" aria-atomic="true" class="slds-assistive-text">event notification: Tesla - Renewal meeting</div> -->
+               <section class="slds-notification" role="dialog" aria-labelledby="noti-86" aria-describedby="dialog-body-id-85">
+                  <div class="slds-notification__body" id="dialog-body-id-85">
+                     <a class="slds-notification__target slds-media" href="#">
+                        <span class="slds-icon_container  slds-media__figure" title="event">
+                           <lightning-icon icon-name="doctype:gsheet" size="small" alternative-text="Approved" title="Approved"></lightning-icon>
+                        </span>
+                        <div class="slds-media__body">
+                           <h2 class="slds-text-heading_small slds-m-bottom_xx-small" id="noti-86">
+                              <span class="slds-assistive-text">event notification:</span>{checkinMsg}
+                           </h2>
+                           <p>{msgs}</p>
+                        </div>
+                     </a>
+                     <lightning-icon class="slds-notification__close" icon-name="utility:close" size="small" onclick={close}></lightning-icon>
+                  </div>
+               </section>
+            </div>
+        </div>
+    </template>
+    
+</template>

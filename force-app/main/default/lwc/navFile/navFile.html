@@ -1,0 +1,49 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 06-20-2021
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+  Modifications Log 
+  Ver   Date         Author                               Modification
+  1.0   06-19-2021   ChangeMeIn@UserSettingsUnder.SFDoc   Initial Version
+-->
+<template>
+    <div class="backgr">
+    <lightning-record-edit-form >
+        <lightning-messages>
+        </lightning-messages>
+        <div>
+           <lightning-input variant="label-inline" label="File" name="file uploader" onchange={handleFilesChange} type="file" multiple></lightning-input>
+       </div>
+       <div class="slds-p-around_small"></div>
+           <lightning-combobox
+                 name="progress"
+                 label="Folder"
+                 value=""
+                 placeholder="None"
+                 options={options}
+                 onchange={handleChange}
+                 variant ="label-inline"
+                 required
+           ></lightning-combobox>
+         
+       <div class="slds-text-body_small slds-text-color_error">{fileName}
+        </div><br/>
+        
+        <div class=exampleHolder>
+              <lightning-button class="slds-m-top--medium" label={UploadFile} onclick={handleSave} variant="brand" ></lightning-button>
+              
+                 <template if:true={showLoadingSpinner}>
+                    <lightning-spinner variant="brand" alternative-text="Uploading......" size="small"></lightning-spinner>
+                 </template>
+              
+        </div> 
+     <!-- </br></br>
+     </br></br>
+     </br></br>
+     </br></br>
+     </br></br></br> -->
+     </lightning-record-edit-form>
+    </div>
+</template>

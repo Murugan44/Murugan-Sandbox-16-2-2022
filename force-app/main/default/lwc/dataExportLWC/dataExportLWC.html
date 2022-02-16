@@ -1,0 +1,41 @@
+<template>
+    <lightning-card title="Data Export">
+      <lightning-button onclick={csvGen} variant="success" slot="actions" class="slds-p-around_medium" icon-name="utility:download" label={csvBtnName}></lightning-button>
+      <div if:true={isLoading}>
+         <c-spinner-l-w-c size="medium" variant="brand" message={spinnerMessage}></c-spinner-l-w-c>
+      </div>
+      <div class="slds-p-around_medium">
+         <div class="slds-box">
+            <lightning-layout multiple-rows>
+                <lightning-layout-item padding="around-small" size="12" small-device-size="12" medium-device-size="6">
+                   <div class="card slds-p-around_medium">
+                      <label>Select Object</label>
+                      <select class="slds-select" name="optionSelect" onchange={handleSelect}>
+                         <template for:each={objectOption} for:item="field">
+                            <option key={field.label} value={field.value}>{field.label}</option>
+                         </template>
+                      </select>
+                   </div>
+                </lightning-layout-item>
+                <lightning-layout-item padding="around-small" size="12" small-device-size="12" medium-device-size="6">
+                   <div class="slds-card">
+                     <div class="card slds-p-around_medium">
+                        <!-- <div if:true={isFieldLoading}>
+                           <c-spinner-l-w-c size="medium" variant="brand" message={spinnerMessage}></c-spinner-l-w-c>
+                        </div> -->
+                        <lightning-dual-listbox name="Fields"
+                           label="Select Fields"
+                           source-label="Available Fields"
+                           selected-label="Selected Fields"
+                           field-level-help="Select fields and Get Records"
+                           options={fieldOption}
+                           onchange={handleChange} value={selectedField}>
+                        </lightning-dual-listbox>
+                     </div>
+                  </div>
+                </lightning-layout-item>
+            </lightning-layout>
+         </div>
+      </div>
+    </lightning-card>
+</template>

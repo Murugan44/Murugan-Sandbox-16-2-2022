@@ -1,0 +1,83 @@
+<apex:page controller="VG_VCLController" sidebar="false" showHeader="false" readOnly="true">
+   <script type="text/javascript">
+        function selectAllCheckboxes(obj,receivedInputID){
+            var inputCheckBox = document.getElementsByTagName("input");                  
+            for(var i=0; i<inputCheckBox.length; i++){          
+                if(inputCheckBox[i].id.indexOf(receivedInputID)!=-1){                                     
+                    inputCheckBox[i].checked = obj.checked;
+                }
+            }
+        }
+    </script>
+   <!--<form method="POST">
+   <script>
+        function openSearch(){
+           window.location = "/apex/VG_VCL_Step_5b?id=a004E00000MBU1tQAH";
+        }
+   </script>
+    <style>
+         tr.dataRow {
+           background-color:white;
+         }
+         tr.dataRow:hover {
+           background-color: #e3f3ff;
+         };
+     </style>
+        <div style="width: 100%; margin-bottom:  10px;margin-top: 10px;margin-left:150px;">
+            <img src="{!$Resource.LS_ENDR}" alt="Smiley face" height="50px" width="950px" style="margin-left: 15px;margin-top: 15px;margin-bottom:10px;"/>
+        </div>
+       
+        <apex:pageBlock tabStyle="Account" id="LibraryIndex" title="Endorsement Library">           
+            <apex:pageMessage severity="Info" summary="No endorsements in library." strength="3" rendered="{!(LibraryWrapperList.size==0)}" />
+            <table class="list " border="0" cellpadding="0" cellspacing="0">
+               <tr class="headerRow">
+                  <th class="headerRow">Select</th>
+                  <th class="headerRow">Number</th>
+                  <th class="headerRow">Province </th>
+                  <th class="headerRow">Title</th>
+               </tr>
+               <apex:repeat rendered="{!!(LibraryWrapperList.size==0)}" value="{!LibraryWrapperList}" var="LW">  
+               <tr class="dataRow">
+                  <td class="dataCell"><input type="checkbox" id="vehicle1" name="" value="{!LW.isSelected}"/></td>
+                  <td class="dataCell">{!LW.EL.Name}</td>
+                  <td class="dataCell">{!LW.EL.VG_Province__c}</td>
+                  <td class="dataCell">{!LW.EL.Endorsement_Title__c}</td>
+               </tr>
+               </apex:repeat>
+           </table>
+       </apex:pageBlock>
+       <button type="button">Click Me!</button>  
+        <button onclick="Cancel"/><button value="Previous" onclick="gotoStep4c"> Previous</button><Button value="Previous" rendered="{!Product_Select!='Motor'}" onclick="gotoStep4b">Previous</button>
+        <input type="submit" class="button-a blue"  onclick="openSearch();"  value="save"/><Button type="submit" value="Next" onclick="gotoStep5b">Next</button>
+    </form>  -->     
+    <apex:form enctype="multipart/form-data">
+        <div style="width: 100%; margin-bottom:  10px;margin-top: 10px;margin-left:150px;">
+            <img src="{!$Resource.LS_ENDR}" alt="Smiley face" height="50px" width="950px" style="margin-left: 15px;margin-top: 15px;margin-bottom:10px;"/>
+        </div>
+        <apex:pageBlock tabStyle="Account" id="LibraryIndex" title="Endorsement Library">
+            <apex:pageMessage severity="Info" summary="No endorsements in library." strength="3" rendered="{!(LibraryWrapperList.size==0)}" />
+            <apex:pageBlockTable value="{!LibraryWrapperList}" var="LW" id="pbt1" rendered="{!!(LibraryWrapperList.size==0)}">
+                 <apex:column headerValue="" width="2%" >
+                    <apex:facet name="header">
+                        <apex:inputCheckbox onclick="selectAllCheckboxes(this,'inputId')"/>
+                    </apex:facet>
+                    <apex:inputcheckbox id="inputId" value="{!LW.isSelected}"/>
+                </apex:column>
+                <apex:column headerValue="Number" width="8%">
+                    <apex:outputField value="{!LW.EL.Name}" />
+                </apex:column>
+                <apex:column headerValue="Province" width="8%">
+                    <apex:outputField value="{!LW.EL.VG_Province__c}" />
+                </apex:column>
+                <apex:column headerValue="Title" width="90%">
+                   <apex:outputpanel styleClass="OutputField" >
+                    <apex:outputField value="{!LW.EL.Endorsement_Title__c}" />
+                  </apex:outputpanel>
+                </apex:column>
+            </apex:pageBlockTable>
+            <apex:pageBlockButtons location="both">
+            <apex:commandButton action="{!Cancel}" value="Cancel" onclick="if(!confirm('Are you sure?')){return false;}"/><apex:commandButton value="Previous" rendered="{!Product_Select=='Motor'}" action="{!gotoStep4c}"/><apex:commandButton value="Previous" rendered="{!Product_Select!='Motor'}" action="{!gotoStep4b}"/><apex:commandButton value="Next" action="{!gotoStep5b}"/>
+            </apex:pageBlockButtons>
+        </apex:pageBlock> 
+   </apex:form>
+</apex:page>

@@ -1,0 +1,22 @@
+<apex:page controller="VG_CsvImportDataController" sidebar="false" showHeader="false">
+    <apex:form >
+        <apex:pagemessages />
+        <apex:pageBlock >
+            <apex:pageBlockSection columns="4"> 
+                <apex:inputFile value="{!csvFileBody}"  filename="{!csvAsString}"/>
+                <apex:commandButton value="Import" action="{!importCSVFile}"/>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+        <apex:pageBlock >
+            <apex:pageblocktable value="{!nonSummaryWrapperList}" var="acc">
+                <apex:column value="{!acc.Prov}" />
+                <apex:column value="{!acc.STATTerritory}" />
+                <apex:column value="{!acc.VehType}" />
+			</apex:pageblocktable>
+            
+        </apex:pageBlock>
+        <apex:pageBlock >
+        	<apex:inputTextarea value="{!jsonData}" readonly="true" disabled="true"/>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

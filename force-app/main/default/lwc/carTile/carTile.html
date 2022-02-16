@@ -1,0 +1,26 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 07-21-2021
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+  Modifications Log 
+  Ver   Date         Author                               Modification
+  1.0   07-20-2021   ChangeMeIn@UserSettingsUnder.SFDoc   Initial Version
+-->
+<template>
+    <div onclick={handleClick}>
+        <div class="content">
+            <img src={car.Picture_URL__c} class="slds-align_absolute-center carImage" alt="Car picture"/>
+        </div>
+        <div>
+            <p class="title slds-align_absolute-center">{car.Name}</p>
+            <p class="slds-align_absolute-center">
+                MSRP:
+                <lightning-formatted-number format-style="currency"
+                currency-code="USD" value={car.MSRP__c} class="price"
+                maximum-fraction-digits="0"></lightning-formatted-number>
+            </p>
+        </div>
+    </div>
+</template>

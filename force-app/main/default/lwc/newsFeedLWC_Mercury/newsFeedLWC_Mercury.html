@@ -1,0 +1,33 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 08-29-2021
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+   <lightning-card icon-name="standard:news" title="News Feeds">
+        <div class="slds-p-around_small">
+            <div class="slds-box card">
+                <template for:each={newsList} for:item="n">
+                    <div class={n.cardClasses} key={n.slidesIndex}>
+                        <div class="grid">
+                            <div> 
+                                <img src={n.urlToImage}>
+                            </div>
+                            <div class="grid2">
+                                <div class="margin">
+                                    <a href={n.url} target="_blank"><b>{n.title}</b></a>
+                                </div>
+                                <!-- </br> -->
+                                <div>
+                                    <p >{n.description}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+   </lightning-card>
+</template>

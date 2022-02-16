@@ -1,0 +1,46 @@
+<template>
+    <lightning-card  variant="Narrow"  title="Chart JS" icon-name="utility:chart">
+        <div if:true={isLoading}>
+          <lightning-spinner class="spins" variant="Brand" alternative-text="Loading" size="large"></lightning-spinner>
+       </div>
+        <div class="slds-p-around_medium">
+            <div class="slds-box">
+                 <lightning-layout multiple-rows>
+                     <lightning-layout-item padding="around-small" size="12" small-device-size="12" medium-device-size="6">
+                        <div class="card slds-p-around_medium">
+                            <label>Select Object</label>
+                            <select class="slds-select" name="optionSelect" onchange={handleSelect}>
+                                <template for:each={objectOption} for:item="field">
+                                    <option key={field.label} value={field.value}>{field.label}</option>
+                                </template>
+                            </select>
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12" small-device-size="12" medium-device-size="6">
+                        <div class="slds-card card slds-p-around_medium">
+                            <div if:true={isFieldLoading}>
+                                <lightning-spinner class="spinsField" variant="Brand" alternative-text="Loading" size="medium"></lightning-spinner>
+                            </div>
+                            <lightning-combobox
+                                name="field"
+                                label={fieldName}
+                                value={value}
+                                placeholder="Select field"
+                                options={optionsOne}
+                                onchange={handleChange} >
+                            </lightning-combobox>
+                        </div>
+                    </lightning-layout-item>
+                 </lightning-layout>
+            </div>
+       </div>
+       <div if:true={chartData} class="slds-p-around_medium">
+           <div class="card slds-box slds-card">
+               <div if:true={isChartLoading}>
+                    <lightning-spinner class="spinsField" variant="Brand" alternative-text="Loading" size="medium"></lightning-spinner>
+                </div>
+                <div class="chart slds-var-m-around_medium" lwc:dom="manual"></div>
+           </div>
+       </div>
+    </lightning-card>
+</template>

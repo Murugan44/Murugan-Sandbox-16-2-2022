@@ -1,0 +1,68 @@
+<apex:page renderAs="pdf" applyHtmlTag="false" showHeader="false" cache="true" readOnly="true"> 
+   
+        <!-- <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+         <head> 
+            <style type="text/css" media="print">    
+                @page {
+                size:8.27in 11.69in;
+                margin:1in 1in 1in 1in;
+                orphans:4; widows:2;
+                } 
+               
+                @media print {
+                  h2 { 
+                    page-break-before: always;
+                  }
+               }
+            </style>
+        </head>
+        <!-- <body>
+         <table id="lasttable" border="1" class="AllowBreakAcrossPages" style="border-collapse: collapse;" >                                              
+                    <apex:variable value="{!1}" var="s"/>
+                    <tr style="height:3.95pt;page-break-inside: avoid;">
+                        <div style="">
+                            <td width="100" style="font-size:
+                                                   9.0pt;">Endorsement Details</td>
+                       </div>
+                    </tr>
+                   <apex:repeat rendered="{!!(pseList.size==0)}" value="{!pseList}" var="pse">    
+                        <tr style="height:3.95pt;page-break-inside: avoid;">
+                            <div style="">
+                                <td width="100" style="font-size:
+                                                       9.0pt;">{!pse.VG_Endorsement_Details__c}<br/><div style="page-break-after: always" /></td>
+                           </div>
+                        </tr>
+                   <apex:variable value="{!s+1}" var="s"/>
+                   </apex:repeat>                                   
+                </table>  
+         
+         </body>
+          <apex:pageblock >
+                <apex:pageblockTable value="{!pseList}" var="pse">                  
+                    <apex:column style="margin-left:5in" value="{!pse.VG_Endorsement_Details__c}"/>
+                    <apex:column >
+                    <apex:outputText value="{!br}"  escape="false" />
+                    </apex:column>     
+               </apex:pageblockTable>
+            </apex:pageblock>
+        
+          <apex:pageBlock title="Content" > 
+            <apex:variable value="{!0}" var="s"/>
+              <apex:pageblockTable value="{!pseList}" var="pse">                  
+                    <apex:column headerValue="Endoresements List" style="margin-left:5in" value="{!pse.VG_Endorsement_Number__c}"/>
+                    
+               </apex:pageblockTable>
+                <apex:repeat value="{!pseList}" var="pse">
+                <apex:variable value="{!s+1}" var="s"/>                   
+                   <!--<apex:panelGroup style="{!IF(pseList.size == s, '','page-break-after:always')}">
+                    <apex:outputPanel style="{!IF(pseList.size == s, '','page-break-after:always')}">          
+                        Hello
+                        
+                    </apex:outputPanel>
+                   </apex:panelGroup> 
+                   <apex:outputPanel rendered="{!pse.VG_Endorsement_Details__c!=null}"><div style="page-break-after:always"></div></apex:outputPanel><div style="text-align:center;" ><b><apex:outputField rendered="{!pse.VG_Endorsement_Details__c!=null && pse.VG_Endorsement_Details__c!=''}" style="page-break-after:always;" value="{!pse.VG_Endorsement_Number__c}"/> </b><br/></div><apex:outputField rendered="{!pse.VG_Endorsement_Details__c!=null}" style="page-break-after:always;text-align:left;" value="{!pse.VG_Endorsement_Details__c}"/>
+                   
+                </apex:repeat>
+            </apex:pageBlock>
+            -->
+</apex:page>

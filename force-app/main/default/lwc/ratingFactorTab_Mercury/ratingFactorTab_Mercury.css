@@ -1,0 +1,31 @@
+/* @import 'c/cssLibrary'; */
+
+.color-only {
+    padding: 8px;
+    background-color: #344b97;
+}
+
+.colors-only {
+    padding: 8px;
+    align-items: center;
+    background-color: #344b97;
+    font-size: small;
+}
+
+.size-only {
+    font-size: small;
+}
+
+.nameColor-only {
+    background-color: #9ea3b3;
+}
+
+.rec {
+    background-color: rgb(204, 202, 202);
+    text-align: center;
+    color: red;
+}
+
+.del:hover{
+    color: #eb4512;
+}

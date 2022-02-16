@@ -1,0 +1,22 @@
+<apex:page controller="VG_VCLStep7Controller" sidebar="false" showHeader="false" applyBodyTag="false" applyHtmlTag="false">
+   <apex:form >
+    <div style="width: 100%; margin-bottom:  10px;margin-top: 10px;margin-left:150px;">
+            <img src="{!$Resource.LS_ENDR}" alt="Smiley face" height="50px" width="950px" style="margin-left: 15px;margin-top: 15px;margin-bottom:10px;"/>
+        </div>
+        <apex:pageBlock tabStyle="Account" id="LibraryIndex" title="Update Endorsement Details">
+            <apex:pageMessages ></apex:pageMessages>
+            <apex:pageMessage severity="Info" summary="No endorsements seleted from library.. If needed, you can add a custom endorsement." strength="3" rendered="{!existingEndorsements.size==0}"/>
+            <apex:pageBlockTable value="{!existingEndorsements}" var="EN" id="pbt1" rendered="{!!(existingEndorsements.size==0)}">
+                   <apex:column headerValue="Description" width="90%">
+                        <apex:inputField styleClass="OutputField" id="ILETEDSsE" value="{!EN.VG_Endorsement_Number__c}" style="width:950px;"/><br/><br/>
+                        <apex:inputTextArea value="{!EN.VG_Endorsement_Details__c}" cols="4" rows="40" richText="true"/><br/><br/>
+                    </apex:column>                   
+                </apex:pageBlockTable>              
+            <apex:pageBlockButtons location="bottom">
+            <apex:commandButton action="{!Cancel}" value="Cancel" onclick="if(!confirm('Are you sure?')){return false;}"/>
+            <apex:commandButton value="Next" action="{!NextProvince}"/>
+            <!--<apex:commandButton value="Previous" action="{!gotoStep7}"/>-->
+            </apex:pageBlockButtons>
+        </apex:pageBlock>         
+    </apex:form> 
+</apex:page>

@@ -1,0 +1,277 @@
+.color-only {
+	padding: 0.5rem;
+	background-color: #a0c4ec;
+	color: black;
+	font-size: large;
+}
+
+.backgr {
+	background: #a0c4ec;
+	padding: 30px;
+	border-radius: 10px;
+	font: message-box;
+	margin-bottom: 170px;
+}
+
+.grid{
+	display: grid;
+    grid-template-columns: 600px auto;
+}
+
+.loaders {
+	width: 48px;
+	height: 48px;
+	border: 5px solid #FFF;
+	border-bottom-color: #FF3D00;
+	border-radius: 50%;
+	display: inline-block;
+	box-sizing: border-box;
+	animation: rotation 1s linear infinite;
+	margin-left: 50%;
+	margin-top: 25%;
+    position: absolute;
+  }
+  
+  @keyframes rotation {
+	0% {
+	  transform: rotate(0deg);
+	}
+	100% {
+	  transform: rotate(360deg);
+	}
+  } 
+
+  .loader{
+    display: block;
+    position: relative;
+    height: 17px;
+    width: 265px;
+    background: #fff;
+    border:1px solid #fff;
+    color: red;
+    overflow: hidden;
+	border-radius: 20px;
+  }
+  .loader::before{
+    content: '';
+    background: #45c55a;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0;
+    height: 100%;
+    animation: loading 10s linear infinite;
+  }
+  .loader:after{
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    font-size: 10px;
+    line-height: 13px;
+    color: rgb(0,255,255);
+    mix-blend-mode: difference;
+    animation: percentage 10s linear infinite;
+  }
+  
+  @keyframes loading {
+    0% { width: 0 }
+    100% { width: 100% }
+  }
+  @keyframes percentage {
+    0% { content: "0%"}
+    5% { content: "5%"}
+    10% { content: "10%"}
+    20% { content: "20%"}
+    30% { content: "30%"}
+    40% { content: "40%"}
+    50% { content: "50%"}
+    60% { content: "60%"}
+    70% { content: "70%"}
+    80% { content: "80%"}
+    90% { content: "90%"}
+    95% { content: "95%"}
+    96% { content: "96%"}
+    97% { content: "97%"}
+    98% { content: "98%"}
+    99% { content: "99%"}
+    100% { content: "100%"}
+  }
+  
+  
+
+  
+ 
+
+/* .exampleHolder{
+    position: absolute;
+    display: inline-block;
+    width: 80px;
+    height: 32px;
+} */
+
+
+/* .back {
+	width: 100%;
+	height:100%;
+
+	background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+	  background-size: 400% 400%;
+	  animation: gradient 10s ease infinite;
+  } */
+
+
+/* body {
+	  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+	  background-size: 400% 400%;
+	  animation: gradient 15s ease infinite;
+  } */
+
+
+/* @keyframes gradient {
+	  0% {
+		  background-position: 0% 50%;
+	  }
+	  50% {
+		  background-position: 100% 50%;
+	  }
+	  100% {
+		  background-position: 0% 50%;
+	  }
+  } */
+
+
+/* html, body, .container{
+    width: 100%;
+    height: 100%;
+    min-width: 500px;
+    min-height: 500px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  } */
+
+.back_container {
+	background-image: url(https://static.radulescu.me/examples/clouds/clouds1000.png), linear-gradient(to bottom, #6dd3e7 1%, #6dd3e7 100%);
+	/* position: relative; */
+	animation: wind 30s linear infinite;
+}
+
+
+/* #cloud-intro{
+    position: relative;
+    height: 100%;
+    background: url(https://static.radulescu.me/examples/clouds/clouds1000.png);
+     background: url(https://static.radulescu.me/examples/clouds/clouds1000.png) 0 200px, 
+                 url(https://static.radulescu.me/examples/clouds/clouds1200_1.png) 0 300px, 
+                url(https://static.radulescu.me/examples/clouds/clouds1000_blur3.png) 100px 250px;
+    animation: wind 30s linear infinite;
+  } */
+
+
+/* @keyframes wind{
+    0% {
+      background-position: 0 200px, 0 300px, 100px 250px;
+    }
+    100% {
+      background-position: 1000px 200px, 1200px 300px, 1100px 250px;
+    }
+  
+  } */
+
+
+/* body {
+  margin: 0;
+  overflow: hidden;
+} */
+
+
+/* .backS {
+  width: 100vw;
+  height: 100vh;
+  background: #FAFFB8;
+  
+  animation: move ;
+} */
+
+
+/* @for $i from 1 through $amount {
+    &:nth-child(#{$i}) {
+      background: nth($colors, random(length($colors)));
+      animation-delay: ($i / $amount) * $animationDuration * -1;
+      opacity: 0;
+    }
+  }
+} */
+
+
+/* @keyframes move {
+  0% {
+    transform: scale(1) rotate(0deg) translate3d(0, 0, 1px);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    z-index: 10;
+    transform: scale(0) rotate(360deg) translate3d(0, 0, 1px);
+  }
+} */
+
+
+/* ----------------------------------------------------------------------- */
+
+/* .loader {
+	width: 175px;
+	height: 80px;
+	display: block;
+	margin: auto;
+	background-image: radial-gradient(circle 25px at 25px 25px, #FFF 100%, transparent 0), radial-gradient(circle 50px at 50px 50px, #FFF 100%, transparent 0), radial-gradient(circle 25px at 25px 25px, #FFF 100%, transparent 0), linear-gradient(#FFF 50px, transparent 0);
+	background-size: 50px 50px, 100px 76px, 50px 50px, 120px 40px;
+	background-position: 0px 30px, 37px 0px, 122px 30px, 25px 40px;
+	background-repeat: no-repeat;
+	position: relative;
+	box-sizing: border-box;
+}
+
+.loader::before {
+	content: '';
+	left: 60px;
+	bottom: 18px;
+	position: absolute;
+	width: 36px;
+	height: 36px;
+	border-radius: 50%;
+	background-color: #FF3D00;
+	background-image: radial-gradient(circle 8px at 18px 18px, #FFF 100%, transparent 0), radial-gradient(circle 4px at 18px 0px, #FFF 100%, transparent 0), radial-gradient(circle 4px at 0px 18px, #FFF 100%, transparent 0), radial-gradient(circle 4px at 36px 18px, #FFF 100%, transparent 0), radial-gradient(circle 4px at 18px 36px, #FFF 100%, transparent 0), radial-gradient(circle 4px at 30px 5px, #FFF 100%, transparent 0), radial-gradient(circle 4px at 30px 5px, #FFF 100%, transparent 0), radial-gradient(circle 4px at 30px 30px, #FFF 100%, transparent 0), radial-gradient(circle 4px at 5px 30px, #FFF 100%, transparent 0), radial-gradient(circle 4px at 5px 5px, #FFF 100%, transparent 0);
+	background-repeat: no-repeat;
+	box-sizing: border-box;
+	animation: rotationBack 3s linear infinite;
+}
+
+.loader::after {
+	content: '';
+	left: 94px;
+	bottom: 15px;
+	position: absolute;
+	width: 24px;
+	height: 24px;
+	border-radius: 50%;
+	background-color: #FF3D00;
+	background-image: radial-gradient(circle 5px at 12px 12px, #FFF 100%, transparent 0), radial-gradient(circle 2.5px at 12px 0px, #FFF 100%, transparent 0), radial-gradient(circle 2.5px at 0px 12px, #FFF 100%, transparent 0), radial-gradient(circle 2.5px at 24px 12px, #FFF 100%, transparent 0), radial-gradient(circle 2.5px at 12px 24px, #FFF 100%, transparent 0), radial-gradient(circle 2.5px at 20px 3px, #FFF 100%, transparent 0), radial-gradient(circle 2.5px at 20px 3px, #FFF 100%, transparent 0), radial-gradient(circle 2.5px at 20px 20px, #FFF 100%, transparent 0), radial-gradient(circle 2.5px at 3px 20px, #FFF 100%, transparent 0), radial-gradient(circle 2.5px at 3px 3px, #FFF 100%, transparent 0);
+	background-repeat: no-repeat;
+	box-sizing: border-box;
+	animation: rotationBack 4s linear infinite reverse;
+}
+
+@keyframes rotationBack {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(-360deg);
+	}
+} */

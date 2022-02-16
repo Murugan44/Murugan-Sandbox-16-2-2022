@@ -1,0 +1,83 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 08-16-2021
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+    <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
+        <lightning-layout multiple-rows>
+            <lightning-layout-item padding="around-small" size="12" small-device-size="12" medium-device-size="3">
+                <div class="custom-box slds-box slds-p-around_medium slds-text-align_center card">
+                    <lightning-vertical-navigation selected-item="">
+                        <lightning-vertical-navigation-section>
+                            <lightning-vertical-navigation-item-icon class="slds-m-top_x-small" label="Apex Classes" name="apex_classes" icon-name="action:apex" onclick={openApex}></lightning-vertical-navigation-item-icon>
+                            <lightning-vertical-navigation-item-icon class="slds-m-top_x-small" label="VisualForce Pages" name="apex_pages" icon-name="action:manage_perm_sets" onclick={openApexPage}></lightning-vertical-navigation-item-icon>
+                            <lightning-vertical-navigation-item-icon class="slds-m-top_x-small" label="Users" name="users" icon-name="action:user" onclick={openUser}></lightning-vertical-navigation-item-icon>
+                        </lightning-vertical-navigation-section>
+                    </lightning-vertical-navigation>
+                </div>
+            </lightning-layout-item>
+            <template if:true={openLayout}>
+                <lightning-layout-item padding="around-small" size="12" small-device-size="12" medium-device-size="9">
+                    <div class="custom-box slds-box slds-p-around_medium slds-text-align_center card">
+                        <template if:true={isLoading}>
+                            <c-reusable-spinner-l-w-c size="medium" variant="brand" message="Please Wait...☮️"></c-reusable-spinner-l-w-c>
+                        </template>
+                        <template if:true={isApexClass}>
+                            <lightning-tile type="standard">
+                                <div class="color-only color_from">
+                                    <div class="slds-text-color_inverse colors-only margin-top"><b>Search Apex Classes</b></div>
+                                    <lightning-input variant="label-hidden" slot="actions" type="Search" label="Search Apex Classes" value={apexKey} onchange={searchApexHandler}></lightning-input>
+                                    <lightning-button variant="neutral" label="Clear All" slot="actions" onclick={clearAll}></lightning-button>
+                                </div>
+                                <div class="slds-p-around_medium">
+                                    <table>
+                                        <tbody>
+                                            <template for:each={searchList} for:item="s">
+                                                <tr key={s.Id}>
+                                                    <td>
+                                                        <lightning-icon icon-name="action:record" alternative-text={s.Name} title={s.Name} size="x-small"></lightning-icon>
+                                                        <a href={links} data-recordid={s.Id} value={s.Id} onclick={link} target="_blank">
+                                                            <lightning-badge label={s.Name} ></lightning-badge>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </template>
+                                        </tbody>
+                                    </table>
+                                </div>
+                             </lightning-tile>
+                        </template>
+                        <template if:true={isApexPage}>
+                            <lightning-tile type="standard">
+                                <div class="color-only color_from">
+                                    <div class="slds-text-color_inverse colors-only margin-top"><b>Search Apex Pages</b></div>
+                                    <lightning-input variant="label-hidden" type="Search" label="Search VisualForce Pages" value={pageKey} onchange={searchPageHandler}></lightning-input>
+                                    <lightning-button variant="neutral" label="Clear All" slot="actions" onclick={clearAllpages}></lightning-button>
+                                </div>
+                                <div class="slds-p-around_medium">
+                                    <table>
+                                        <tbody>
+                                            <template for:each={searchPageList} for:item="s">
+                                                <tr key={s.Id}>
+                                                    <td>
+                                                        <lightning-icon icon-name="action:record" alternative-text={s.Name} title={s.Name} size="x-small"></lightning-icon>
+                                                        <a href={links} data-recordid={s.Id} value={s.Id} onclick={link} target="_blank">
+                                                            <lightning-badge label={s.Name} ></lightning-badge>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </template>
+                                        </tbody>
+                                    </table>
+                                </div>
+                             </lightning-tile>
+                        </template>
+                    </div>
+                </lightning-layout-item>
+            </template>
+        </lightning-layout>
+    </div>
+</template>

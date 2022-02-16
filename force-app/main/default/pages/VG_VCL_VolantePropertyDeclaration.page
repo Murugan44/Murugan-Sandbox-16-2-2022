@@ -1,0 +1,497 @@
+<apex:page contentType="application/msword#VCLVolantePropertyDeclarationDocument.doc" cache="true" showHeader="false" controller="VG_VCLDocumentController"  standardStylesheets="false" applyHtmlTag="false" applyBodyTag="false">
+    <html xmlns:w="urn:schemas-microsoft-com:office:word">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <head>
+            <style type="text/css" media="print">    
+                @page {
+                size:8.27in 11.69in;
+                margin:0in 0.5in 0.5in 0.8in;
+                
+                } 
+                @font-face {
+                font-family: Open Sans Condensed Light;
+                src: url({!URLFOR($Resource.Font_OpenSan_CondLight, '/root/to/OpenSans-CondLight.ttf')});
+                }
+                @font-face {
+                font-family: Calibri light;
+                src: url({!URLFOR($Resource.Font_Calibri_Light, '/root/to/calibril.ttf')});
+                }
+                body{
+                font-family: Open Sans Condensed Light;              
+                }
+                @font-face {
+                font-family: Open Sans Condensed Light;
+                src: url({!URLFOR($Resource.Doc_Header_Font, '/root/to/OpenSans-CondLight.ttf')});
+                }
+                #Calibri{
+                font-family: Calibri light;
+                }
+                #header{
+                font-family: Open Sans Condensed Light;
+                font-size:30.0pt;
+                }
+                @page footer{
+                size:8.27in 11.69in;
+                margin:0in 0in 0in 0in;
+                mso-header-margin:0.5in;
+                mso-footer-margin:0.2in;
+                mso-pagination:widow-orphan;
+                mso-paper-source:0;
+                
+                }
+                div.footer
+                {page:footer;}
+                
+                #lasttable {
+                border-collapse:collapse;
+                border-color:#ADB5B0;
+                }
+                
+                @page Main {
+                mso-header:h1;
+                mso-footer:f1;
+                }
+                div.Main{
+                page:Main;
+                }
+                p.MyFoot, li.MyFoot, div.MyFoot{
+                mso-pagination:widow-orphan;
+                tab-stops:center 216.0pt right 432.0pt;
+                mso-header-margin:0.5in;
+                mso-footer-margin:0.2in;
+                }
+                p.MyHead {
+                
+                }
+                table#hrdftrtbl{
+                margin:0in 0in 0in 15in;
+                }    
+            </style>
+        </head>
+        <body style="font-family: Arial;font-size:9.0pt; ">
+            <div  class="Main">
+                <div  style="font-family:Arial;">
+                    
+                    <table id='hrdftrtbl' border='1' cellspacing='0' cellpadding='0'>        
+                        <tr>
+                            <td width="30%"> . </td>
+                            
+                            <td align="left" width="60%" style="margin:left:1.0in;">                                               
+                                <div  id="h1" style="margin-left:50px;mso-element:header;width:450px;height:100px;" >
+                                    <apex:image url="{!LloydsLogo}" height="100" width="250"/>
+                                </div>
+                            </td>
+                            <td aligh="right" width="40%">                
+                            </td>
+                        </tr>           
+                    </table>
+                    <br/>
+                    <table border="0" cellspacing="0" cellpadding="0" style="margin:left:1.0in;">      
+                        <tr>
+                            <td align="Center" width="65%"  style="font-size:18.0pt;font-family:Arial;"> <b>VOLANTE CANADA LIMITED </b>             
+                            </td>
+                        </tr> 
+                        <tr><td align="Center" width="10%"  style="font-size:18.0pt;font-family:Arial;"> <b>Property Policy </b></td></tr>
+                        <br/>
+                        <tr><td align="Center" width="10%"  style="font-size:18.0pt;font-family:Arial;"><apex:outputLabel rendered="{!quote}"> <b>Quotation</b></apex:outputLabel><apex:outputLabel rendered="{!schedule}"> <b>Declaration  </b></apex:outputLabel></td></tr>
+                        <br/>
+                        <tr><td align="Center" width="10%"  style="color:red;font-size:8.0pt;font-family:Arial;"> All of the amounts listed in this declaration are subject to <br/>
+                            the provisions, terms and conditions of the complete policy wordings   </td></tr>
+                        
+                    </table> 
+                    <br/>
+                    <table style="margin:left:1.0in;">
+                        <tr style="height:3.95pt;">
+                            <td width="300" style="word-break: break-all;" colspan="1">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;"><b>POLICY NUMBER:&nbsp;{!ps.Policy__r.Name} </b>&nbsp;</span>
+                            </td>
+                            <td width="300" style="word-break: break-all;" colspan="2">
+                                <!-- <span style="font-size:8pt;width:25px;font-family:Arial;"><b>REPLACING POLICY NUMBER:  </b>&nbsp;</span>-->
+                            </td>
+                        </tr>
+                    </table>
+                    <br/>
+                    <table style="margin:left:1.0in;">
+                        <tr style="height:3.95pt;">
+                            <td width="50" colspan="1">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;"><b>1. </b></span>
+                            </td>
+                            <td width="460" style="word-break: break-all;" colspan="1">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;"><b>Named Insured: </b>&nbsp;</span>
+                            </td>
+                            <td width="600" style="word-break: break-all;" colspan="2">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;"><b> </b>{!ps.Policy__r.Insured__r.Name}</span>
+                            </td>
+                        </tr> 
+                        <tr style="height:3.95pt;">
+                            <td width="50" style="word-break: break-all;" colspan="1">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;"><b> </b></span>
+                            </td>
+                            <td width="460"  colspan="1">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;"><b>Address: </b>&nbsp;</span>
+                            </td>
+                            <td width="600" style="word-break: break-all;" colspan="2">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;"><apex:outputLabel rendered="{!ps.Policy__r.Insured__r.ShippingStreet!=null && ps.Policy__r.Insured__r.ShippingCity!=null && ps.Policy__r.Insured__r.ShippingCountry!=null}">{!ps.Policy__r.Insured__r.ShippingStreet},&nbsp;{!ps.Policy__r.Insured__r.ShippingPostalCode},&nbsp;{!ps.Policy__r.Insured__r.ShippingCity},&nbsp;{!ps.Policy__r.Insured__r.ShippingCountry}</apex:outputLabel></span>
+                            </td>
+                        </tr>
+                    </table>
+                    <br/>
+                    <table style="margin:left:1.0in;">    
+                        <tr style="height:3.95pt;">
+                            <td width="50" colspan="1">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;"><b>2. </b></span>
+                            </td>
+                            <td width="460" colspan="1">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;"><b>Broker: </b>&nbsp;</span>
+                            </td>
+                            <td width="600" style="word-break: break-all;" colspan="2">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;"><b> </b>{!ps.Policy__r.Broker_Name__r.Name}</span>
+                            </td>
+                        </tr> 
+                        <tr style="height:3.95pt;">
+                            <td width="50" colspan="1">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;"><b> </b></span>
+                            </td>
+                            <td width="460" colspan="1">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;"><b>Address: </b>&nbsp;</span>
+                            </td>
+                            <td width="600" style="word-break: break-all;" colspan="2">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;"><apex:outputLabel rendered="{!ps.Policy__r.Broker_Name__r.ShippingStreet!=null && ps.Policy__r.Broker_Name__r.ShippingCity!=null && ps.Policy__r.Broker_Name__r.ShippingCountry!=null}">{!ps.Policy__r.Broker_Name__r.ShippingStreet},&nbsp;{!ps.Policy__r.Broker_Name__r.ShippingPostalCode},&nbsp;{!ps.Policy__r.Broker_Name__r.ShippingCity},&nbsp;{!ps.Policy__r.Broker_Name__r.ShippingCountry}</apex:outputLabel></span>
+                            </td>
+                        </tr>
+                    </table>
+                    <br/>
+                    
+                    <!-- <table style="margin:left:1.0in;">
+<tr style="height:3.95pt;">
+<td width="50" colspan="1">
+<span style="font-size:8pt;width:25px;font-family:Arial;"><b>3. </b></span>
+</td>
+<td width="448" colspan="1">
+<span style="font-size:8pt;width:25px;font-family:Arial;"><b>Insured’s Business: </b>&nbsp;</span>
+</td>
+<td width="600" style="word-break: break-all;" colspan="2">
+<span style="font-size:8pt;width:25px;font-family:Arial;"><b> </b>{!ps.VG_Type_Of_Operation__c}</span>
+</td>
+</tr> 
+</table> -->
+                    <br/>
+                    <table style="margin:left:1.0in;">
+                        <tr style="height:3.95pt;">
+                            <td width="50" colspan="1">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;"><b>3. </b></span>
+                            </td>
+                            <td width="440" colspan="1">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;"><b>Insured Location(s): </b>&nbsp;</span>
+                            </td>
+                            <td width="600" style="word-break: break-all;" colspan="2">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;">As listed on Schedule provided to us on [insert date]</span>
+                            </td>
+                        </tr> 
+                    </table>
+                    <br/>
+                    <table style="margin:left:1.0in;">
+                        <tr style="height:3.95pt;">
+                            <td width="50" colspan="1">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;"><b>4. </b></span>
+                            </td>
+                            <td width="480" colspan="1">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;"><b> Period of insurance: </b>&nbsp;</span>
+                            </td>
+                            <td width="250" style="word-break: break-all;" colspan="1">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;"><b> From:  </b>&nbsp;{!DAY(ps.Policy__r.VG_Inception_Date__c)}/{!Month(ps.Policy__r.VG_Inception_Date__c)}/{!Year(ps.Policy__r.VG_Inception_Date__c)} &nbsp;</span>
+                            </td>
+                            <td width="250" style="word-break: break-all;" colspan="1">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;"><b> To:  </b>&nbsp;{!DAY(ps.Policy__r.VG_Expiry_Date__c)}/{!MONTH(ps.Policy__r.VG_Expiry_Date__c)}/{!YEAR(ps.Policy__r.VG_Expiry_Date__c)}</span>
+                            </td>
+                        </tr>
+                        <tr style="height:3.95pt;">
+                            <td width="50" colspan="1">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;"><b> </b></span>
+                            </td>
+                            <td width="350" colspan="1">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;"><b> </b>&nbsp;</span>
+                            </td>
+                            <td width="600" colspan="2">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;">12:01am Local Standard Time at the address of the named insured as set out above &nbsp;</span>
+                            </td>
+                        </tr>
+                    </table>
+                    <br/>
+                    <table style="margin:left:1.0in;">
+                        <tr style="height:3.95pt;">
+                            <td width="50" colspan="1">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;"><b>5. </b></span>
+                            </td>
+                            <td width="450" colspan="1">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;"><b>Premium: </b>&nbsp;</span>
+                            </td>
+                            <td width="600" style="word-break: break-all;" colspan="2">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;">
+                                    {!ps.CurrencyIsoCode}<apex:outputText value="{0, number, ###,##0.00}">
+                                    <apex:param value="{!GrossWrittenPremium}"/>
+                                    </apex:outputText></span>
+                            </td>
+                        </tr> 
+                    </table>
+                    <br/>
+                    <table style="margin:left:1.0in;">
+                        <tr style="height:3.95pt;">
+                            <td width="50" colspan="1">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;"><b>6. </b></span>
+                            </td>
+                            <td width="450" colspan="1">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;"><b>Policy Territory: </b>&nbsp;</span>
+                            </td>
+                            <td width="600" style="word-break: break-all;" colspan="2">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;">{!ps.Policy__r.VG_Territorial_Limits__c}</span>
+                            </td>
+                        </tr> 
+                    </table>
+                    <br/>
+                    <table style="margin:left:1.0in;">
+                        <tr style="height:3.95pt;">
+                            <td width="50" colspan="1">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;"><b>7. </b></span>
+                            </td>
+                            <td width="460" colspan="1">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;"><b>Limits of Liability: </b>&nbsp;</span>
+                            </td>
+                            <td width="600" style="word-break: break-all;" colspan="2">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;"> We shall not be liable for more than {!ps.CurrencyISOCode}&nbsp;{!PSLimit} for any<br/> on <b>occurrence</b> regardless of the number of <b>insured locations</b><br/> or coverages involved</span>
+                            </td>
+                        </tr> 
+                    </table>
+                    <br/>
+                    <apex:outputPanel rendered="{!PropertBII}">
+                        <table>
+                            <tr>
+                                <td  width="65%"  style="font-size:8.0pt;font-family:Arial;"> <b>8.&nbsp;&nbsp;Sub-limits of Liability – Section 1.2: Equipment Breakdown </b></td>
+                            </tr>
+                            <apex:variable value="{!1}" var="s"/>
+                            <apex:repeat rendered="{!!(subpseList.size==0)}" value="{!subpseList}" var="pse">
+                                <apex:outputPanel rendered="{!pse.Endorsement_Library_Id__r.VG_Coverage__c=='Equipment Breakdown'}">                   
+                                    <tr>
+                                        <td width="300" colspan="1">
+                                            <span style="font-size:8pt;width:25px;font-family:Arial;">{!s}.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {!pse.VG_Title__c}</span>
+                                        </td>
+                                        <td width="300" colspan="1">
+                                            <span style="font-size:8pt;width:25px;font-family:Arial;">
+                                                {!ps.CurrencyIsoCode}<apex:outputText value="{0, number, ###,##0.00}">
+                                                <apex:param value="{!pse.VG_Sub_limit__c}"/>
+                                                </apex:outputText>
+                                            </span>
+                                        </td>
+                                        
+                                    </tr>
+                                    <apex:variable value="{!s+1}" var="s"/>
+                                </apex:outputPanel>
+                            </apex:repeat>                    
+                        </table>
+                        <br/><br/>
+                    </apex:outputPanel>
+                    
+                    
+                    <table>                   
+                        <tr>
+                            <td  width="65%"  style="font-size:8.0pt;font-family:Arial;"> <b>Sub-limits of Liability – Section 1.3: Time Element </b></td>
+                        </tr>
+                        <apex:variable value="{!1}" var="s"/>
+                        <apex:repeat rendered="{!!(subpseList.size==0)}" value="{!subpseList}" var="pse">
+                            <apex:outputPanel rendered="{!pse.Endorsement_Library_Id__r.VG_Coverage__c=='Time Element'}">
+                                <tr>
+                                    <td width="300" colspan="1">
+                                        <span style="font-size:8pt;width:25px;font-family:Arial;">{!s}.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {!pse.VG_Title__c}</span>
+                                    </td>
+                                    <td width="300" colspan="1">
+                                        <span style="font-size:8pt;width:25px;font-family:Arial;">{!pse.CurrencyISOCode} &nbsp;&nbsp;{!pse.VG_Sub_limit__c}</span>
+                                    </td>
+                                    
+                                </tr>
+                                <apex:variable value="{!s+1}" var="s"/>
+                            </apex:outputPanel>
+                            
+                        </apex:repeat>                    
+                    </table>
+                    <br/> <br/>
+                    
+                    <table>
+                        <tr>
+                            <td  width="65%"  style="font-size:8.0pt;font-family:Arial;"> <b>Sub-limits of Liability – Section 1.4: Property Damage Coverage Extensions  </b></td>
+                        </tr>
+                        
+                        <apex:variable value="{!1}" var="s"/>
+                        <apex:repeat rendered="{!!(subpseList.size==0)}" value="{!subpseList}" var="pse">
+                            
+                            <apex:outputPanel rendered="{!pse.Endorsement_Library_Id__r.VG_Coverage__c == 'Property Damage' || pse.Endorsement_Library_Id__r.VG_Coverage__c == 'Equipment Breakdown'}">
+                                <tr>
+                                    <td width="300" colspan="1">
+                                        <span style="font-size:8pt;width:25px;font-family:Arial;"> {!s}.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{!pse.VG_Title__c}</span>
+                                    </td>
+                                    <td width="100" colspan="1">
+                                        <span style="font-size:8pt;width:25px;font-family:Arial;">{!pse.CurrencyISOCode} &nbsp;&nbsp;{!pse.VG_Sub_limit__c}</span>
+                                    </td>
+                                    <td width="200" colspan="1">
+                                        <span style="font-size:8pt;width:25px;font-family:Arial;"> {!pse.Endorsement_Library_Id__r.VG_Reason_of_Sublimit__c}</span>
+                                    </td>
+                                    
+                                </tr>
+                                <apex:variable value="{!s+1}" var="s"/>
+                            </apex:outputPanel>
+                            
+                        </apex:repeat>   
+                        
+                    </table>
+                    
+                    <br/><br/>
+                    
+                    <table>
+                        <tr>
+                            <td  width="65%"  style="font-size:8.0pt;font-family:Arial;"> <b>10: Deductibles:   </b></td>
+                        </tr>
+                        <tr>
+                            <td width="300" colspan="1">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;">For each and every loss or damage to covered property except as specifically<br/>stated below</span>
+                            </td>
+                            <td width="300" colspan="2">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;">$[] </span>
+                            </td>
+                        </tr>
+                        <apex:repeat value="{!EndorsementWrapperListProp}" var="ew">
+                            <tr>
+                                <td width="300" colspan="1">
+                                    <span style="font-size:8pt;width:25px;font-family:Arial;">&nbsp;&nbsp;&nbsp;{!s}.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {!ew.Name}</span>
+                                </td>
+                                <td width="300" colspan="2">
+                                    <span style="font-size:8pt;width:25px;font-family:Arial;">{!CurrISO} &nbsp;&nbsp;{!ew.Deductible}&nbsp;&nbsp;[]{!ew.Reason}</span>
+                                </td>
+                            </tr>
+                            <apex:variable value="{!s+1}" var="s"/>
+                        </apex:repeat>
+                        <!--<tr>
+                            <td width="300" colspan="1">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;">&nbsp;&nbsp;&nbsp;1.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Earthquake</span>
+                            </td>
+                            <td width="300" colspan="2">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;">[]% of the 100% value of <b>insured property</b>, and Time Element values. The combined deductible for <b>insured property</b> and Time Element shall be subject to a minimum of $[] in any one Occurrence.  </span>
+                            </td>
+                        </tr>
+                        <tr >
+                            <td width="300" colspan="1">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;">&nbsp;&nbsp;&nbsp;2.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Flood:</span>
+                            </td>
+                            <td width="300" colspan="2">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;">$ </span>
+                            </td>
+                        </tr>
+                        <tr >
+                            <td width="300" colspan="1">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;">&nbsp;&nbsp;&nbsp;3.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Time Element &amp; Time Element Coverage Extensions:</span>
+                            </td>
+                            <td width="300" colspan="2">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;">[] Hours </span>
+                            </td>
+                        </tr>
+                        <tr >
+                            <td width="300" colspan="1">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;">&nbsp;&nbsp;&nbsp;4.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Service Interruption: Equipment Breakdown</span>
+                            </td>
+                            <td width="300" colspan="2">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;">[] Hours </span>
+                            </td>
+                        </tr>
+                        <tr >
+                            <td width="300" colspan="1">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;">&nbsp;&nbsp;&nbsp;5.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Service Interruption: Cloud Computing</span>
+                            </td>
+                            <td width="300" colspan="2">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;">[] Hours </span>
+                            </td>
+                        </tr>
+                        <tr >
+                            <td width="300" colspan="1">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;">&nbsp;&nbsp;&nbsp;6.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Service Interruption: Utilities</span>
+                            </td>
+                            <td width="300" colspan="2">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;">[] Hours </span>
+                            </td>
+                        </tr>
+                        <tr >
+                            <td width="300" colspan="1">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;">&nbsp;&nbsp;&nbsp;7.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Equipment Breakdown - Property Damage:</span>
+                            </td>
+                            <td width="300" colspan="2">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;">$[]</span>
+                            </td>
+                        </tr>
+                        <tr >
+                            <td width="300" colspan="1">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;">&nbsp;&nbsp;&nbsp;8.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Equipment Breakdown- Time Element &amp; Time Element Coverage <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Extensions:</span>
+                            </td>
+                            <td width="300" colspan="2">
+                                <span style="font-size:8pt;width:25px;font-family:Arial;">$[] </span>
+                            </td>
+                        </tr>-->
+                        
+                        
+                    </table>
+                    <br/><br/><br/>
+                    
+                    <table>
+                        <tr>
+                            <td  width="65%"  style="font-size:8.0pt;font-family:Arial;">Signed on behalf of the <b>insurer</b></td>
+                            
+                        </tr>
+                        <tr style="background:white;">
+                            <td width="255" valign="top" style="height:5px;background:white;"><img src="{!Sign_Url}" width="95" height="43" style='position:fixed;' />                                                        
+                            </td>
+                        </tr>
+                    </table>
+                    <br style="page-break-before:always;" />
+                    <br/>
+                    <apex:outputPanel rendered="{!!(pseList.size==0)}">                                  
+                        
+                        <table>
+                            <tr>
+                                <td align="Center" width="10%"  style="color:rgb(79, 125, 211);font-size:18.0pt;font-family:Arial;"> <b>VOLANTE CANADA</b>             
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="Center" width="10%"  style="color:rgb(79, 125, 211);font-size:18.0pt;font-family:Arial;"> <b>Endorsement</b>             
+                                </td>
+                            </tr>
+                        </table>
+                        <br/><br/>
+                        <div style="margin-right:1.0in;font-family:Arial;">
+                            <apex:variable value="{!1}" var="s"/>
+                            <apex:outputPanel rendered="{!!(pseList.size==0)}">
+                                <table>
+                                    <apex:repeat rendered="{!!(pseList.size==0)}" value="{!pseList}" var="pse">    
+                                        <br/><br/>
+                                        <tr style="height:3.95pt;page-break-inside: avoid;">
+                                            <td style="font-size:
+                                                       8.0pt;font-family:Arial;"><b>Endorsement reference:&nbsp;&nbsp;</b>{!pse.VG_Endorsement_Number__c}</td>
+                                            
+                                        </tr> 
+                                        <tr>
+                                            <td width="422"  style="font-size:
+                                                                    8.0pt;margin-right:1.0in;font-family:Arial;"><b>{!pse.VG_Title__c}</b></td>
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td width="622" style="font-size:
+                                                                   8.0pt;margin-right:1.0in;font-family:Arial;">{!pse.VG_Endorsement_Details__c}</td>
+                                        </tr>
+                                        <apex:variable value="{!s+1}" var="s"/>
+                                    </apex:repeat>
+                                </table>
+                            </apex:outputPanel>
+                        </div>
+                    </apex:outputPanel>
+                    
+                </div>
+            </div>
+        </body>
+    </html>
+    
+</apex:page>

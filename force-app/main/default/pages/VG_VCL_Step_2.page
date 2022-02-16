@@ -1,0 +1,231 @@
+<apex:page controller="VG_VCLController" sidebar="false" showHeader="false">
+    <apex:form >
+        <div style="width: 80%; margin-bottom:8px;margin-top: 8px;margin-left:80px;">
+            <img src="{!$Resource.LS_RD}" alt="Smiley face" height="45px" width="800px" style="margin-left: 15px;margin-top: 15px;margin-bottom:10px;"/>
+        </div>
+        <apex:pageblock tabStyle="Account" title="Risk Detail" id="pbmain">
+            <apex:pageBlockButtons location="bottom">
+                <apex:commandButton action="{!Cancel}" value="Cancel" onclick="if(!confirm('Are you sure?')){return false;}"/>
+                <apex:commandButton value="Previous" action="{!gotoStep1}"/>
+                <apex:commandButton value="Next" action="{!gotoStep2a}" rendered="{!Product_Select=='Motor'}"/>
+                <apex:commandButton value="Next" action="{!gotoStep3}" rendered="{!(Product_Select !='Motor' && Product_Select !='Property' && Product_Select !='Property BI&I')}"/>
+                <apex:commandButton value="Next" action="{!gotoStep2c}" rendered="{!Product_Select=='Property' || Product_Select=='Property BI&I'}"/>               
+            </apex:pageBlockButtons>
+            <!--<apex:pageBlockSection columns="2">
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="Wrap Up"></apex:outputLabel>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:selectList value="{!wrapUp}" size="1" style="width:200px;">
+                        <apex:selectOption itemValue="Yes" itemLabel="Yes" />
+                        <apex:selectOption itemValue="No" itemLabel="No"/>
+                    </apex:selectList>
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+            <apex:pageBlockSection columns="2">
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="Adjustable Basis"></apex:outputLabel>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:selectList value="{!adjustableBasis}" size="1" style="width:200px;">
+                        <apex:selectOption itemValue="Yes" itemLabel="Yes" />
+                        <apex:selectOption itemValue="No" itemLabel="No"/>
+                        <apex:actionSupport event="onchange" reRender="pbmain"/>
+                    </apex:selectList>
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+            <apex:pageBlockSection columns="2" rendered="{!adjustableBasis=='Yes'}" >
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="Minimum and Deposit Premium"></apex:outputLabel>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:inputText value="{!MDPremium}" style="width:197px;"></apex:inputText>
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+            <apex:pageBlockSection columns="2">
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="Umbrella/ Excess policies"></apex:outputLabel>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:selectList value="{!UEPolicies}" size="1" style="width:200px;">
+                    <apex:actionSupport reRender="pbmain" event="onchange"/>
+                        <apex:selectOption itemValue="Yes" itemLabel="Yes"/>
+                        <apex:selectOption itemValue="No" itemLabel="No"/>
+                    </apex:selectList>
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>-->  
+                      
+           
+            <apex:pageBlockSection columns="1">                            
+                <apex:pageBlockSection columns="2">
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="Industry Operations"></apex:outputLabel>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                        <apex:inputField value="{!rc.VG_Industry__c}" html-placeholder="Enter currency" style="width:197px;"></apex:inputField>
+                    </apex:pageBlockSectionItem>
+                 </apex:pageBlockSection> 
+                 <apex:pageBlockSection columns="2" rendered="{!policy.Line_Of_Business__c == 'Liability'}">
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="Rating Basis"></apex:outputLabel>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                        <apex:inputField value="{!rc.VG_Rating_Basis__c}" html-placeholder="Enter percentage" style="width:197px;"></apex:inputField>
+                    </apex:pageBlockSectionItem>
+                </apex:pageBlockSection>
+                 <apex:pageBlockSection columns="2">
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="Premium Subject to Adjustment"></apex:outputLabel>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                        <apex:inputField value="{!rc.VG_Premium_Subject_to_Adjustment__c}" html-placeholder="Enter currency" style="width:197px;"></apex:inputField>
+                    </apex:pageBlockSectionItem>
+                 </apex:pageBlockSection>                
+                 <apex:pageBlockSection columns="2">
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="Adjustment Basis"></apex:outputLabel>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                        <apex:inputField value="{!rc.VG_Adjustment_Basis__c}" style="width:197px;"></apex:inputField>
+                    </apex:pageBlockSectionItem>
+                 </apex:pageBlockSection> 
+                 <apex:pageBlockSection columns="2">
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="Minimum and Deposit Premium"></apex:outputLabel>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                        <apex:inputField value="{!rc.VG_Minimum_and_Deposit_Premium__c}" html-placeholder="Enter currency" style="width:197px;"></apex:inputField>
+                    </apex:pageBlockSectionItem>
+                 </apex:pageBlockSection> 
+                 <apex:pageblockSection rendered="{!Product_Select =='GL - Occurrence , Excluding USA' || Product_Select =='GL - Occurrence, Including USA' || Product_Select =='GL - Claims Made, Excluding USA' || Product_Select =='GL - Claims Made, Including USA'  || Product_Select =='Umbrella - Occurrence, Excluding USA' || Product_Select =='Umbrella - Occurrence, Including USA' || Product_Select =='Umbrella - Claims Made, Excluding USA' || Product_Select =='Umbrella - Claims Made, Including USA'}">
+                        <apex:pageBlockSectionItem >
+                            <apex:outputLabel value="Minimum and Refund Premium (%)"></apex:outputLabel>
+                        </apex:pageBlockSectionItem>
+                        <apex:pageBlockSectionItem >
+                            <apex:inputField value="{!rc.VG_Minimum_Premium__c}" style="width:197px;"></apex:inputField>
+                        </apex:pageBlockSectionItem>
+                </apex:pageBlockSection> 
+                <apex:pageblockSection rendered="{!Product_Select !='GL - Occurrence , Excluding USA' && Product_Select !='GL - Occurrence, Including USA' && Product_Select !='GL - Claims Made, Excluding USA' && Product_Select !='GL - Claims Made, Including USA' && Product_Select !='Umbrella - Occurrence, Excluding USA' && Product_Select !='Umbrella - Occurrence, Including USA' && Product_Select !='Umbrella - Claims Made, Excluding USA' && Product_Select !='Umbrella - Claims Made, Including USA'}">
+                     <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="Minimum and Refund Premium Type">
+                        </apex:outputLabel></apex:pageBlockSectionItem><apex:pageBlockSectionItem >
+                         <apex:selectList value="{!rc.VG_Minimum_and_Refund_Premium_Type__c }" size="1" style="width:200px;">
+                         <apex:actionSupport reRender="pbmain" event="onchange"/>  
+                         <apex:selectOption itemValue="--None--" itemLabel="--None--"/>                     
+                         <apex:selectOption itemValue="Currency" itemLabel="Currency"/>
+                         <apex:selectOption itemValue="Percent" itemLabel="Percent"/>
+                         </apex:selectList>
+                    </apex:pageBlockSectionItem>
+                 </apex:pageblockSection>                
+                 <apex:pageBlockSection columns="2" rendered="{!rc.VG_Minimum_and_Refund_Premium_Type__c == 'Currency'}">
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="Minimum and Refund Premium"></apex:outputLabel>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                        <apex:inputField value="{!rc.VG_Minimum_Premium_Currency__c}" html-placeholder="Enter Currency" style="width:197px;"></apex:inputField>
+                    </apex:pageBlockSectionItem>
+                </apex:pageBlockSection> 
+                <apex:pageBlockSection columns="2" rendered="{!rc.VG_Minimum_and_Refund_Premium_Type__c == 'Percent'}">
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="Minimum and Refund Premium(%)"></apex:outputLabel>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                        <apex:inputField value="{!rc.VG_Minimum_Premium__c}" html-placeholder="Enter percentage" style="width:197px;"></apex:inputField>
+                    </apex:pageBlockSectionItem>
+                </apex:pageBlockSection> 
+                 
+            </apex:pageBlockSection>  
+            <apex:pageBlockSection columns="1" rendered="{!Product_Select == 'Wrap Up Primary (Canada only)' || Product_Select == 'Wrap Up Excess (Canada Only)'}">            
+                    <apex:pageBlockSection columns="2">
+                        <apex:pageBlockSectionItem >
+                            <apex:outputLabel value="Project Insured"></apex:outputLabel>
+                        </apex:pageBlockSectionItem>
+                        <apex:pageBlockSectionItem >
+                            <apex:inputField value="{!rc.VG_Project_Insured__c}" html-placeholder="Enter Text" style="width:197px;"></apex:inputField>
+                        </apex:pageBlockSectionItem>
+                    </apex:pageBlockSection> 
+                    <apex:pageBlockSection columns="2">
+                        <apex:pageBlockSectionItem >
+                            <apex:outputLabel value="Address of the Insured Project"></apex:outputLabel>
+                        </apex:pageBlockSectionItem>
+                        <apex:pageBlockSectionItem >
+                            <apex:inputText value="{!addressofInsuredProject}" html-placeholder="Enter Text" style="width:197px;"></apex:inputText>
+                        </apex:pageBlockSectionItem>
+                    </apex:pageBlockSection>            
+                    <apex:pageBlockSection columns="2">
+                        <apex:pageBlockSectionItem >
+                            <apex:outputLabel value="Completed Operations (Number of Months)"></apex:outputLabel>
+                        </apex:pageBlockSectionItem>
+                        <apex:pageBlockSectionItem >
+                            <apex:inputField value="{!rc.VG_Completed_Operations_Number_of_Months__c}" html-placeholder="Enter Number" style="width:197px;"></apex:inputField>
+                        </apex:pageBlockSectionItem>
+                    </apex:pageBlockSection> 
+                    <apex:pageBlockSection columns="2">
+                        <apex:pageBlockSectionItem >
+                            <apex:outputLabel value="Project Termination Date"></apex:outputLabel>
+                        </apex:pageBlockSectionItem>
+                        <apex:pageBlockSectionItem >
+                            <apex:inputField value="{!rc.VG_Completion_Date__c}" html-placeholder="Enter Date" style="width:197px;"></apex:inputField>
+                        </apex:pageBlockSectionItem>
+                    </apex:pageBlockSection> 
+                    <apex:pageBlockSection columns="2">
+                        <apex:pageBlockSectionItem >
+                            <apex:outputLabel value="Estimated Project Costs"></apex:outputLabel>
+                        </apex:pageBlockSectionItem>
+                        <apex:pageBlockSectionItem >
+                            <apex:inputField value="{!rc.VG_Estimated_Project_Costs__c}" html-placeholder="Enter currency" style="width:197px;"></apex:inputField>
+                        </apex:pageBlockSectionItem>
+                    </apex:pageBlockSection>
+                    <apex:pageBlockSection columns="2">
+                        <apex:pageBlockSectionItem >
+                            <apex:outputLabel value="Issue Date"></apex:outputLabel>
+                        </apex:pageBlockSectionItem>
+                        <apex:pageBlockSectionItem >
+                            <apex:inputField value="{!rc.VG_Issue_Date__c}" html-placeholder="Enter Date" style="width:197px;"></apex:inputField>
+                        </apex:pageBlockSectionItem>
+                    </apex:pageBlockSection>
+                    <apex:pageBlockSection columns="2">
+                        <apex:pageBlockSectionItem >
+                            <apex:outputLabel value="Reason for Issue"></apex:outputLabel>
+                        </apex:pageBlockSectionItem>
+                        <apex:pageBlockSectionItem >
+                            <apex:inputField value="{!rc.VG_Reason_for_Issue__c}" html-placeholder="Enter currency" style="width:197px;"></apex:inputField>
+                        </apex:pageBlockSectionItem>
+                    </apex:pageBlockSection>
+            </apex:pageBlockSection>        
+                     
+                   
+        <apex:pageblock >
+            <apex:pageBlockButtons location="top">
+                <apex:commandButton rendered="{!Product_Select =='Umbrella - Occurrence, Excluding USA' || Product_Select =='Umbrella - Occurrence, Including USA' || Product_Select =='Umbrella - Claims Made, Excluding USA' || Product_Select =='Umbrella - Claims Made, Including USA' || Product_Select =='Excess - Occurrence, Excluding USA' || Product_Select =='Excess - Occurrence, Including USA' || Product_Select =='Excess - Claims Made, Excluding USA' || Product_Select == 'Excess - Claims Made, Including USA' }" value="Add UI Schedule" action="{!addUI}" rerender="pbmain"/>
+            </apex:pageBlockButtons>          
+            <apex:pageBlockTable value="{!riskdetailList}" rendered="{!Product_Select =='Umbrella - Occurrence, Excluding USA' || Product_Select =='Umbrella - Occurrence, Including USA' || Product_Select =='Umbrella - Claims Made, Excluding USA' || Product_Select =='Umbrella - Claims Made, Including USA' || Product_Select =='Excess - Occurrence, Excluding USA' || Product_Select =='Excess - Occurrence, Including USA' || Product_Select =='Excess - Claims Made, Excluding USA' || Product_Select == 'Excess - Claims Made, Including USA'}" style="width:1250px;" var="rcw">
+                                <apex:column headerValue="Carrier" style="width:100px;">
+                                    <apex:inputText value="{!rcw.CA1}" style="width:100px;"/>
+                                </apex:column>
+                                <apex:column headerValue="Policy Number" style="width:100px;">
+                                    <apex:inputText value="{!rcw.PA1}" style="width:100px;"/>
+                                </apex:column>
+                                <apex:column headerValue="Policy Start Date" style="width:100px;">
+                                    <apex:inputText value="{!rcw.PSD1}" style="width:100px;"/>
+                                </apex:column>
+                                <apex:column headerValue="Policy End Date" style="width:100px;">
+                                    <apex:inputText value="{!rcw.PED1}" style="width:100px;"/>
+                                </apex:column>
+                                <apex:column headerValue="Coverage" style="width:100px;">
+                                    <apex:inputText value="{!rcw.CO1}" style="width:100px;"/>
+                                </apex:column>
+                                <apex:column headerValue=" Underlying Limits of Liability" style="width:100px;">
+                                    <apex:inputText value="{!rcw.UI1}" style="width:100px;"/>
+                                </apex:column>
+                                <apex:column headerValue=" Premium" style="width:100px;">
+                                    <apex:inputText value="{!rcw.PR1}" style="width:100px;"/>
+                                </apex:column>
+                                <apex:column headerValue="Action" style="width:80px;">
+                                    <apex:commandButton value="Remove" action="{!RemoveUI}" reRender="pbmain" ><apex:param name="counter" assignTo="{!Index}"  value="{!rcw.Counter}"/></apex:commandButton>
+                                </apex:column>
+                 </apex:pageBlockTable>     
+             </apex:pageBlock>   
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

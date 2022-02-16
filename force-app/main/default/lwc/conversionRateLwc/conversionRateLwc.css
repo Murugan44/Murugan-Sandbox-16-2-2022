@@ -1,0 +1,20 @@
+.padding{
+    padding: 20px;
+}
+.head{
+    background: linear-gradient(45deg, #ebbcbc, transparent);
+    font-size: 20px;
+}
+h1{
+    margin-left: 6px;
+}
+dl{
+    margin-left: 15px;
+    font: message-box;
+}
+dt,dd{
+    background: linear-gradient(
+45deg
+, #e3e0e0, transparent);
+margin-bottom: 6px;
+}

@@ -1,0 +1,51 @@
+<!--
+  @description       : 
+  @author            : Murugan
+  @group             : 
+  @last modified on  : 07-01-2021
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+  Modifications Log 
+  Ver   Date         Author                               Modification
+  1.0   07-01-2021   ChangeMeIn@UserSettingsUnder.SFDoc   Initial Version
+-->
+<template>
+    <div class="font">
+        <lightning-card icon-name="standard:pricebook" title = "Book Shelf">
+            <button type="reset" class="slds-button slds-button_success btn" slot="actions" onclick={open}>Enter</button>
+            <template if:true={isOpen}>
+                <div class="slds-p-around_medium slds-m-around_medium slds-box">
+                    <div class="page">
+                        <div class="bar">
+                            <strong>Book List</strong>
+                        </div>
+                        <div class="slds-p-around_medium search">
+                            <lightning-input
+                                variant = "label-hidden"
+                                name="enter-search"
+                                label=""
+                                type="search"
+                                
+                                onchange={searchHandler}
+                            ></lightning-input>
+                        </div>
+                        <div class="slds-m-around_medium"></div>
+                        <lightning-layout multiple-rows>
+                            <template if:true={books}>
+                                <template for:each={books.items} for:item="book">
+                                    <lightning-layout-item size="3" padding="around-small" key={book.id}>
+                                    <div class="slds-box slds-p-around_medium slds-text-align_center">
+                                        <img src={book.volumeInfo.imageLinks.smallThumbnail} height="200px"/>
+                                        <div class="slds-text-heading_small slds-p-vertical_medium"><strong>{book.volumeInfo.title}</strong></div>
+                                        <div><strong>Published Date -</strong>{book.volumeInfo.publishedDate}</div>
+                                        <div><strong>Average Rating - {book.volumeInfo.averageRating}</strong></div>
+                                    </div>
+                                    </lightning-layout-item>
+                                </template>
+                            </template>
+                        </lightning-layout>
+                    </div>
+                </div>
+            </template>
+        </lightning-card>
+    </div>
+</template>

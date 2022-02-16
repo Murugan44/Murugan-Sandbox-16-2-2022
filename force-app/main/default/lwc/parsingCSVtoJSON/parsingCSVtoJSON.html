@@ -1,0 +1,22 @@
+<template>
+    <lightning-card  title="CSV Parse" icon-name="action:new_lead">
+        <div class="slds-p-around_large">
+            <form class="slds-form--inline">
+                <div class="slds-form-element">
+                    <lightning-input type="file" label="Attachment" accept=".csv" class="csv" onchange={readFiles}></lightning-input>
+                </div>
+            </form>
+        </div>
+        <div class="slds-p-around_large">
+            <div class="slds-scrollable" style="height: 800px; width: 580px;">
+                <textarea
+                        style="width: 700px; height: 800px;"
+                        class="resultCardClass"
+                        rows="7"
+                        disabled
+                    >
+                </textarea>
+            </div>
+        </div>
+    </lightning-card>
+</template>

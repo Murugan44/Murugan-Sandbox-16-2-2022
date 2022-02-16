@@ -1,0 +1,33 @@
+<apex:page applyBodyTag="false" applyHtmlTag="false" showHeader="false" sidebar="false" standardStylesheets="false" lightningStyleSheets="true">
+    <html>
+        <head>
+            <script type="text/javascript" src="//js.stripe.com/v3/"></script>
+            <apex:slds />
+                </head>
+            <body>
+                <script>
+                window.onload = onLoad;
+            async function onLoad() {
+                
+                const payW = document.querySelector("div.pay");
+                const stripe = await Stripe('pk_test_51K8kUbSB8m4RhRyhoVG2aXpxn8GVn08IDiWoEqkOD0dLzaSWBme9mvmAfiENxTTtOPr0zlT8HxZv1uOlhQrJ8TAp00nBofCou8');
+                const appearance = {
+                    labels: 'above',
+                    theme: 'night'
+                };
+                const elements = stripe.elements({
+                    clientSecret:'pi_3KEUB8SB8m4RhRyh0JRXjwWc_secret_j5f5QsJFWN0A7tQXXRoT2oifi',appearance
+                });
+                this.cardElement = elements.create("payment");
+                    console.log('::', this.cardElement)
+                this.cardElement.mount(payW);
+            }
+            </script>
+            <div class="slds-scope">
+                <div class="slds-p-around_medium">
+                    <div class="pay" style="margin: 0% 30% 0% 35%;"></div>
+                </div>
+            </div>
+        </body>
+    </html>
+</apex:page>

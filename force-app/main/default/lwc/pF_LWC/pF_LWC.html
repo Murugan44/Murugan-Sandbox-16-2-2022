@@ -1,0 +1,250 @@
+<!--
+   @description       : 
+   @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+   @group             : 
+   @last modified on  : 05-11-2021
+   @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+   Modifications Log 
+   Ver   Date         Author                               Modification
+   1.0   03-08-2021   ChangeMeIn@UserSettingsUnder.SFDoc   Initial Version
+   -->
+   
+   <template>
+    <lightning-button variant="brand"
+       label="PF"
+       title="Payment Frequency"
+       onclick={OpenPF}
+       class="slds-m-left_x-small">
+    </lightning-button>
+    <template if:true={isModalOpen}>
+       <section role="dialog"  tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_large" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" >
+          <div class="slds-modal__container">
+             <header class="slds-modal__header">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                   <lightning-icon icon-name="utility:close"
+                      alternative-text="close"
+                      variant="inverse"
+                      size="small" ></lightning-icon>
+                   <span class="slds-assistive-text">Close</span>
+                </button>
+             </header>
+             <div class="slds-scrollable slds-modal__content slds-p-around_large" id="modal-content-id-1">
+                </br> 
+                <div class="color-only slds-scrollable" >
+                   <div class="slds-text-color_inverse">Payment Frequency for {name}</div>
+                </div>
+                <template if:true={isShowBtn}> 
+                   <div class="slds-m-top_small slds-m-bottom_medium">
+                      <lightning-button class="slds-button_last slds-button--small"
+                         variant="neutral"  
+                         label="Add Payment Frequency"
+                         title="Add Payment Frequency"
+                         onclick={addPF} >
+                      </lightning-button>
+                      <lightning-button class=" slds-button_last slds-button--small"
+                         variant="neutral"  
+                         label="Upload Payment Frequency"
+                         title="Upload Payment Frequency"
+                         onclick={uploadPF} >
+                      </lightning-button>
+                   </div>
+                </template>
+                
+                <!--<lightning-record-edit-form>-->
+                <template if:true={isPF}>
+                   <table id="table" class="slds-box slds-table slds-table_cell-buffer slds-table_bordered">
+                      <thead>
+                         <tr class="slds-line-height_reset">
+                            <th class="" scope="col">
+                               <div class="slds-truncate" title="Due Date">Due Date</div>
+                            </th>
+                            <th class="" scope="col">
+                               <div class="slds-truncate" title="Payment(%)">Payment(%)</div>
+                            </th>
+                            <th class="" scope="col">
+                               <div class="slds-truncate" title="GWP This Time (USD)">GWP This Time (USD)</div>
+                            </th>
+                            <th class="" scope="col">
+                               <div class="slds-truncate" title="Comment">Comment</div>
+                            </th>
+                            <th class="" scope="col">
+                               <div class="slds-truncate" title="Broker">Broker</div>
+                            </th>
+                            <th class="" scope="col">
+                               <div class="slds-truncate" title="Delete">Delete</div>
+                            </th>
+                         </tr>
+                      </thead>
+                      <tbody>
+                         <template for:each={pfList} for:item="pf" for:index="indexx">
+                            <tr key={keyIndex}>
+                               <td>
+                                  <lightning-record-edit-form object-api-name="VG_Payment_Frequency__c">
+                                     <lightning-input-field variant="label-hidden" field-name="VG_Due_Date__c" access-key={indexx} id={indexx} onchange={handleChange1} value={pf.VG_Due_Date__c}></lightning-input-field>
+                                  </lightning-record-edit-form>
+                               </td>
+                               <td>
+                                  <lightning-record-edit-form object-api-name="VG_Payment_Frequency__c" >
+                                     <lightning-input-field variant="label-hidden" field-name="VG_Payment_Percent__c" access-key={indexx} id={indexx} onchange={handleChange2} value={pf.VG_Payment_Percent__c}></lightning-input-field>
+                                  </lightning-record-edit-form>
+                               </td>
+                               <td>
+                                  <lightning-record-edit-form object-api-name="VG_Payment_Frequency__c" >
+                                     <lightning-input-field variant="label-hidden" value={gWPs} field-name="VG_GWP_This_Time__c" access-key={indexx} id={indexx} onload={handleChange3} read-only></lightning-input-field>
+                                  </lightning-record-edit-form>
+                               </td>
+                               <td>
+                                  <lightning-record-edit-form object-api-name="VG_Payment_Frequency__c">
+                                     <lightning-input-field variant="label-hidden" field-name="VG_Comment__c" access-key={indexx} id={indexx} onchange={handleChange4} value={pf.VG_Comment__c}></lightning-input-field>
+                                  </lightning-record-edit-form>
+                               </td>
+                               <td>
+                                  <lightning-record-edit-form object-api-name="VG_Payment_Frequency__c">
+                                     <lightning-input-field variant="label-hidden" field-name="VG_Broker__c" access-key={indexx} id={indexx} onchange={handleChange5} value={pf.VG_Broker__c}></lightning-input-field>
+                                  </lightning-record-edit-form>
+                               </td>
+                               <td>
+                                  <lightning-button label="Remove" class="slds-m-left_x-small" access-key={indexx} id={indexx}  onclick={removePf}></lightning-button>
+                               </td>
+                            </tr>
+                         </template>
+                      </tbody>
+                   </table>
+                   </br>
+                 
+                   <div class="slds-grid slds-gutters">
+                      <div class="slds-col aTotal slds-size_1-of-11">
+                         <span id="total">
+                            <P><B>Total Payment (%) : {totpercent} </B></P>
+                         </span>
+                      </div>
+                      
+                      <div class="slds-col slds-size_1-of-11">
+                         <span>
+                            <P><B>Total GWP (USD) : {totalGWP}</B></P>
+                         </span>
+                      </div>
+                   </div>
+                </template>
+                <template if:true={isPFf}>
+                   <lightning-record-edit-form>
+                      <lightning-badge label="No Payment Frequency added"></lightning-badge>
+                   </lightning-record-edit-form>
+                </template>
+                <template if:true ={isPFupload}>
+                   <lightning-record-edit-form>
+                      <div>
+                         <lightning-input label="File" name="File" onchange={handleFilesChange} type="file" multiple></lightning-input>
+                      </div>
+
+                      <div class="slds-text-body_small slds-text-color_error">{fileName}
+                     </div><br/>
+                     <lightning-button class="slds-m-top--medium" label={UploadFile} onclick={handleSave} variant="brand" ></lightning-button>
+                   </lightning-record-edit-form>
+                </template>
+                <!--</lightning-record-edit-form>-->
+                
+                </br></br></br>
+                <div class="color-only slds-scrollable" >
+                   <div class="slds-text-color_inverse">Tax</div>
+                </div>
+                <!--<lightning-record-edit-form>
+                   <div class="slds-grid slds-gutters">
+                       <lightning-messages></lightning-messages>
+                       <div class="slds-col slds-size_1-of-11">
+                          <span>
+                             <lightning-record-edit-form object-api-name="VG_Taxes__c">
+                                <lightning-input-field field-name="VG_Tax_Type__c"></lightning-input-field>
+                             </lightning-record-edit-form>
+                          </span>
+                       </div>
+                       <div class="slds-col slds-size_1-of-11">
+                          <span>
+                             <lightning-record-edit-form object-api-name="VG_Taxes__c">
+                                <lightning-input-field field-name="VG_Tax_Percent__c"></lightning-input-field>
+                             </lightning-record-edit-form>
+                          </span>
+                       </div>
+                       <div class="slds-col slds-size_1-of-11">
+                          <span>
+                             <lightning-record-edit-form object-api-name="VG_Taxes__c">
+                                <lightning-input-field field-name="VG_Taxable_Amount__c"></lightning-input-field>
+                             </lightning-record-edit-form>
+                          </span>
+                       </div>
+                       <div class="slds-col slds-size_1-of-11">
+                          <span>
+                             <lightning-record-edit-form object-api-name="VG_Taxes__c">
+                                <lightning-input-field field-name="VG_Tax_Amount__c"></lightning-input-field>
+                             </lightning-record-edit-form>
+                          </span>
+                       </div>
+                       <div class="slds-col slds-size_1-of-11">
+                          <span>
+                             <lightning-record-edit-form object-api-name="VG_Taxes__c">
+                                <lightning-input-field field-name="VG_Tax_Amount_GWP_100__c"></lightning-input-field>
+                             </lightning-record-edit-form>
+                          </span>
+                       </div>
+                       <div class="slds-col slds-size_1-of-11">
+                          <span>
+                             <lightning-record-edit-form object-api-name="VG_Taxes__c">
+                                <lightning-input-field field-name="Tax Included"></lightning-input-field>
+                             </lightning-record-edit-form>
+                          </span>
+                       </div>
+                       <div class="slds-col slds-size_1-of-11">
+                           <span>
+                              <lightning-record-edit-form object-api-name="VG_Taxes__c">
+                                 <lightning-input-field field-name="VG_Tax_Jurisdiction__c"></lightning-input-field>
+                              </lightning-record-edit-form>
+                           </span>
+                        </div>
+                        <div class="slds-col slds-size_1-of-11">
+                           <span>
+                              <lightning-record-edit-form object-api-name="VG_Taxes__c">
+                                 <lightning-input-field field-name="VG_Tax_Administered_By__c"></lightning-input-field>
+                              </lightning-record-edit-form>
+                           </span>
+                        </div>
+                        <div class="slds-col slds-size_1-of-11">
+                           <span>
+                              <lightning-record-edit-form object-api-name="VG_Taxes__c">
+                                 <lightning-input-field field-name="VG_Tax_Paid_By__c"></lightning-input-field>
+                              </lightning-record-edit-form>
+                           </span>
+                        </div>
+                        <div class="slds-col slds-size_1-of-11">
+                           <span>
+                              <lightning-record-edit-form object-api-name="VG_Taxes__c">
+                                 <lightning-input-field field-name="VG_Comment__c"></lightning-input-field>
+                              </lightning-record-edit-form>
+                           </span>
+                        </div>
+                        <div class="slds-col slds-size_1-of-11">
+                           <span>
+                              <lightning-record-edit-form object-api-name="VG_Taxes__c">
+                                 <lightning-input-field field-name="VG_Is_Temp_Delete__c"></lightning-input-field>
+                              </lightning-record-edit-form>
+                           </span>
+                        </div>
+                    </div>
+                   </lightning-record-edit-form>-->
+                </br></br>
+                </br></br>
+                </br></br>
+                </br></br>
+                </br></br>
+                </br></br>
+                </br></br>
+                </br></br>
+             </div>
+             <footer  class="slds-modal__footer">
+                <button class="slds-button slds-button_brand" onclick={closeModal} title="Cancel">Cancel</button>
+                <button class="slds-button slds-button_brand" onclick={Finish} title="Finish">Finish</button>
+             </footer>
+          </div>
+       </section>
+       <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+ </template>

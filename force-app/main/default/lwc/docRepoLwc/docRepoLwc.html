@@ -1,0 +1,789 @@
+<!--
+   @description       : 
+   @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+   @group             : 
+   @last modified on  : 08-30-2021
+   @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+   Modifications Log 
+   Ver   Date         Author                               Modification
+   1.0   04-19-2021   ChangeMeIn@UserSettingsUnder.SFDoc   Initial Version
+   -->
+   <template>
+    <lightning-card class="slds-card__header slds-icon slds-icon_large" icon-name="doctype:library_folder" title="Document Repository">
+       <!-- <c-upload-file-component-l-w-c></c-upload-file-component-l-w-c> -->
+        <div class="slds-p-around_medium">
+            <div  class="slds-box grid">
+                <div class="cursor">
+                    <span>
+                        <lightning-icon icon-name="doctype:folder" size="large" alternative-text={submission} name={submission} title={submission} onclick={SubmissionRec}></lightning-icon>
+                    </span>
+                    <span>
+                        <p class="size-only">{submission}</p>
+                    </span>
+                </div>
+                <div class="cursor">
+                    <span>
+                        <lightning-icon icon-name="doctype:folder" size="large" alternative-text={underwriting} name={underwriting} title={underwriting} onclick={UnderwritingRec}></lightning-icon>
+                    </span>
+                    <span>
+                        <p class="size-only">{underwriting}</p>
+                    </span>
+                </div>
+                <div class="cursor">
+                    <span>
+                        <lightning-icon icon-name="doctype:folder" size="large" alternative-text={PolicyDocument} name={PolicyDocument} title={PolicyDocument} onclick={PolicyDocRec}></lightning-icon>
+                    </span>
+                    <span>
+                        <p class="size-only">{PolicyDocument}</p>
+                    </span>
+                </div>
+                <div class="cursor">
+                    <span>
+                        <lightning-icon icon-name="doctype:folder" size="large" alternative-text="Claims" name="Claims" title="Claims" onclick={ClaimsRec}></lightning-icon>
+                    </span>
+                    <span>
+                        <p class="size-only">&nbsp;&nbsp;&nbsp;Claims</p>
+                    </span>
+                </div>
+                <div class="cursor">
+                    <span>
+                        <lightning-icon icon-name="doctype:folder" size="large" alternative-text="Finance" name="Finance" title="Finance" onclick={FinanceRec}></lightning-icon>
+                    </span>
+                    <span>
+                        <p class="size-only">&nbsp;&nbsp;&nbsp;Finance</p>
+                    </span>
+                </div>
+                <div class="cursor">
+                    <span>
+                        <lightning-icon icon-name="doctype:folder" size="large" alternative-text="Reinsurance" name="Reinsurance" title="Reinsurance" onclick={ReinsuranceRec}></lightning-icon>
+                    </span>
+                    <span>
+                        <p class="size-only">Reinsurance</p>
+                    </span>
+                </div>
+                <div class="cursor">
+                    <span>
+                        <lightning-icon icon-name="doctype:folder" size="large" alternative-text="Pricing Spreadsheet" name="Pricing Spreadsheet" title="Pricing Spreadsheet" onclick={PricingSpreadsheetRec}></lightning-icon>
+                    </span>
+                    <span>
+                        <p class="size-only">Pricing Spreadsheet</p>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </lightning-card>
+
+    
+    <template if:true={isSubmissionRec}>
+      <template if:true={loader}>
+         <div class="slds-backdrop slds-backdrop_open">
+           <div class="loaders pos"></div>
+         </div>
+      </template>
+      <template if:false={loader}>
+         <section role="dialog"  tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_large" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" >
+            <div class="slds-modal__container">
+               <header class="slds-modal__header">
+                  <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                     <lightning-icon icon-name="utility:close"
+                        alternative-text="close"
+                        variant="inverse"
+                        size="small" ></lightning-icon>
+                     <span class="slds-assistive-text">Close</span>
+                  </button>
+                  <div class="slds-modal__content slds-p-around_large slds-box slds-box_small" >
+                     <div class="color-only" style="background-color: #344b97;padding: 0.5rem;font-size: 20px;">
+                        <div class="slds-text-color_inverse"><b>Submission Folder({length})</b></div>
+                        <!-- <div>
+                           <lightning-file-upload
+                                 label=""
+                                 variant="label-inline"
+                                 name="file Uploader"
+                                 accept={accept}
+                                 record-id={recordId}
+                                 onuploadfinished={handleUploadFinished}
+                                 disabled = {disabled}
+                                 multiple>
+                           </lightning-file-upload>
+                        </div> -->
+                     </div>
+                  </div>
+               </header>
+               <!--Next-->
+               <div class="slds-modal__content slds-p-around_large " id="modal-content-id-1">
+
+                  <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-box slds-box_small">
+                     <thead>
+                        <tr class="slds-line-height_reset">
+                           <th class="slds-text-title_caps" scope="col">
+                              <div class="slds-truncate" title="Title">No</div>
+                           </th>
+                           <th class="slds-text-title_caps" scope="col">
+                              <div class="slds-truncate" title="Preview">Preview</div>
+                           </th>
+                           <th class="slds-text-title_caps" scope="col">
+                              <div class="slds-truncate" title="Title">Title</div>
+                           </th>
+                           <th class="slds-text-title_caps" scope="col">
+                              <div class="slds-truncate" title="Created Date">Created Date</div>
+                           </th>
+                           <th class="slds-text-title_caps" scope="col">
+                              <div class="slds-truncate" title="File Type">File Type</div>
+                           </th>
+                           <th class="slds-text-title_caps" scope="col">
+                              <div class="slds-truncate" title="size">size(bytes)</div>
+                           </th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                           <template for:each={attList} for:item="att" for:index="index">
+                              <tr key={att.Id}>
+                                 
+                                 <td scope="row">
+                                    <div class="slds-truncate" >
+                                       {index}
+                                    </div>
+                                 </td>
+                                 <td scope="row">
+                                    <div class="slds-truncate" >
+                                       <!--store contentDocument Id in data-Id attribute-->
+                                       <lightning-button-icon icon-name="utility:preview" data-id={att.ContentDocumentId} onclick={navigateToFiles} variant="border-filled" alternative-text="Preview" title="Preview"></lightning-button-icon>
+                                       <!--<a onclick={navigateToFiles}>Navigate To Files</a>-->
+                                    </div>
+                                 </td>
+                                 <td scope="row">
+                                    <div class="slds-truncate doc" >
+                                       <!--store contentDocument Id in data-Id attribute-->
+                                       <lightning-icon icon-name={att.icon}></lightning-icon>
+                                       <p><a data-id={att.ContentDocumentId} onclick={downloadDoc} href={fileURL}>{att.ContentDocument.Title}</a></p>
+                                       <!--<a onclick={navigateToFiles}>Navigate To Files</a>-->
+                                    </div>
+                                 </td>
+                                 <td scope="row">
+                                    <div class="slds-truncate" >
+                                          <p><lightning-formatted-date-time value={att.ContentDocument.CreatedDate}></lightning-formatted-date-time></p>
+                                    </div>
+                                 </td>
+                                 <td scope="row">
+                                    <div class="slds-truncate" >
+                                       {att.ContentDocument.FileType}
+                                    </div>
+                                 </td>
+                                 <td scope="row">
+                                    <div class="slds-truncate" >{att.ContentDocument.ContentSize}</div>
+                                 </td>
+                              </tr>
+                           </template>
+                     </tbody>
+                  </table>
+               </div>
+               <!--Footer-->
+               <footer  class="slds-modal__footer">
+                  <button class="slds-button slds-button_brand" onclick={closeModal} title="Cancel">Close</button>
+               </footer>
+            </div>
+         </section>
+         <div class="slds-backdrop slds-backdrop_open"></div>
+      </template>
+    </template>
+    
+    <template if:true={isUnderwritingRec}>
+      <template if:true={loader}>
+         <div class="slds-backdrop slds-backdrop_open">
+           <div class="loaders pos"></div>
+         </div>
+      </template>
+      <template if:false={loader}>
+         <section role="dialog"  tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_large" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" >
+            <div class="slds-modal__container">
+               <header class="slds-modal__header">
+                  <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                     <lightning-icon icon-name="utility:close"
+                        alternative-text="close"
+                        variant="inverse"
+                        size="small" ></lightning-icon>
+                     <span class="slds-assistive-text">Close</span>
+                  </button>
+                  <div class="slds-modal__content slds-p-around_large slds-box slds-box_small" >
+                     <div class="color-only" style="background-color: #344b97;padding: 0.5rem;font-size: 20px;">
+                        <div class="slds-text-color_inverse"><b>Underwriting Folder({length})</b></div>
+                     </div>
+                  </div>
+               </header>
+               <!--Next-->
+               <div class="slds-modal__content slds-p-around_large" id="modal-content-id-2">
+
+               <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-box slds-box_small">
+                  <thead>
+                        <tr class="slds-line-height_reset">
+                           <th class="slds-text-title_caps" scope="col">
+                              <div class="slds-truncate" title="Title">NO</div>
+                           </th>
+                           <th class="slds-text-title_caps" scope="col">
+                              <div class="slds-truncate" title="Preview">Preview</div>
+                           </th>
+                           <th class="slds-text-title_caps" scope="col">
+                              <div class="slds-truncate" title="Title">Title</div>
+                           </th>
+                           <th class="slds-text-title_caps" scope="col">
+                              <div class="slds-truncate" title="Created Date">Created Date</div>
+                           </th>
+                           <th class="slds-text-title_caps" scope="col">
+                              <div class="slds-truncate" title="File Type">File Type</div>
+                           </th>
+                           <th class="slds-text-title_caps" scope="col">
+                              <div class="slds-truncate" title="size">size(bytes)</div>
+                           </th>
+                        </tr>
+                  </thead>
+                  <tbody>
+                        <template for:each={attList} for:item="att" for:index="index">
+                              <tr key={att.Id}>
+                                 <td scope="row">
+                                    <div class="slds-truncate" >
+                                    {index}
+                                    </div>
+                                 </td>
+                                 <td scope="row">
+                                    <div class="slds-truncate" >
+                                       <!--store contentDocument Id in data-Id attribute-->
+                                       <lightning-button-icon icon-name="utility:preview" data-id={att.ContentDocumentId} onclick={navigateToFiles} variant="border-filled" alternative-text="Preview" title="Preview"></lightning-button-icon>
+                                       <!--<a onclick={navigateToFiles}>Navigate To Files</a>-->
+                                    </div>
+                                 </td>
+                                 <td scope="row">
+                                    <div class="slds-truncate doc" >
+                                       <!--store contentDocument Id in data-Id attribute-->
+                                       <lightning-icon icon-name={att.icon}></lightning-icon>
+                                       <p><a data-id={att.ContentDocumentId} onclick={downloadDoc} href={fileURL}>{att.ContentDocument.Title}</a></p>
+                                       <!--<a onclick={navigateToFiles}>Navigate To Files</a>-->
+                                    </div>
+                                 </td>
+                                 <td scope="row">
+                                    <div class="slds-truncate" >
+                                       <p><lightning-formatted-date-time value={att.ContentDocument.CreatedDate}></lightning-formatted-date-time></p>
+                                    </div>
+                                 </td>
+                                 <td scope="row">
+                                    <div class="slds-truncate" >
+                                    {att.ContentDocument.FileType}
+                                    </div>
+                                 </td>
+                                 <td scope="row">
+                                    <div class="slds-truncate" >{att.ContentDocument.ContentSize}</div>
+                                 </td>
+                              </tr>
+                        </template>
+                     </tbody>
+                  </table>
+               </div>
+               <!--Footer-->
+               <footer  class="slds-modal__footer">
+                  <button class="slds-button slds-button_brand" onclick={closeModal} title="Cancel">Close</button>
+               </footer>
+            </div>
+         </section>
+         <div class="slds-backdrop slds-backdrop_open"></div>
+      </template>
+    </template>
+
+    <template if:true={isPolicyDocRec}>
+      <template if:true={loader}>
+         <div class="slds-backdrop slds-backdrop_open">
+           <div class="loaders pos"></div>
+         </div>
+      </template>
+      <template if:false={loader}>
+         <section role="dialog"  tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_large" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" >
+            <div class="slds-modal__container">
+               <header class="slds-modal__header">
+                  <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                     <lightning-icon icon-name="utility:close"
+                        alternative-text="close"
+                        variant="inverse"
+                        size="small" ></lightning-icon>
+                     <span class="slds-assistive-text">Close</span>
+                  </button>
+                  <div class="slds-modal__content slds-p-around_large slds-box slds-box_small" >
+                     <div class="color-only" style="background-color: #344b97;padding: 0.5rem;font-size: 20px;">
+                        <div class="slds-text-color_inverse"><b>Policy Documentions Folder({length})</b></div>
+                     </div>
+                  </div>
+               </header>
+               <!--Next-->
+               <div class="slds-modal__content slds-p-around_large" id="modal-content-id-3">
+
+               <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-box slds-box_small">
+                  <thead>
+                        <tr class="slds-line-height_reset">
+                           <th class="slds-text-title_caps" scope="col">
+                              <div class="slds-truncate" title="Title">NO</div>
+                           </th>
+                           <th class="slds-text-title_caps" scope="col">
+                              <div class="slds-truncate" title="Preview">Preview</div>
+                           </th>
+                           <th class="slds-text-title_caps" scope="col">
+                              <div class="slds-truncate" title="Title">Title</div>
+                           </th>
+                           <th class="slds-text-title_caps" scope="col">
+                              <div class="slds-truncate" title="Created Date">Created Date</div>
+                           </th>
+                           <th class="slds-text-title_caps" scope="col">
+                              <div class="slds-truncate" title="File Type">File Type</div>
+                           </th>
+                           <th class="slds-text-title_caps" scope="col">
+                              <div class="slds-truncate" title="size">size(bytes)</div>
+                           </th>
+                        </tr>
+                  </thead>
+                  <tbody>
+                        <template for:each={attList} for:item="att" for:index="index">
+                              <tr key={att.Id}>
+                                 <td scope="row">
+                                    <div class="slds-truncate" >
+                                    {index}
+                                    </div>
+                                 </td>
+                                 <td scope="row">
+                                    <div class="slds-truncate" >
+                                       <!--store contentDocument Id in data-Id attribute-->
+                                       <lightning-button-icon icon-name="utility:preview" data-id={att.ContentDocumentId} onclick={navigateToFiles} variant="border-filled" alternative-text="Preview" title="Preview"></lightning-button-icon>
+                                       <!--<a onclick={navigateToFiles}>Navigate To Files</a>-->
+                                    </div>
+                                 </td>
+                                 <td scope="row">
+                                    <div class="slds-truncate doc" >
+                                       <!--store contentDocument Id in data-Id attribute-->
+                                       <lightning-icon icon-name={att.icon}></lightning-icon>
+                                       <p><a data-id={att.ContentDocumentId} onclick={downloadDoc} href={fileURL}>{att.ContentDocument.Title}</a></p>
+                                       <!--<a onclick={navigateToFiles}>Navigate To Files</a>-->
+                                    </div>
+                                 </td>
+                                 <td scope="row">
+                                    <div class="slds-truncate" >
+                                       <p><lightning-formatted-date-time value={att.ContentDocument.CreatedDate}></lightning-formatted-date-time></p>
+                                    </div>
+                                 </td>
+                                 <td scope="row">
+                                    <div class="slds-truncate" >
+                                    {att.ContentDocument.FileType}
+                                    </div>
+                                 </td>
+                                 <td scope="row">
+                                    <div class="slds-truncate" >{att.ContentDocument.ContentSize}</div>
+                                 </td>
+                              </tr>
+                        </template>
+                     </tbody>
+                  </table>
+               </div>
+               <!--Footer-->
+               <footer  class="slds-modal__footer">
+                  <button class="slds-button slds-button_brand" onclick={closeModal} title="Cancel">Close</button>
+               </footer>
+            </div>
+         </section>
+         <div class="slds-backdrop slds-backdrop_open"></div>
+      </template>
+    </template>
+
+    <template if:true={isClaimsRec}>
+      <template if:true={loader}>
+         <div class="slds-backdrop slds-backdrop_open">
+           <div class="loaders pos"></div>
+         </div>
+      </template>
+      <template if:false={loader}> 
+         <section role="dialog"  tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_large" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" >
+            <div class="slds-modal__container">
+               <header class="slds-modal__header">
+                  <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                     <lightning-icon icon-name="utility:close"
+                        alternative-text="close"
+                        variant="inverse"
+                        size="small" ></lightning-icon>
+                     <span class="slds-assistive-text">Close</span>
+                  </button>
+                  <div class="slds-modal__content slds-p-around_large slds-box slds-box_small" >
+                     <div class="color-only" style="background-color: #344b97;padding: 0.5rem;font-size: 20px;">
+                        <div class="slds-text-color_inverse"><b>Claims Folder({length})</b></div>
+                     </div>
+                  </div>
+               </header>
+               <!--Next-->
+               <div class="slds-modal__content slds-p-around_large" id="modal-content-id-4">
+
+               <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-box slds-box_small">
+                  <thead>
+                        <tr class="slds-line-height_reset">
+                           <th class="slds-text-title_caps" scope="col">
+                              <div class="slds-truncate" title="Title">NO</div>
+                           </th>
+                           <th class="slds-text-title_caps" scope="col">
+                              <div class="slds-truncate" title="Preview">Preview</div>
+                           </th>
+                           <th class="slds-text-title_caps" scope="col">
+                              <div class="slds-truncate" title="Title">Title</div>
+                           </th>
+                           <th class="slds-text-title_caps" scope="col">
+                              <div class="slds-truncate" title="Created Date">Created Date</div>
+                           </th>
+                           <th class="slds-text-title_caps" scope="col">
+                              <div class="slds-truncate" title="File Type">File Type</div>
+                           </th>
+                           <th class="slds-text-title_caps" scope="col">
+                              <div class="slds-truncate" title="size">size(bytes)</div>
+                           </th>
+                        </tr>
+                  </thead>
+                  <tbody>
+                        <template for:each={attList} for:item="att" for:index="index">
+                              <tr key={att.Id}>
+                                 <td scope="row">
+                                    <div class="slds-truncate" >
+                                    {index}
+                                    </div>
+                                 </td>
+                                 <td scope="row">
+                                    <div class="slds-truncate" >
+                                       <!--store contentDocument Id in data-Id attribute-->
+                                       <lightning-button-icon icon-name="utility:preview" data-id={att.ContentDocumentId} onclick={navigateToFiles} variant="border-filled" alternative-text="Preview" title="Preview"></lightning-button-icon>
+                                       <!--<a onclick={navigateToFiles}>Navigate To Files</a>-->
+                                    </div>
+                                 </td>
+                                 <td scope="row">
+                                    <div class="slds-truncate doc" >
+                                       <!--store contentDocument Id in data-Id attribute-->
+                                       <lightning-icon icon-name={att.icon}></lightning-icon>
+                                       <p><a data-id={att.ContentDocumentId} onclick={downloadDoc} href={fileURL}>{att.ContentDocument.Title}</a></p>
+                                       <!--<a onclick={navigateToFiles}>Navigate To Files</a>-->
+                                    </div>
+                                 </td>
+                                 <td scope="row">
+                                    <div class="slds-truncate" >
+                                    <p><lightning-formatted-date-time value={att.ContentDocument.CreatedDate}></lightning-formatted-date-time></p>
+                                    </div>
+                                 </td>
+                                 <td scope="row">
+                                    <div class="slds-truncate" >
+                                    {att.ContentDocument.FileType}
+                                    </div>
+                                 </td>
+                                 <td scope="row">
+                                    <div class="slds-truncate" >{att.ContentDocument.ContentSize}</div>
+                                 </td>
+                              </tr>
+                        </template>
+                     </tbody>
+                  </table>
+               </div>
+               <!--Footer-->
+               <footer  class="slds-modal__footer">
+                  <button class="slds-button slds-button_brand" onclick={closeModal} title="Cancel">Close</button>
+               </footer>
+            </div>
+         </section>
+         <div class="slds-backdrop slds-backdrop_open"></div>
+      </template>
+    </template>
+
+    <template if:true={isFinanceRec}>
+      <template if:true={loader}>
+         <div class="slds-backdrop slds-backdrop_open">
+           <div class="loaders pos"></div>
+         </div>
+      </template>
+      <template if:false={loader}> 
+         <section role="dialog"  tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_large" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" >
+            <div class="slds-modal__container">
+               <header class="slds-modal__header">
+                  <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                     <lightning-icon icon-name="utility:close"
+                        alternative-text="close"
+                        variant="inverse"
+                        size="small" ></lightning-icon>
+                     <span class="slds-assistive-text">Close</span>
+                  </button>
+                  <div class="slds-modal__content slds-p-around_large slds-box slds-box_small" >
+                     <div class="color-only" style="background-color: #344b97;padding: 0.5rem;font-size: 20px;">
+                        <div class="slds-text-color_inverse"><b>Finance Folder({length})</b></div>
+                     </div>
+                  </div>
+               </header>
+               <!--Next-->
+               <div class="slds-modal__content slds-p-around_large" id="modal-content-id-5">
+
+               <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-box slds-box_small">
+                  <thead>
+                        <tr class="slds-line-height_reset">
+                           <th class="slds-text-title_caps" scope="col">
+                              <div class="slds-truncate" title="Title">NO</div>
+                           </th>
+                           <th class="slds-text-title_caps" scope="col">
+                              <div class="slds-truncate" title="Preview">Preview</div>
+                           </th>
+                           <th class="slds-text-title_caps" scope="col">
+                              <div class="slds-truncate" title="Title">Title</div>
+                           </th>
+                           <th class="slds-text-title_caps" scope="col">
+                              <div class="slds-truncate" title="Created Date">Created Date</div>
+                           </th>
+                           <th class="slds-text-title_caps" scope="col">
+                              <div class="slds-truncate" title="File Type">File Type</div>
+                           </th>
+                           <th class="slds-text-title_caps" scope="col">
+                              <div class="slds-truncate" title="size">size(bytes)</div>
+                           </th>
+                        </tr>
+                  </thead>
+                  <tbody>
+                        <template for:each={attList} for:item="att" for:index="index">
+                              <tr key={att.Id}>
+                                 <td scope="row">
+                                    <div class="slds-truncate" >
+                                    {index}
+                                    </div>
+                                 </td>
+                                 <td scope="row">
+                                    <div class="slds-truncate" >
+                                       <!--store contentDocument Id in data-Id attribute-->
+                                       <lightning-button-icon icon-name="utility:preview" data-id={att.ContentDocumentId} onclick={navigateToFiles} variant="border-filled" alternative-text="Preview" title="Preview"></lightning-button-icon>
+                                       <!--<a onclick={navigateToFiles}>Navigate To Files</a>-->
+                                    </div>
+                                 </td>
+                                 <td scope="row">
+                                    <div class="slds-truncate doc" >
+                                       <!--store contentDocument Id in data-Id attribute-->
+                                       <lightning-icon icon-name={att.icon}></lightning-icon>
+                                       <p><a data-id={att.ContentDocumentId} onclick={downloadDoc} href={fileURL}>{att.ContentDocument.Title}</a></p>
+                                       <!--<a onclick={navigateToFiles}>Navigate To Files</a>-->
+                                    </div>
+                                 </td>
+                                 <td scope="row">
+                                    <div class="slds-truncate" >
+                                       <p><lightning-formatted-date-time value={att.ContentDocument.CreatedDate}></lightning-formatted-date-time></p>
+                                    </div>
+                                 </td>
+                                 <td scope="row">
+                                    <div class="slds-truncate" >
+                                    {att.ContentDocument.FileType}
+                                    </div>
+                                 </td>
+                                 <td scope="row">
+                                    <div class="slds-truncate" >{att.ContentDocument.ContentSize}</div>
+                                 </td>
+                              </tr>
+                        </template>
+                     </tbody>
+                  </table>
+               </div>
+               <!--Footer-->
+               <footer  class="slds-modal__footer">
+                  <button class="slds-button slds-button_brand" onclick={closeModal} title="Cancel">Close</button>
+               </footer>
+            </div>
+         </section>
+         <div class="slds-backdrop slds-backdrop_open"></div>
+      </template>
+    </template>
+
+    <template if:true={isReinsuranceRec}>
+      <template if:true={loader}>
+         <div class="slds-backdrop slds-backdrop_open">
+           <div class="loaders pos"></div>
+         </div>
+      </template>
+      <template if:false={loader}> 
+         <section role="dialog"  tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_large" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" >
+            <div class="slds-modal__container">
+               <header class="slds-modal__header">
+                  <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                     <lightning-icon icon-name="utility:close"
+                        alternative-text="close"
+                        variant="inverse"
+                        size="small" ></lightning-icon>
+                     <span class="slds-assistive-text">Close</span>
+                  </button>
+                  <div class="slds-modal__content slds-p-around_large slds-box slds-box_small" >
+                     <div class="color-only" style="background-color: #344b97;padding: 0.5rem;font-size: 20px;">
+                        <div class="slds-text-color_inverse"><b>Reinsurance Folder({length})</b></div>
+                     </div>
+                  </div>
+               </header>
+               <!--Next-->
+               <div class="slds-modal__content slds-p-around_large" id="modal-content-id-6">
+
+               <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-box slds-box_small">
+                  <thead>
+                        <tr class="slds-line-height_reset">
+                           <th class="slds-text-title_caps" scope="col">
+                              <div class="slds-truncate" title="Title">NO</div>
+                           </th>
+                           <th class="slds-text-title_caps" scope="col">
+                              <div class="slds-truncate" title="Preview">Preview</div>
+                           </th>
+                           <th class="slds-text-title_caps" scope="col">
+                              <div class="slds-truncate" title="Title">Title</div>
+                           </th>
+                           <th class="slds-text-title_caps" scope="col">
+                              <div class="slds-truncate" title="Created Date">Created Date</div>
+                           </th>
+                           <th class="slds-text-title_caps" scope="col">
+                              <div class="slds-truncate" title="File Type">File Type</div>
+                           </th>
+                           <th class="slds-text-title_caps" scope="col">
+                              <div class="slds-truncate" title="size">size(bytes)</div>
+                           </th>
+                        </tr>
+                  </thead>
+                  <tbody>
+                        <template for:each={attList} for:item="att" for:index="index">
+                              <tr key={att.Id}>
+                                 <td scope="row">
+                                    <div class="slds-truncate" >
+                                    {index}
+                                    </div>
+                                 </td>
+                                 <td scope="row">
+                                    <div class="slds-truncate" >
+                                       <!--store contentDocument Id in data-Id attribute-->
+                                       <lightning-button-icon icon-name="utility:preview" data-id={att.ContentDocumentId} onclick={navigateToFiles} variant="border-filled" alternative-text="Preview" title="Preview"></lightning-button-icon>
+                                       <!--<a onclick={navigateToFiles}>Navigate To Files</a>-->
+                                    </div>
+                                 </td>
+                                 <td scope="row">
+                                    <div class="slds-truncate doc" >
+                                       <!--store contentDocument Id in data-Id attribute-->
+                                       <lightning-icon icon-name={att.icon}></lightning-icon>
+                                       <p><a data-id={att.ContentDocumentId} onclick={downloadDoc} href={fileURL}>{att.ContentDocument.Title}</a></p>
+                                       <!--<a onclick={navigateToFiles}>Navigate To Files</a>-->
+                                    </div>
+                                 </td>
+                                 <td scope="row">
+                                    <div class="slds-truncate" >
+                                       <p><lightning-formatted-date-time value={att.ContentDocument.CreatedDate}></lightning-formatted-date-time></p>
+                                    </div>
+                                 </td>
+                                 <td scope="row">
+                                    <div class="slds-truncate" >
+                                    {att.ContentDocument.FileType}
+                                    </div>
+                                 </td>
+                                 <td scope="row">
+                                    <div class="slds-truncate" >{att.ContentDocument.ContentSize}</div>
+                                 </td>
+                              </tr>
+                        </template>
+                     </tbody>
+                  </table>
+               </div>
+               <!--Footer-->
+               <footer  class="slds-modal__footer">
+                  <button class="slds-button slds-button_brand" onclick={closeModal} title="Cancel">Close</button>
+               </footer>
+            </div>
+         </section>
+         <div class="slds-backdrop slds-backdrop_open"></div>
+      </template>
+    </template>
+
+    <template if:true={isPricingSpreadsheetRec}>
+      <template if:true={loader}>
+         <div class="slds-backdrop slds-backdrop_open">
+           <div class="loaders pos"></div>
+         </div>
+      </template>
+      <template if:false={loader}>
+         <section role="dialog"  tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_large" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" >
+            <div class="slds-modal__container">
+               <header class="slds-modal__header">
+                  <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                     <lightning-icon icon-name="utility:close"
+                        alternative-text="close"
+                        variant="inverse"
+                        size="small" ></lightning-icon>
+                     <span class="slds-assistive-text">Close</span>
+                  </button>
+                  <div class="slds-modal__content slds-p-around_large slds-box slds-box_small" >
+                     <div class="color-only" style="background-color: #344b97;padding: 0.5rem;font-size: 20px;">
+                        <div class="slds-text-color_inverse"><b>Pricing Spreadsheet Folder({length})</b></div>
+                     </div>
+                  </div>
+               </header>
+               <!--Next-->
+               <div class="slds-modal__content slds-p-around_large" id="modal-content-id-7">
+
+                  <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-box slds-box_small">
+                     <thead>
+                        <tr class="slds-line-height_reset">
+                           <th class="slds-text-title_caps" scope="col">
+                              <div class="slds-truncate" title="Title">NO</div>
+                           </th>
+                           <th class="slds-text-title_caps" scope="col">
+                              <div class="slds-truncate" title="Preview">Preview</div>
+                           </th>
+                           <th class="slds-text-title_caps" scope="col">
+                              <div class="slds-truncate" title="Title">Title</div>
+                           </th>
+                           <th class="slds-text-title_caps" scope="col">
+                              <div class="slds-truncate" title="Created Date">Created Date</div>
+                           </th>
+                           <th class="slds-text-title_caps" scope="col">
+                              <div class="slds-truncate" title="File Type">File Type</div>
+                           </th>
+                           <th class="slds-text-title_caps" scope="col">
+                              <div class="slds-truncate" title="size">size(bytes)</div>
+                           </th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                           <template for:each={attList} for:item="att" for:index="index">
+                              <tr key={att.Id}>
+                                 <td scope="row">
+                                    <div class="slds-truncate" >
+                                       {index}
+                                    </div>
+                                 </td>
+                                 <td scope="row">
+                                    <div class="slds-truncate" >
+                                       <!--store contentDocument Id in data-Id attribute-->
+                                       <lightning-button-icon icon-name="utility:preview" data-id={att.ContentDocumentId} onclick={navigateToFiles} variant="border-filled" alternative-text="Preview" title="Preview"></lightning-button-icon>
+                                       <!--<a onclick={navigateToFiles}>Navigate To Files</a>-->
+                                    </div>
+                                 </td>
+                                 <td scope="row">
+                                    <div class="slds-truncate doc" >
+                                       <!--store contentDocument Id in data-Id attribute-->
+                                       <lightning-icon icon-name={att.icon}></lightning-icon>
+                                       <p><a data-id={att.ContentDocumentId} onclick={downloadDoc} href={fileURL}>{att.ContentDocument.Title}</a></p>
+                                       <!--<a onclick={navigateToFiles}>Navigate To Files</a>-->
+                                    </div>
+                                 </td>
+                                 <td scope="row">
+                                    <div class="slds-truncate" >
+                                          <p><lightning-formatted-date-time value={att.ContentDocument.CreatedDate}></lightning-formatted-date-time></p>
+                                    </div>
+                                 </td>
+                                 <td scope="row">
+                                    <div class="slds-truncate" >
+                                       {att.ContentDocument.FileType}
+                                    </div>
+                                 </td>
+                                 <td scope="row">
+                                    <div class="slds-truncate" >{att.ContentDocument.ContentSize}</div>
+                                 </td>
+                              </tr>
+                           </template>
+                     </tbody>
+                  </table>
+               </div>
+               <!--Footer-->
+               <footer  class="slds-modal__footer">
+                  <button class="slds-button slds-button_brand" onclick={closeModal} title="Cancel">Close</button>
+               </footer>
+            </div>
+         </section>
+         <div class="slds-backdrop slds-backdrop_open"></div>
+      </template>
+    </template>
+ </template>

@@ -1,0 +1,30 @@
+<template>
+   <lightning-card>
+       <template if:true={isSpinner}>
+           <div>
+                <c-icon-spinner></c-icon-spinner>
+           </div>
+       </template>
+       <!-- <template if:false={isSpinner}> -->
+            <div class="slds-p-around_medium">
+                <div class="slds-card card slds-box">
+                    <div class="slds-p-around_medium">
+                        <c-combobox field-label={lableName} options={productOptions} placeholder="Select Product" value={productValue} onchange={handleSelectOption}></c-combobox>
+                        <!-- <lightning-combobox name="Product" label="Product" 
+                            value={productValue} options={productOptions} variant="label-inline" onchange={handleSelectOption}>
+                        </lightning-combobox> -->
+                    </div>
+
+                    <lightning-layout multiple-rows="true">
+                        <template if:true={pricingOptionsMap} for:each={pricingOptionsMap} for:item="price" for:index="index">
+                        <lightning-layout-item size="6" key={price.key} padding="around-medium">
+                            <c-combobox field-label={price.key} options={price.value} placeholder="Select Product" onchange={handleOptionChange}></c-combobox>
+                            <!-- <lightning-combobox variant="label-inline" name={price.key} data-recordid={price.rate} label={price.key} access-key={index} id={index} options={price.value} onchange={handleOptionChange}></lightning-combobox> -->
+                        </lightning-layout-item>
+                        </template>
+                    </lightning-layout>
+                </div>
+            </div>
+       <!-- </template> -->
+   </lightning-card>
+</template>

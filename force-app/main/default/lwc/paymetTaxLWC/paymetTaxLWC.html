@@ -1,0 +1,34 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 10-01-2021
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+    <lightning-card title="Policy Payment Details">
+        <!-- <lightning-button variant="brand" label="Finish" slot="actions" class="slds-p-around_medium"></lightning-button>
+        <lightning-button variant="brand" label="Cancel" slot="actions" class="slds-p-around_medium"></lightning-button> -->
+        <div class="slds-p-around_large">
+            <div class="slds-box">
+                <lightning-card title="Policy Payment">
+                    <lightning-button variant="brand" onclick={addPaymentPolicy} label="Add Policy Payment" slot="actions" class="slds-p-around_medium"></lightning-button>
+                    
+                    <lightning-accordion allow-multiple-sections-open>
+                        <template if:true={paymentList}>
+                            <template for:each={paymentList} for:item="pay" for:index="index">
+                                <lightning-accordion-section key={keyIndex} name="Policy Payment Amount" label="Policy Payment Amount">
+                                    <div class="slds-box grid">
+                                        <lightning-input variant="label-inline" type="date" label="Due Date" value={pay.dueDate} access-key={index} id={index}></lightning-input>
+                                        <lightning-input variant="label-inline" type="text" label="Amount" value={pay.amount} access-key={index} id={index}></lightning-input>
+                                    </div>
+                                </lightning-accordion-section>
+                            </template>
+                        </template>
+                    </lightning-accordion>
+
+                </lightning-card>
+            </div>
+        </div>
+    </lightning-card>
+</template>

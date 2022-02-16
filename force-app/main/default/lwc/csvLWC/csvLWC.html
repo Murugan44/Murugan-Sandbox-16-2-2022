@@ -1,0 +1,38 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 07-03-2021
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+  Modifications Log 
+  Ver   Date         Author                               Modification
+  1.0   06-20-2021   ChangeMeIn@UserSettingsUnder.SFDoc   Initial Version
+-->
+<template>
+  <lightning-card title=" CSV Exports" icon-name="doctype:csv">
+      <button 
+          onclick={opneCSV} 
+          class="slds-button slds-button_brand btn"
+          slot="actions">Open CSV
+      </button>
+      <template if:true={isCSV}>
+          <div class="slds-p-around_medium" >
+            <div class="slds-box">
+              <lightning-button onclick={csvGenAcc} variant="success" class="slds-p-around_medium" icon-name="utility:download" label="Account Generate"></lightning-button>
+              <lightning-button onclick={csvGenCont} variant="success" class="slds-p-around_medium" icon-name="utility:download" label="Contact Generate"></lightning-button>
+              <lightning-button onclick={csvGenPol} variant="success" class="slds-p-around_medium" icon-name="utility:download" label="Policy Generate"></lightning-button>
+              <lightning-button onclick={csvGenPS} variant="success" class="slds-p-around_medium" icon-name="utility:download" label="PS Generate"></lightning-button>
+              
+            </div>
+          </div>
+      </template>
+  </lightning-card>
+  <lightning-card title="Styling Hooks for Lightning Web Components" icon-name="action:fallback">
+
+    <lightning-avatar src="https://www.lightningdesignsystem.com/assets/images/avatar2.jpg" initials="TS" fallback-icon-name="standard:person_account" alternative-text="Tushar Sharma"  class="avatar"></lightning-avatar>
+    <br/>
+    <lightning-badge label="Alpha" icon-name="standard:event" class="badge"></lightning-badge>
+    <br/>
+    <lightning-button label="Neutral" title="Non-primary action" class="slds-m-left_x-small button"></lightning-button>
+</lightning-card>
+</template>

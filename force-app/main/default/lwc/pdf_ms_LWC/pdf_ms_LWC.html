@@ -1,0 +1,208 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 07-05-2021
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+  Modifications Log 
+  Ver   Date         Author                               Modification
+  1.0   06-20-2021   ChangeMeIn@UserSettingsUnder.SFDoc   Initial Version
+-->
+<template>
+    <lightning-button variant="brand"
+       label="PDF/DOC"
+       title="PDF/DOC"
+       onclick={PDF}
+       class="slds-m-left_x-small">
+    </lightning-button>
+    <template if:true={isShow}>
+        <section role="dialog"  tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_medium back_container" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" >
+            <div class="slds-modal__container">
+               <!-- <header class="slds-modal__header">
+                  <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                     <lightning-icon icon-name="utility:close"
+                        alternative-text="close"
+                        variant="inverse"
+                        size="small" ></lightning-icon>
+                     <span class="slds-assistive-text">Close</span>
+                  </button>
+               </header> -->
+               <!--Next-->
+               <div class="slds-modal__content slds-p-around_large " id="modal-content-id-2">
+                   
+                    <div  style="width: 210mm; 
+                                                min-height: 297mm;
+                                                padding: 20mm;
+                                                margin: 10mm auto;
+                                                border: 1px #D3D3D3 solid;
+                                                border-radius: 5px;
+                                                background: white;
+                                                box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+                    ">
+                        <div style="padding: 1cm;border: 5px red solid;height: 257mm;outline: 2cm #FFEAEA solid;">
+                            <div class="container">
+                            <!-- <div style="padding: 1cm;border: 5px red solid;height: 257mm;outline: 2cm #FFEAEA solid;"> -->
+                                <div class="margin-top: 10px;" style="text-align: center;">
+                                    <img src={docss} style="height: 162px;width: 330px;"/>
+                                </div>
+                                <div style="text-align: center;">
+                                    <p><strong>INVESTOR 170(h) LIABLITY QUOTES</strong></p>
+                                </div>
+                                </br>
+                                <div style="text-align: center;margin-bottom: 8px;">
+                                    <p>Please find below Investor 170(h) Liability Quote for 3Star Investors, LLC. This is a summary of the terms and conditions:</p>
+                                </div>
+                                <div style="padding: 8px;margin-left: 25px; ">
+                                    <table>
+                                    <template for:each={polValue} for:item="pol">
+                                        <div key={pol.Id}>
+                                        <!-- <div key={pol.Id} style="display: grid;
+                                                                grid-template-columns: repeat(2, 1fr);
+                                                                grid-template-rows: repeat(2,0fr);
+                                                                grid-column-gap: 22px;
+                                                                grid-row-gap: 17px;">
+                                            <div >
+                                                <span ><b>Certificate Ref:</b>&nbsp;</span>
+                                            </div>
+                                            <div  >
+                                                <span >{pol.Name}</span>
+                                            </div>
+                                            <div >
+                                                <span ><b>Currency:</b>&nbsp;</span>
+                                            </div>
+                                            <div  >
+                                                <span >{pol.CurrencyIsoCode}</span>
+                                            </div>
+                                            <div >
+                                                <span ><b>Class of Business:</b>&nbsp;</span>
+                                            </div>
+                                            <div  >
+                                                <span >{pol.Line_Of_Business__c}</span>
+                                            </div>
+                                            <div >
+                                                <span ><b>Underwriter:</b>&nbsp;</span>
+                                            </div>
+                                            <div  >
+                                                <span >{pol.Underwriter__r.Name}</span>
+                                            </div>
+                                            <div >
+                                                <span ><b>Policy Status:</b>&nbsp;</span>
+                                            </div>
+                                            <div  >
+                                                <span >{pol.Policy_Status__c}</span>
+                                            </div>
+                                            <div >
+                                                <span ><b>Record Type:</b>&nbsp;</span>
+                                            </div>
+                                            <div  >
+                                                <span >{pol.RecordType.Name}</span>
+                                            </div>
+                                            <div >
+                                                <span ><b>Broker Name:</b>&nbsp;</span>
+                                            </div>
+                                            <div  >
+                                                <span >{pol.Broker_Name__r.Name}</span>
+                                            </div>
+                                            <div >
+                                                <span ><b>Volante Entities:</b>&nbsp;</span>
+                                            </div>
+                                            <div  >
+                                                <span >{pol.VG_Volante_Entities__c}</span>
+                                            </div>
+                                            <div >
+                                                <span ><b>Programme Reference Number:</b>&nbsp;</span>
+                                            </div>
+                                            <div  >
+                                                <span >{pol.VG_Programme_Reference_Number__r.Name}</span>
+                                            </div> -->
+                                            <div>
+                                                <div style="padding: 10px; width: 300px; display: inline-block;">
+                                                    <span ><b>Certificate Ref:</b>&nbsp;</span>
+                                                </div>
+                                                <div  style="padding: 10px ;display: inline-block;">
+                                                    <span >{pol.Name}</span>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div style="padding: 10px; width: 300px; display: inline-block;">
+                                                    <span ><b>Currency:</b>&nbsp;</span>
+                                                </div>
+                                                <div  style="padding: 10px;display: inline-block;">
+                                                    <span >{pol.CurrencyIsoCode}</span>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div style="padding: 10px; width: 300px; display: inline-block;">
+                                                    <span ><b>Class of Business:</b>&nbsp;</span>
+                                                </div>
+                                                <div  style="padding: 10px;display: inline-block;">
+                                                    <span >{pol.Line_Of_Business__c}</span>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div style="padding: 10px; width: 300px; display: inline-block;">
+                                                    <span ><b>Underwriter:</b>&nbsp;</span>
+                                                </div>
+                                                <div  style="padding: 10px;display: inline-block;">
+                                                    <span >{pol.Underwriter__r.Name}</span>
+                                                </div>
+                                            </div>
+                                            <div >
+                                                <div style="padding: 10px; width: 300px; display: inline-block;">
+                                                    <span ><b>Policy Status:</b>&nbsp;</span>
+                                                </div>
+                                                <div  style="padding: 10px;display: inline-block;">
+                                                    <span >{pol.Policy_Status__c}</span>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div style="padding: 10px; width: 300px; display: inline-block;">
+                                                    <span ><b>Record Type:</b>&nbsp;</span>
+                                                </div>
+                                                <div  style="padding: 10px;display: inline-block;">
+                                                    <span >{pol.RecordType.Name}</span>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div style="padding: 10px; width: 300px; display: inline-block;">
+                                                    <span ><b>Broker Name:</b>&nbsp;</span>
+                                                </div>
+                                                <div  style="padding: 10px;display: inline-block;">
+                                                    <span >{pol.Broker_Name__r.Name}</span>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div style="padding: 10px; width: 300px; display: inline-block;">
+                                                    <span ><b>Volante Entities:</b>&nbsp;</span>
+                                                </div>
+                                                <div  style="padding: 10px;display: inline-block;">
+                                                    <span >{pol.VG_Volante_Entities__c}</span>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div style="padding: 10px; width: 300px; display: inline-block;">
+                                                    <span ><b>Programme Reference Number:</b>&nbsp;</span>
+                                                </div>
+                                                <div  style="padding: 10px;display: inline-block;">
+                                                    <span >{pol.VG_Programme_Reference_Number__r.Name}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </template>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+              </div>
+              <footer  class="slds-modal__footer">
+                <div style="margin-left: 13px;">
+                    <lightning-button class="slds-p-around_small"  variant="destructive" label="PDF Generate" onclick={pdfHandler}></lightning-button>
+                    <lightning-button class="slds-p-around_small"  variant="base" label="Close" onclick={closeModal}></lightning-button>
+                </div>
+             </footer>
+            </div>
+         </section>
+         <div class="slds-backdrop slds-backdrop_open "></div>
+    </template>
+</template>

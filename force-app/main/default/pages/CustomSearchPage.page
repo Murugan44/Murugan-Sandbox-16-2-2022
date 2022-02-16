@@ -1,0 +1,23 @@
+<apex:page sidebar="false" showHeader="True" title="Custom Search" id="qs" docType="html-5.0"  standardStylesheets="true">
+    <apex:includeLightning />
+    <apex:form >
+        <apex:pageBlock Id="homeBlock">
+            <div id="LightningAppDivId">
+            </div>
+        </apex:pageBlock>
+    </apex:form>
+     <script>
+         $Lightning.use(
+             "c:CustomSearchApp", // Name of Aura Dependency app where c is namespace.
+             function() { // Callback function
+                 $Lightning.createComponent(
+                     "c:quickAccessLWC", // Name of Lightning Component where c is namespace.
+                     {
+                         //recordId : '{!$CurrentPage.parameters.id}'
+                     }, // attribute parameters
+                     "LightningAppDivId" // Id of the element where Lightning Component will be rendered. // DOM Locator
+                 );
+             }
+         );
+     </script>
+</apex:page>

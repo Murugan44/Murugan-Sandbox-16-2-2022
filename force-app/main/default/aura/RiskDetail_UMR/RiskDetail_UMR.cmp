@@ -1,0 +1,20 @@
+<aura:component implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,forceCommunity:availableForAllPageTypes,force:hasRecordId">
+    <aura:attribute name="fields" type="String[]" default="['Name','Policy_Schedule__c','CurrencyISOCode','VG_Share__c','VG_Company_Type__c','VG_Territorial_Scope__c','VG_Company_Domicile__c','VG_Territorial_Limits__c','VG_Additional_Information__c','VG_Plan_Loss_Ratio__c','VG_Policy_Details__c','VG_Rate_Type__c','VG_Appetite_Risk__c','VG_Contract_Size__c']" />
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="RDRecord" type="Object"/>
+    <aura:attribute name="recordLoadError" type="String"/>
+    <aura:attribute name="recordType" type="String"/>
+    <force:recordData aura:id="recordLoader"
+                      recordId="{!v.recordId}"
+                      fields="Name"
+                      targetFields ="{!v.RDRecord}"
+                      targetError="{!v.recordLoadError}"
+                      recordUpdated="{!c.doInit}"  
+                      />
+    <aura:if isTrue="{!v.recordType != 'Aesir'}">
+        <lightning:recordForm aura:id="myRecordForm" recordId="{!v.recordId}" layoutType="Full" objectApiName="Risk_Capture__c" columns="2" mode="view"/>
+    </aura:if>
+    <aura:if isTrue="{!v.recordType == 'Aesir'}">
+        <lightning:recordForm aura:id="myRecordForm" recordId="{!v.recordId}" objectApiName="Risk_Capture__c" fields="{!v.fields}" columns="2" mode="view"/>
+    </aura:if>
+</aura:component>

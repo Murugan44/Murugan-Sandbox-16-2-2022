@@ -1,0 +1,172 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+                access="global"
+                controller="VG_fileViewerController">
+    <!--aura doInit handler--> 
+    <aura:attribute name="recordId" type="string"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <!--aura attributes-->  
+    <aura:attribute name="selectedDocumentId" type="string"/>
+    <aura:attribute name="lstContentDoc" type="List"/>
+    <aura:attribute name="hasModalOpen" type="boolean" default="false"/>
+    <aura:attribute name="viewAllBool" type="Boolean" default="true"/>
+    <aura:attribute name="isModalOpen" type="boolean" default="false"/>
+    
+    <!-- Custom DataTable to Display List Of Available ContentDocuments -->  
+    <lightning:card class="slds-card__header" iconName="action:new_note" title="Files &amp; Attachments">
+        <lightning:layout >
+            <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                <thead>
+                    <tr class="slds-line-height_reset">
+                        <th class="slds-text-title_caps" scope="col">
+                            <div class="slds-truncate" title="Title"></div>
+                        </th>
+                        <th class="slds-text-title_caps" scope="col">
+                            <div class="slds-truncate" title="Title">Title</div>
+                        </th>
+                        <th class="slds-text-title_caps" scope="col">
+                            <div class="slds-truncate" title="Created Date">Created Date</div>
+                        </th>
+                        <th class="slds-text-title_caps" scope="col">
+                            <div class="slds-truncate" title="File Type">File Type</div>
+                        </th>
+                        <th class="slds-text-title_caps" scope="col">
+                            <div class="slds-truncate" title="size">size(bytes)</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <aura:iteration items="{!v.lstContentDoc}" var="CD" indexVar="index">
+                        <aura:if isTrue="{!index == 0 || index==1 || index==2 || index==3 || index==4 || index==5}">
+                        <tr>
+                            <td>{!index+1}</td> 
+                            <td scope="row">
+                                <div class="slds-truncate" title="{!CD.ContentDocument.Title}">
+                                    <a onclick="{!c.getSelected}" data-Id="{!CD.ContentDocumentId}">{!CD.ContentDocument.Title}</a>
+                                </div>
+                            </td>
+                            <td scope="row">
+                                <div class="slds-truncate" title="{!CD.CreatedDate}">
+                                    <p><lightning:formattedDateTime value="{!CD.ContentDocument.CreatedDate}"  /></p>
+                                </div>
+                            </td>
+                            <td scope="row">
+                                <div class="slds-truncate" title="{!CD.FileType}">{!CD.ContentDocument.FileType}
+                                    <!--<ui:outputDate value="{!CD.ContentDocument.FileType}"/>-->
+                                </div>
+                            </td>
+                            <td scope="row">
+                                <div class="slds-truncate" title="{!CD.ContentSize}">{!CD.ContentDocument.ContentSize}</div>
+                            </td>
+                        </tr>
+                        </aura:if>
+                    </aura:iteration>
+                </tbody>
+                <aura:if isTrue="{!v.viewAllBool}">
+                    <div >
+                        <lightning:button class="slds-align_absolute-center" variant="base" label="View All" onclick="{!c.openModel}"/>
+                    </div>
+                </aura:if>
+            </table>
+        </lightning:layout>
+    </lightning:card>
+    
+    <aura:if isTrue="{!v.isModalOpen}">
+        
+        <!-- Modal/Popup Box starts here-->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-modal_large slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box Header Starts here-->
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close"
+                                          onclick="{! c.closeModels }"
+                                          alternativeText="close"
+                                          variant="bare-inverse"
+                                          class="slds-modal__close"/>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate"><b>Files &amp; Attachments</b></h2>
+                </header>
+                <!--Modal/Popup Box Body Starts here-->
+                <div class="slds-modal__content slds-p-around_large slds-box slds-box_small" id="modal-content-id-1">
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                        <thead>
+                            <tr class="slds-line-height_reset">
+                                <th class="slds-text-title_caps" scope="col">
+                                    <div class="slds-truncate" title="Title"></div>
+                                </th>
+                                <th class="slds-text-title_caps" scope="col">
+                                    <div class="slds-truncate" title="Title">Title</div>
+                                </th>
+                                <th class="slds-text-title_caps" scope="col">
+                                    <div class="slds-truncate" title="Created Date">Created Date</div>
+                                </th>
+                                <th class="slds-text-title_caps" scope="col">
+                                    <div class="slds-truncate" title="File Type">File Type</div>
+                                </th>
+                                <th class="slds-text-title_caps" scope="col">
+                                    <div class="slds-truncate" title="size">size(bytes)</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <aura:iteration items="{!v.lstContentDoc}" var="CD" indexVar="index">
+                                <tr>
+                                    <td>{!index+1}</td> 
+                                    <th scope="row">
+                                        <div class="slds-truncate" title="{!CD.ContentDocument.Title}">
+                                            <!--store contentDocument Id in data-Id attribute-->
+                                            <a onclick="{!c.getSelected}" data-Id="{!CD.ContentDocumentId}">{!CD.ContentDocument.Title}</a>
+                                        </div>
+                                    </th>
+                                    <th scope="row">
+                                        <div class="slds-truncate" title="{!CD.CreatedDate}">
+                                            <p><lightning:formattedDateTime value="{!CD.ContentDocument.CreatedDate}"  /></p>
+                                        </div>
+                                    </th>
+                                    <th scope="row">
+                                        <div class="slds-truncate" title="{!CD.FileType}">{!CD.ContentDocument.FileType}
+                                            <!--<ui:outputDate value="{!CD.ContentDocument.FileType}"/>-->
+                                        </div>
+                                    </th>
+                                    <th scope="row">
+                                        <div class="slds-truncate" title="{!CD.ContentSize}">{!CD.ContentDocument.ContentSize}</div>
+                                    </th>
+                                </tr>  
+                            </aura:iteration>
+                        </tbody>
+                    </table>
+                </div>
+                <!--Modal/Popup Box Footer Starts here-->
+                <footer class="slds-modal__footer">
+                    <lightning:button variant="brand"
+                                      label="Close"
+                                      title="Close"
+                                      onclick="{!c.closeModels}"/>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+    
+    <!--Custom DataTable to Display List Of Available ContentDocuments End-->  
+    <!--FILE PREVIEW MODAL BOX START--> 
+    <aura:if isTrue="{!v.hasModalOpen}">
+        <section onclick="{!c.closeModel}"
+                 role="dialog"
+                 aria-modal="true"
+                 class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <div class="slds-modal__content slds-p-around_medium slds-text-align_center"
+                     style="background: black;">
+                    <div style="width: 50%; margin: 0 auto; text-align: left">
+                        <!--<lightning:fileCard> to preview file using content document Id -->
+                        
+                        <lightning:fileCard fileId="{!v.selectedDocumentId}"/>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+    <!--FILE PREVIEW MODAL BOX END-->
+    
+</aura:component>

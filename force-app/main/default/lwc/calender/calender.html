@@ -1,0 +1,227 @@
+<template>
+   <!-- <lightning-card title="Google Calender">
+      <div class="slds-p-around_medium">
+         <div class="slds-box card">
+           <iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=1&bgcolor=%23B39DDB&ctz=Asia%2FKolkata&showPrint=0&showTitle=0&showCalendars=1&showTabs=1&showTz=0&showDate=1&showNav=1&src=a2JtNDQ5N0BnbWFpbC5jb20&color=%23039BE5" style="border-width:0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+         </div>
+      </div>
+   </lightning-card> -->
+    <!-- <iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=1&bgcolor=%23ffffff&ctz=Asia%2FKolkata&showTitle=0&showPrint=0&showDate=1&src=Z29wYS5zZmRjQGdtYWlsLmNvbQ&src=YWRkcmVzc2Jvb2sjY29udGFjdHNAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&src=ZW4uaW5kaWFuI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&color=%23039BE5&color=%2333B679&color=%230B8043" style="border-width:0" width="800" height="600" frameborder="0" scrolling="no"></iframe> -->
+     <lightning-card title="Dashboard" icon-name="standard:dashboard">
+       <!-- <div class="slds-p-around_medium">
+          <div class="slds-box card">
+             <lightning-combobox
+                variant="label-inline"
+                name="Client"
+                label="Client"
+                value=""
+                placeholder="Select Client"
+                options={accoptions}
+                onchange={handleChange} >
+             </lightning-combobox>
+          </div>
+       </div> -->
+       <!-- <div class="slds-p-around_medium lgc-bg">
+          <lightning-layout multiple-rows="true">
+             <template if:true={accList} for:each={accList} for:item="acc" for:index="index" class="slds-box">
+                <a onclick={openTileModel} key={acc.Id}>
+                   <lightning-layout-item size="6" key={acc.Id} >
+                      <div class="slds-p-around_medium lgc-bg">
+                         <div class="slds-box card">
+                            <ul class="slds-has-dividers_bottom-space">
+                               <li class="slds-item font">
+                                  <lightning-tile label={acc.Client__r.Name} data-name={acc.Id} actions={actions} onactiontriggered={openTileModel}>
+                                  </lightning-tile>
+                               </li>
+                               <li class="slds-item" >
+                                  <lightning-tile label={acc.Name} type="media">
+                                     <lightning-avatar slot="media" src="https://www.lightningdesignsystem.com/assets/images/avatar1.jpg" fallback-icon-name="standard:person_account" alternative-text="Bruce Wayne"></lightning-avatar>
+                                     <ul class="slds-list_horizontal slds-has-dividers_right"></ul>
+                                  </lightning-tile>
+                               </li>
+                               <template for:each={acc.Audits__r} for:item="ap" >
+                                  <li class="slds-item" key={ap.Id}>
+                                     <lightning-tile label={ap.Name} >
+                                        <dl class="slds-dl_horizontal slds-p-around_medium">
+                                           <dt class="slds-dl_horizontal__label">
+                                              <p class="slds-truncate" title="Status">Status :</p>
+                                           </dt>
+                                           <dd class="slds-dl_horizontal__detail slds-tile__meta">
+                                              <p class="slds-truncate" title={ap.Status__c}>{ap.Status__c}</p>
+                                           </dd>
+                                        </dl>
+                                     </lightning-tile>
+                                  </li>
+                               </template>
+                            </ul>
+                         </div>
+                      </div>
+                   </lightning-layout-item>
+                </a>
+             </template>
+          </lightning-layout>
+       </div> -->
+       <!-- <div class="slds-p-around_medium">
+          <div class="slds-box card">
+             <lightning-card title="Report" icon-name="standard:report">
+                <template for:each={inAuditReportURL} for:item="link">
+                   <div class="slds-m-left-heading_small slds-badge slds-p-around_medium" key={link.name}>
+                      <a href={link.link} target="_blank" class="slds-text-heading_small">{link.name}</a>
+                   </div>
+                </template>
+             </lightning-card>
+          </div>
+       </div> -->
+       <div class="slds-p-around_medium slds-card">
+          <div class="slds-box card">
+             <!-- Spinner to show on waiting screens -->
+             <template if:true={openSpinner}>
+                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+             </template>
+             <div class="slds-grid slds-wrap slds-theme_default">
+                <div class="slds-col slds-size_3-of-12">
+                   <div class=" slds-p-around_medium slds-border_right slds-scrollable_y" style="height:800px">
+                      <div class="slds-clearfix">
+                         <div class="slds-float_right">
+                            <lightning-button icon-name="utility:add" slot="actions" alternative-text="add" title="Add" size="small" class="slds-p-around_medium"
+                               label="Add Event" onclick={eventOpenModel}>
+                            </lightning-button>
+                         </div>
+                      </div>
+                      <template for:each={allEvents} for:item="eachevent">
+                         <div class="slds-p-around_small" key={eachevent.id}>
+                         <div class="card slds-box" key={eachevent.id}>
+                         <lightning-card key={eachevent.id}
+                            class="">
+                            <h3 slot="title">
+                               <span class="slds-p-right_small">
+                                  <lightning-icon icon-name="standard:event" size="small">
+                                  </lightning-icon>
+                               </span>
+                               {eachevent.title} 
+                            </h3>
+                            <lightning-button-icon icon-name="action:remove" slot="actions" alternative-text="remove" title="Remove" value={eachevent.id} size="small" onclick={removeEvent}></lightning-button-icon>
+                            <p class="slds-p-horizontal_small">
+                               Start: 
+                               <lightning-formatted-date-time value={eachevent.start} year="numeric" month="numeric" day="numeric" hour="2-digit"
+                                  minute="2-digit" time-zone="GMT" time-zone-name="short" hour12="true"></lightning-formatted-date-time>
+                            </p>
+                            <p class="slds-p-horizontal_small">
+                               End 
+                               <lightning-formatted-date-time value={eachevent.end} year="numeric" month="numeric" day="numeric" hour="2-digit"
+                                  minute="2-digit" time-zone="GMT" time-zone-name="short" hour12="true"></lightning-formatted-date-time>
+                            </p>
+                         </lightning-card>
+                         </div>
+                         </div>
+                      </template>
+                   </div>
+                </div>
+                <div class="slds-col slds-size_9-of-12">
+                   <!-- fullcalendar sits in this div -->
+                   <div id="calendar" class="fullcalendarjs"></div>
+                </div>
+             </div>
+          </div>
+       </div>
+    </lightning-card>
+    <template if:true={isEventModel}>
+       <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_medium" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+          <div class="slds-modal__container">
+             <header class="slds-modal__header">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close">
+                   <lightning-icon onclick={handleCancel} icon-name="utility:close" variant="inverse" alternative-text="close" title="Close">
+                   </lightning-icon>
+                   <span class="slds-assistive-text">Close</span>
+                </button>
+                <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">New Event</h2>
+             </header>
+             <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                <div class="slds-card">
+                <template if:true={openSpinner}>
+                   <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                </template>
+                <lightning-input label="Start Date" variant="label-inline" name="start" type="datetime" required value={startDate} dropdown-alignment="auto"></lightning-input>
+                <lightning-input label="End Date" variant="label-inline" name="end" type="datetime" required value={endDate} dropdown-alignment="auto"></lightning-input>
+                <lightning-input label="Title" variant="label-inline" name="title" type="text" required onkeyup={handleKeyup}></lightning-input>
+                <!-- <lightning-combobox variant="label-inline" name="Client" label="Client" value=" " placeholder="Select Client"
+                options={accoptions} onchange={handleKeyup} class="slds-m-top_x-small" dropdown-alignment="auto" spinner-active={openSpinner}></lightning-combobox>
+                <lightning-combobox variant="label-inline" name="Auditee" label="Auditee" value=" " placeholder="Select Auditee"
+                options={contactOptions} onchange={handleKeyup} class="slds-m-top_x-small" dropdown-alignment="auto" spinner-active={openSpinner}></lightning-combobox> -->
+                </div>
+             </div>
+             <footer class="slds-modal__footer">
+                <lightning-button-group>
+                   <lightning-button label="Close" title="Close" icon-name="utility:close" onclick={handleCancel}></lightning-button>
+                   <lightning-button label="Save" title="Save" variant="brand" icon-name="utility:save" onclick={handleSave}></lightning-button>
+                </lightning-button-group>
+             </footer>
+          </div>
+       </section>
+       <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <!-- <template if:true={isTileModel}>
+       <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_medium" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+          <div class="slds-modal__container">
+             <header class="slds-modal__header">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close">
+                   <lightning-icon onclick={isTileModelClose} icon-name="utility:close" variant="inverse" alternative-text="close" title="Close">
+                   </lightning-icon>
+                   <span class="slds-assistive-text">Close</span>
+                </button>
+                <h2 id="modal-heading-02" class="slds-modal__title slds-hyphenate">{viewHeader}</h2>
+             </header>
+             <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+                <div class="slds-card card">
+                   <div class="slds-p-around_large">
+                <template if:true={openSpinner}>
+                   <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                </template>
+                   <template for:each={viewList} for:item="v">
+                      
+                         <lightning-tile key={v.id} label={v.Client__r.Name} >
+                            <dl class="slds-dl_horizontal">
+                               <dt class="slds-dl_horizontal__label">
+                                  <p class="slds-truncate" title="Audit Program Name">Audit Program Name :</p>
+                               </dt>
+                               <dd class="slds-dl_horizontal__detail slds-tile__meta">
+                                  <p class="slds-truncate" title={v.Name}>{v.Name}</p>
+                               </dd>
+                               
+                            </dl>
+                      </lightning-tile>
+                      
+                      <template for:each={v.Audits__r} for:item="ap" >
+                         <div class="slds-item" key={ap.Id}>
+                            <lightning-tile label={ap.Name} >
+                               <dl class="slds-dl_horizontal slds-p-around_medium">
+                                  <dt class="slds-dl_horizontal__label">
+                                     <p class="slds-truncate" title="Auditee">Audit Name :</p>
+                                  </dt>
+                                  <dd class="slds-dl_horizontal__detail slds-tile__meta">
+                                     <p class="slds-truncate" title={v.Audits__r.Name}>{ap.Name}</p>
+                                  </dd>
+                                  <dt class="slds-dl_horizontal__label">
+                                     <p class="slds-truncate" title="Auditee">Status :</p>
+                                  </dt>
+                                  <dd class="slds-dl_horizontal__detail slds-tile__meta">
+                                     <p class="slds-truncate" title={v.Audits__r.Status__c}>{ap.Status__c}</p>
+                                  </dd>
+                               </dl>
+                            </lightning-tile>
+                         </div>
+                      </template>
+                   </template>
+                   </div>
+                </div>
+             </div>
+             <footer class="slds-modal__footer">
+                <lightning-button-group>
+                   <lightning-button label="Close" title="Close" icon-name="utility:close" onclick={isTileModelClose}></lightning-button>
+                </lightning-button-group>
+             </footer>
+          </div>
+       </section>
+       <div class="slds-backdrop slds-backdrop_open"></div>
+    </template> -->
+ </template>

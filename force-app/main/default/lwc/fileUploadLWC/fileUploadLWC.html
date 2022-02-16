@@ -1,0 +1,144 @@
+<!--
+   @description       : 
+   @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+   @group             : 
+   @last modified on  : 08-25-2021
+   @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+   Modifications Log 
+   Ver   Date         Author                               Modification
+   1.0   02-12-2021   ChangeMeIn@UserSettingsUnder.SFDoc   Initial Version
+   -->
+<template>
+   <lightning-button variant="brand"
+      label="Upload Documents"
+      title="Upload Documents"
+      onclick={Step1}
+      class="slds-m-left_x-small">
+   </lightning-button>
+   <template if:true={isModalOpen}>
+      <template if:true={loader}>
+         <div class="slds-backdrop slds-backdrop_open">
+           <div class="loaders pos"></div>
+            <!-- <div class="pos">
+               <lightning-progress-ring variant="base-autocomplete" value={progress} size="large" class="slds-align_absolute-center"> </lightning-progress-ring>
+            </div> -->
+         </div>
+       </template>
+      <template if:false={loader}>
+         <section role="dialog"  tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_medium" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" >
+            <div class="slds-modal__container">
+               <header class="slds-modal__header">
+                  <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                     <lightning-icon icon-name="utility:close"
+                        alternative-text="close"
+                        variant="inverse"
+                        size="small" ></lightning-icon>
+                     <span class="slds-assistive-text">Close</span>
+                  </button>
+                  <div class="slds-modal__content slds-p-around_large slds-box slds-box_small" id="modal-content-id-1">
+                     <!-- <lightning-card></lightning-card> -->
+                     <div class="slds-text-color_inverse color-only">Attach File</div>
+                  </div>
+               </header>
+               <div class="slds-modal__content slds-p-around_large " id="modal-content-id-2">
+                  <div class="backgr">
+                     <lightning-record-edit-form >
+                        <lightning-messages>
+                        </lightning-messages>
+                        <!-- <div>
+                           <lightning-input variant="label-inline"  label="File" name="file uploader" onchange={handleFilesChange} type="file" multiple></lightning-input>
+                        </div> -->
+                        <lightning-file-upload
+                           label="Attach receipt"
+                           variant="label-inline"
+                           name="fileUploader"
+                           accept={accept}
+                           record-id={recordId}
+                           onuploadfinished={handleUploadFinished}
+                           multiple>
+                           </lightning-file-upload>
+                        <div class="slds-p-bottom_small"></div>
+                        <lightning-combobox
+                           name="progress"
+                           label="Folder"
+                           value={value}
+                           placeholder="Choose Folder Name"
+                           options={options}
+                           onchange={handleChange}
+                           variant ="label-inline"
+                           required
+                           ></lightning-combobox>
+                     </lightning-record-edit-form>
+                  </div>
+                  <!-- <template if:true={fileName}>
+                     <div class="slds-box">
+                        <div class="slds-p-around_small slds-text-body_small slds-text-color_error">{fileName}</div>
+                     </div>
+                     <div class="slds-p-around_medium">
+                        <template if:true={fileName}>
+                           <template for:each={up} for:item="u" for:index="index">
+                              <div class="grid slds-p-around_small" key={u.Name}>
+                                <div class="slds-text-title" style="color:forestgreen;">
+                                    {u.Name}
+                                </div>
+                                 <div>
+                                     <lightning-progress-bar variant="circular" value={progress} size="large" class="slds-align_absolute-center"> </lightning-progress-bar>
+                                     <div class="loader"></div>
+                                 </div>
+                              </div>
+                           </template>
+                        </template>
+                     </div>
+                  </template> -->
+               </div>
+               <footer  class="slds-modal__footer">
+                  <button class="slds-button slds-button_success" onclick={saveToFile} title="Attach">{UploadFile}</button>
+                  <button class="slds-button slds-button_destructive" onclick={closeModal} title="Cancel">Cancel</button>
+               </footer>
+            </div>
+         </section>
+         <div class="slds-backdrop slds-backdrop_open"></div>
+      </template>
+   </template>
+
+   <!-- <lightning-quick-action-panel header="File Uploads" >
+      <template if:true={loader}>
+         <div class="slds-backdrop slds-backdrop_open" style="padding: 20px;position: absolute;">
+           <div class="loaders pos"></div>
+         </div>
+       </template>
+      <template if:false={loader}>
+         <div class="backgr">
+            <lightning-record-edit-form >
+               <lightning-messages>
+               </lightning-messages>
+               <div>
+                  <lightning-input variant="label-inline" accept={acceptedFormats} label="File" name="file uploader" onchange={handleFilesChange} type="file" multiple></lightning-input>
+               </div>
+               <div class="slds-p-bottom_small"></div>
+               <lightning-combobox
+                           name="progress"
+                           label="Folder"
+                           value=""
+                           placeholder="None"
+                           options={options}
+                           onchange={handleChange}
+                           variant ="label-inline"
+                           required
+               ></lightning-combobox>
+
+               <template if:true={fileName}> 
+                     <div class="slds-box">
+                        <div class="slds-p-around_small slds-text-body_small slds-text-color_error">{fileName}</div>
+                     </div>
+               </template>
+            </lightning-record-edit-form>
+            
+         </div>
+      </template>
+      <div slot="footer">
+         <button class="slds-button slds-button_success" onclick={saveToFile} title="Attach">{UploadFile}</button>
+         <button class="slds-button slds-button_destructive" onclick={closeAction} title="Cancel">Cancel</button>
+      </div>
+   </lightning-quick-action-panel> -->
+</template>

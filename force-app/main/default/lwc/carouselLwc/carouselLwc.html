@@ -1,0 +1,45 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 07-19-2021
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+  Modifications Log 
+  Ver   Date         Author                               Modification
+  1.0   07-19-2021   ChangeMeIn@UserSettingsUnder.SFDoc   Initial Version
+-->
+<template>
+  
+    <lightning-card title="Portal View">
+      <div  class="slds-is-relative container">
+        <div class="slds-p-around_medium">
+          <div class="slds-box border">
+            <template for:each={slidesData} for:item="data">
+              <div class={data.cardClasses} key={data.slidesIndex}>
+                <!-- <div > -->
+                  <!-- <div class="slds-p-around_medium "> -->
+                    <div>{data.slideIndex}/{slidesData.length}</div>
+                    <div class="flex">
+                      <img src={data.image}>
+                      <div class="des slds-p-around_medium">
+                        <h3 class="slds-text-heading_large slds-p-around-small middle">{data.heading}</h3>
+                        <div class="slds-text-heading_small">{data.description}</div>
+                      </div>
+                    </div>
+                  <!-- </div> -->
+                <!-- </div> -->
+              </div>
+            </template>
+              <a class="prev" onclick={backSlide}>&#10094;</a>
+              <a class="next" onclick={forwardSlide}>&#10095;</a>
+              <div class="slds-text-align_center slds-p-around_medium">
+                <template for:each={slidesData} for:item="data">
+                    <span class={data.dotClases} data-id={data.slideIndex} key={data.slideIndex} onclick={currentSlide}></span>
+                </template>
+            </div>
+          </div>
+        </div>
+      </div>
+    </lightning-card>
+  
+</template>

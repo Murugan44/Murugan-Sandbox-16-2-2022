@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>52.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__Tab</target>
+        <target>lightning__AppPage</target>
+        <target>lightning__HomePage</target>
+        <target>lightning__RecordPage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__AppPage">
+            <property label="Team List" name="teamList" type="String"/>
+            <property label="Class of Business" name="cobList" type="String"/>
+            <property label="Non-Proportional/Proportional" name="proportionalOptionsList" type="String"/>
+            <property label="Alpha Product List" name="alphaProductList" type="String"/>
+            <property label="Bridge Product List" name="bridgeProductList" type="String"/>
+            <property label="Horizon Product List" name="horizonProductList" type="String"/>
+            <property label="VIM Product List" name="gentiumProductList" type="String"/>
+            <property label="VCL Product List" name="vclProductList" type="String"/>
+            <property label="VDL Product List" name="vdlProductList" type="String"/>
+            <property label="SAPI Product List" name="sapiProductList" type="String"/>
+            <property label="Commercial Combined Product" name="cCProductList" type="String"/>
+            <property label="Show Detail Error" name="isShowError" type="Boolean" />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

@@ -1,0 +1,138 @@
+<apex:page controller="VG_VCLController" sidebar="false" showHeader="false">
+    <apex:form style="width:2900px;">
+        <apex:pageblock tabStyle="Account" title="Added Risk Ratings" id="RRBlock">
+            <apex:pageMessage severity="Info"  summary="No Risk Ratings Added" strength="3" rendered="{!rrwList.size == 0}"/>
+                <apex:variable var="s" value="{!0}"/>
+                <apex:pageBlockTable value="{!rrwList}" rendered="{!!(rrwList.size == 0)}" var="rrw">
+                    <apex:column headerValue="S.NO">
+                        <apex:outputLabel >
+                        <apex:variable value="{!s+1}" var="s" />
+                        {!s}
+                        </apex:outputLabel>
+                    </apex:column>
+                    <apex:column headerValue="Province">
+                        <apex:outputText value="{!rrw.psa.VG_Province__c}"/>
+                    </apex:column>
+                    <apex:column headerValue="Territory">
+                        <apex:outputText value="{!rrw.psa.VG_Territory__c}"/>
+                    </apex:column>
+                    <apex:column headerValue="Class">
+                        <apex:outputText value="{!rrw.psa.VG_Class__c}"/>
+                    </apex:column>
+                    <apex:column headerValue="Driving Record">
+                        <apex:outputText value="{!rrw.psa.VG_Driving_Record__c}"/>
+                    </apex:column>
+                    <apex:column headerValue="Vehicle Type">
+                        <apex:outputText value="{!rrw.psa.VG_Vehicle_Type__c}"/>
+                    </apex:column>
+                    <apex:column headerValue="Sub Type">
+                        <apex:outputText value="{!rrw.psa.VG_Sub_Type__c}"/>
+                    </apex:column>
+                    <apex:column headerValue="Coverage">
+                        <apex:outputText value="{!rrw.psa.VG_Coverage__c}"/>
+                    </apex:column>
+                    <apex:column headerValue="Annual Premium">
+                        <apex:outputText value="{!rrw.psa.VG_Premium__c}"/>
+                    </apex:column>
+                    <apex:column headerValue="Rating Group">
+                        <apex:outputText value="{!rrw.psa.VG_Rating_Group__c}"/>
+                    </apex:column>
+                    <apex:column headerValue="Unit Count">
+                        <apex:outputText value="{!rrw.psa.VG_Unit_Count__c}"/>
+                    </apex:column>
+                    <apex:column headerValue="MA">
+                        <apex:outputText value="{!rrw.psa.VG_MA__c}"/>
+                    </apex:column>
+                    <apex:column headerValue="CL">
+                        <apex:outputText value="{!rrw.psa.VG_CL__c}"/>
+                    </apex:column>
+                    <apex:column headerValue="CM">
+                        <apex:outputText value="{!rrw.psa.VG_CM__c}"/>
+                    </apex:column>
+                    <apex:column headerValue="AP">
+                        <apex:outputText value="{!rrw.psa.VG_AP__c}"/>
+                    </apex:column>
+                    <apex:column headerValue="SP">
+                        <apex:outputText value="{!rrw.psa.VG_SP__c}"/>
+                    </apex:column>
+                    <apex:column headerValue="DC">
+                        <apex:outputText value="{!rrw.psa.VG_DC__c}"/>
+                    </apex:column>
+                    <apex:column headerValue="CL">
+                        <apex:outputText value="{!rrw.psa.VG_CL_Deductible__c}"/>
+                    </apex:column>
+                    <apex:column headerValue="CM">
+                        <apex:outputText value="{!rrw.psa.VG_CM_Deductible__c}"/>
+                    </apex:column>
+                    <apex:column headerValue="SP">
+                        <apex:outputText value="{!rrw.psa.VG_SP_Deductible__c}"/>
+                    </apex:column>
+                    <apex:column headerValue="TPL">
+                        <apex:outputText value="{!rrw.psa.VG_TPL__c}"/>
+                    </apex:column>
+                    <apex:column headerValue="Sect-A">
+                        <apex:outputText value="{!rrw.psa.VG_Sect_A__c}"/>
+                    </apex:column>
+                    <apex:column headerValue="BI">
+                        <apex:outputText value="{!rrw.psa.VG_BI__c}"/>
+                    </apex:column>
+                    <apex:column headerValue="PDT">
+                        <apex:outputText value="{!rrw.psa.VG_PDT__c}"/>
+                    </apex:column>
+                    <apex:column headerValue="PDDC">
+                        <apex:outputText value="{!rrw.psa.VG_PDDC__c}"/>
+                    </apex:column>
+                    <apex:column headerValue="CL">
+                        <apex:outputText value="{!rrw.psa.VG_CL_Premium__c}"/>
+                    </apex:column>
+                    <apex:column headerValue="CM">
+                        <apex:outputText value="{!rrw.psa.VG_CM_Premium__c}"/>
+                    </apex:column>
+                    <apex:column headerValue="AP">
+                        <apex:outputText value="{!rrw.psa.VG_AP_Premium__c}"/>
+                    </apex:column>
+                    <apex:column headerValue="SP">
+                        <apex:outputText value="{!rrw.psa.VG_SP_Premium__c}"/>
+                    </apex:column>
+                    <apex:column headerValue="AB">
+                        <apex:outputText value="{!rrw.psa.VG_AB__c}"/>
+                    </apex:column>
+                    <apex:column headerValue="UA">
+                        <apex:outputText value="{!rrw.psa.VG_UA__c}"/>
+                    </apex:column>
+                    <apex:column headerValue="SEF/OPCE44">
+                        <apex:outputText value="{!rrw.psa.VG_SEF_OPCE_44__c}"/>
+                    </apex:column>
+                    <apex:column headerValue="Opt. AB">
+                        <apex:outputText value="{!rrw.psa.VG_Opt_AB__c}"/>
+                    </apex:column>
+                    
+                    <apex:column headerValue="Type of use or description of automobile">
+                        <apex:outputText value="{!rrw.psa.Type_of_use_or_description_of_automobile__c }"/>
+                    </apex:column>
+                    <apex:column headerValue="Model Year">
+                        <apex:outputText value="{!rrw.psa.VG_Model_Year__c }"/>
+                    </apex:column>
+                    <apex:column headerValue="Make">
+                        <apex:outputText value="{!rrw.psa.VG_Trade_Name_Make__c}"/>
+                    </apex:column>
+                    <apex:column headerValue="Comment">
+                        <apex:outputText value="{!rrw.psa.VG_Comment__c}"/>
+                    </apex:column>
+                    <apex:column headerValue="BASIC BENEFITS Premium">
+                        <apex:outputText value="{!rrw.psa.VG_BASIC_BENEFITS_Premium__c}"/>
+                    </apex:column>
+                    <apex:column headerValue="Sum Insured">
+                        <apex:outputText value="{!rrw.psa.VG_Sum_Insured__c}"/>
+                    </apex:column>
+                    <apex:column headerValue="AP Deductible">
+                        <apex:outputText value="{!rrw.psa.VG_ALL_PERILS_DEDUCTIBLE__c}"/>
+                    </apex:column>
+                </apex:pageBlockTable>
+                Added Risk Ratings : {!s}
+                <apex:pageBlockButtons location="Both" >
+                    <apex:commandButton value="Cancel" action="{!Cancel}" onclick="if(!confirm('Are you sure?')){return false;}"/><apex:commandButton action="{!gotoStep2a}" value="Previous"/><apex:commandButton value="Next" action="{!gotoStep4}"/>
+                </apex:pageBlockButtons> 
+        </apex:pageblock>
+    </apex:form>
+</apex:page>

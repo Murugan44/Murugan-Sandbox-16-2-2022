@@ -1,0 +1,19 @@
+<template>
+    <div class="">
+        <lightning-card title="Delete Debug Log" icon-name="utility:automate">
+            <div class="slds-badge slds-m-right_medium slds-badge_inverse" slot="actions"><strong><strong style="color:rgb(214, 224, 224)">Note : </strong>You can Delete 100 Records Per Click</strong></div>
+            <lightning-button variant="brand" slot="actions" label="Delete" onclick={delLogs}></lightning-button>
+            <div class="" style="padding: 20px;">
+                <div class="card ">
+                    <template if:false={loader}>
+                        <div class="slds-badge slds-theme_success container"><strong>{apexLenght}</strong></div>
+                    </template>
+                    
+                    <template if:true={loader}>
+                        <div class="loader pos" ></div>
+                    </template>
+                </div>
+            </div>
+        </lightning-card>
+    </div>
+</template>

@@ -1,0 +1,128 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 07-18-2021
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+  Modifications Log 
+  Ver   Date         Author                               Modification
+  1.0   07-13-2021   ChangeMeIn@UserSettingsUnder.SFDoc   Initial Version
+-->
+<template>
+        <!-- <div class="page">
+            <div class="page hed slds-text-align_center slds-p-around_medium">
+                <p>Policy Section</p>
+            </div>
+            <div class="slds-p-around_medium">
+                <div>
+                    <p>General Information</p>
+                </div>
+            </div>
+        </div> -->
+
+    <!-- <div>
+        <template if:true={isAcc}>
+            <div class="London tabcontent">
+                <h1>London</h1>
+                <p>London is the capital city of England.</p>
+            </div>
+        </template>
+        <div  class="Paris tabcontent">
+            <h1>Paris</h1>
+            <p>Paris is the capital of France.</p> 
+        </div>
+        
+        <div  class="Tokyo tabcontent">
+            <h1>Tokyo</h1>
+            <p>Tokyo is the capital of Japan.</p>
+        </div>
+        
+        <div  class="Oslo tabcontent">
+            <h1>Oslo</h1>
+            <p>Oslo is the capital of Norway.</p>
+        </div>
+
+        
+    </div>-->
+    <div>
+       <div class="sticky">
+        <button class="tablink red" onclick={openAcc} >Account Library</button>
+        <button class="tablink gre" onclick={openContact}>Quiz App</button>
+        <button class="tablink blu" onclick={openPol}>CSV Exports</button>
+        <button class="tablink yel" onclick={openPS}>Books Library</button> 
+       </div>
+        <template if:true={isAcc}>
+            <div class="London tabcontent ">
+                <section>
+                    <ul class="accGrid">
+                        <template for:each={accData} for:item="acc">
+                            <li class="section slds-box"  key={acc.id}>
+                                <div class="flip-card">
+                                    <div class="flip-card-inner">
+                                      <div class="flip-card-front">
+                                        <img src="https://thumbs.dreamstime.com/b/documents-personal-data-vector-icon-flat-cartoon-paper-document-user-profile-data-photo-symbol-concept-interview-124313543.jpg" alt="Avatar" style="width:300px;height:300px;">
+                                        <!-- <p> Name: Murugan</p> -->
+                                      </div>
+                                      <div class="flip-card-back">
+                                        <h1><p class="sty"><strong>Name</strong> : {acc.Name}</p></h1> 
+                                        <!-- <p class="stys"><strong>Created Date</strong> : {acc.CreatedDate}</p> -->
+                                        <p class="stys"><strong>Currency</strong> : {acc.CurrencyIsoCode}</p>
+                                        <p class="sty"><strong>Industry</strong> : {acc.Industry}</p>
+                                        <p class="stys"><strong>Regulatory Check</strong> : {acc.Regulatory_Check__c}</p>
+                                        <p class="sty"><strong>Sanction Check</strong> : {acc.Sanction_Check__c}</p>
+                                        <p class="stys"><strong>TOBA Uploaded</strong> : {acc.VG_TOBA_Uploaded__c}</p>
+                                        <div class="slds-m-around_medium">
+                                            <lightning-button variant="success" data-recordid={acc.Id} value={acc.Id} label="View Details" class="slds-m-around_medium" onclick={openAccDetailds}></lightning-button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                            </li>
+                        </template>
+                    </ul>
+                </section>
+            </div>
+        </template>
+        <template if:true={isAccDetails}>
+           <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_large" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header slds-modal__header_empty">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close">
+                            <lightning-icon onclick={closeModal} icon-name="utility:close" variant="inverse" alternative-text="close" title="Close">
+                            </lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                      </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <div title="Account Details">
+                            <p><strong>Account Details</strong></p>
+                            <div class="slds-p-around_medium">
+                                <lightning-record-form record-id = {accId} object-api-name = "Account" mode= "view" layout-type="Full" columns ="3">
+                                </lightning-record-form>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+
+        <template if:true={isCon}>
+            <div  class="Paris tabcontent">
+                <c-quiz-app class="csv"></c-quiz-app>
+            </div>
+        </template>
+        <template if:true={isPol}>
+            <div  class="Tokyo tabcontent">
+                <c-csv-l-w-c class="csv"></c-csv-l-w-c>
+                
+            </div>
+        </template>
+        <template if:true={isPS}>
+            <div  class="Oslo tabcontent">
+                <c-lwc-book-a-p-i class="csv"></c-lwc-book-a-p-i>
+            </div>
+        </template>
+
+    </div>
+</template>

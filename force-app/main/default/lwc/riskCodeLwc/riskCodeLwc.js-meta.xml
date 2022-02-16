@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>52.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__Tab</target>
+        <target>lightning__AppPage</target>
+        <target>lightning__HomePage</target>
+        <target>lightning__RecordPage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__AppPage">
+            <property label="is Edison ?" name="isEdison" type="Boolean"/>
+            <property label="is Bridge ?" name="isBridge" type="Boolean"/>
+            <property label="is Alpha ?" name="isAlpha" type="Boolean"/>
+            <property label="is Aesir ?" name="isAesir" type="Boolean"/>
+            <property label="is VFP ?" name="isVFP" type="Boolean"/>
+            <property label="is Horizon ?" name="isHorizon" type="Boolean"/>
+            <property label="is LS ?" name="isLS" type="Boolean"/>
+            <property label="is Gentium ?" name="isGentium" type="Boolean"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

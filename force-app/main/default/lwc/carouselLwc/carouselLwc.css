@@ -1,0 +1,61 @@
+.des{
+    font-size: 15px;
+    bottom: 0px;
+    width: 100%;
+    text-align: center;
+    background: rgb(0,0,0,0.3);
+}
+.flex{
+    display: flex;
+}
+.border{
+    border: aqua;
+    border-style: outset;
+    background: #80919f1f;
+}
+.middle{
+    margin-top: 65px;
+}
+
+.prev, .next{
+    position: absolute;
+    top: 50%;
+    width: auto;
+    margin-left: -12px;
+    font-weight: 900;
+    border-radius: 0 3px 3px 0;
+}
+.next{
+    right:0;
+    margin-right: 24px;
+    border-radius:  3px 0 0 3px ;
+}
+.prev:hover , .next:hover{
+    background: rgb(0,0,0,0.3);
+}
+
+.dot{
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    cursor: pointer;
+    background-color: #bbb;
+    margin:0 2px;
+    display: inline-block;
+}
+.active, .dot:hover{
+    background-color: #717171;
+}
+.container{
+    margin: auto;
+    /* width: 700px; */
+}
+
+.fade{
+    animation-name:fade;
+    animation-duration: 1.5s;
+}
+@keyframes fade{
+    from {opacity: .4}
+    to {opacity: 1}
+}

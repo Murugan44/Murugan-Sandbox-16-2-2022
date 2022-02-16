@@ -1,0 +1,63 @@
+<aura:component implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" access="global" controller="VG_Policy_ButtonsController">
+    <aura:attribute name="ps" type="boolean" default="false"/>    
+    <aura:attribute name="mta" type="boolean" default="false"/>
+    <aura:attribute name="uD" type="boolean" default="True"/>
+    <aura:attribute name="CurCode" type="String" />
+    <aura:attribute name="InsuredAcc" type="String" />
+    <aura:attribute name="property" type="boolean" default="false" />
+    
+    <lightning:notificationsLibrary aura:id="notifLib"/>
+    <aura:attribute name="allowBrokerEdit" type="boolean" default="false"/>
+    <aura:attribute name="BrokerEdit" type="boolean" default="false"/>
+    <aura:attribute name="record" type="Object" description="The record object to be displayed"/>
+    <aura:attribute name="Policy" type="Object" description="A simplified view record object to be displayed"/>
+    <force:recordData aura:id="record"
+                      layoutType="FULL"
+                      recordId="{!v.recordId}"
+                      targetRecord="{!v.record}"
+                      targetFields="{!v.Policy}"
+                      targetError="{!v.recordError}"
+                      mode="EDIT"/>
+    <aura:if isTrue="{!v.BrokerEdit}">
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container" style="width: 100%;height: 100%;overflow: hidden;">
+                <div style="width: 100%;height: 100%;overflow-y: scroll;padding-right: 17px;box-sizing: content-box;" class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <lightning:recordEditForm aura:id="recordViewForm" recordId="{!v.recordId}" objectApiName="Policy__c"  onsubmit="{!c.closeModel}">
+                        <lightning:messages />
+                        <lightning:inputField aura:id="broker" fieldName="Broker_Name__c"/>
+                        <aura:if isTrue="{!not(empty(v.recordError))}">
+                            <div class="recordError">{!v.recordError}</div>
+                        </aura:if>
+                        <div align="center">
+							<lightning:button aura:id="submit" type="submit" label="Update Broker" class="slds-m-top_medium" onclick="{!c.updateBroker}" />
+							<lightning:button aura:id="cancel" label="Cancel" class="slds-m-top_medium" onclick="{! c.cancelBroker }"/>
+						</div>
+                    </lightning:recordEditForm>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+    <aura:if isTrue="{!v.allowBrokerEdit}">
+        <lightning:button name="allowBrokerEdit" variant="brand" label="Change Broker" onclick="{!c.setBrokerEditFlag}"/>        
+    </aura:if>
+    <aura:if isTrue="{!v.mta}">
+        <lightning:button name="b4" variant="brand" label="Edit" onclick="{!c.handleEditClick}"/>        
+    </aura:if>
+    <aura:if isTrue="{!v.ps}">
+        <lightning:button name="b2" variant="brand" label="Ext/Canc/Redtn/ChangeBroker" onclick="{!c.handleMTAClick }" />
+    </aura:if>
+    <aura:if isTrue="{!v.uD}">
+        <lightning:button name="b3" variant="brand" label="Upload Documents" onclick="{!c.uploadDocuments}" />
+    </aura:if>    
+    <aura:handler name="change" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>    
+    <aura:if isTrue="{!v.mta}">
+        <lightning:button name="b1" variant="brand" label="New Policy Schedule" onclick="{!c.handlePSClick}"/>
+    </aura:if>
+    <aura:if isTrue="{!v.property}">
+        <lightning:button name="btn11" variant="brand" label="Property Declaration" onclick="{!c.GenerateVolantePropertyDeclaration}" /> 
+    </aura:if>
+    
+	<lightning:button name="b5" variant="brand" label="Governance and Compliance" onclick="{!c.handleGCClick}"/>        
+</aura:component>

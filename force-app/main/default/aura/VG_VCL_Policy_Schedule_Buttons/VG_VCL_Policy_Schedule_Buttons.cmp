@@ -1,0 +1,51 @@
+<aura:component implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" controller="VG_VCL_PS_Button_Controller" access="global" >
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>  
+    <aura:attribute name="mta" type="boolean" default="false"/>
+    <aura:attribute name="policyCurrency" type="String" />
+    <aura:attribute name="quote" type="boolean" default="false" />  
+    <aura:attribute name="wrapup" type="boolean" default="false" />
+    <aura:attribute name="CommercialGLPL" type="boolean" default="false" />
+    <aura:attribute name="Excess" type="boolean" default="false" />
+    <aura:attribute name="Umberlla" type="boolean" default="false" />
+    <aura:attribute name="Property" type="boolean" default="false" />
+    <aura:attribute name="Motor" type="boolean" default="false" />
+    <aura:attribute name="psProduct" type="String" />
+    <aura:attribute name="booked" type="boolean" default="false"/>
+    <aura:attribute name="allowDelete" type="boolean" default="false"/>
+    <!-- <aura:if isTrue="{!!v.mta}"> -->
+        <lightning:button name="btn8" variant="brand" label="Revise" onclick="{!c.handleReviseClick}" />
+    <!-- </aura:if> -->
+    <aura:if isTrue="{!v.mta}">
+        <lightning:button name="btn8" variant="brand" label="ROC" onclick="{!c.handleROCClick}" />
+    </aura:if>
+    <aura:if isTrue="{!v.booked}">
+        <lightning:button name="btn5" variant="brand" label="Book" onclick="{!c.Booked}" />
+    </aura:if>
+    <lightning:button name="btn9" variant="brand" label="Payment Frequency" onclick="{!c.handlePFClick}" />
+       
+    <aura:if isTrue="{!v.Motor}">
+        <lightning:button name="btn10" variant="brand" label="OPCF19A" onclick="{!c.GenerateOPCF19A}" />
+    	<lightning:button name="btn7" variant="brand" label="Motor Documents" onclick="{!c.GenerateOPCF2}" />
+    </aura:if>
+    <aura:if isTrue="{!v.Umberlla}">
+        <lightning:button name="btn9" variant="brand" label="ULD" onclick="{!c.GenerateULDDoc}" />
+    	<lightning:button name="btn11" variant="brand" label="Umbrella Declaration" onclick="{!c.GenerateVolanteUmbrellaDeclaration}" />
+    </aura:if>
+    <aura:if isTrue="{!v.Excess}">
+    	<lightning:button name="btn11" variant="brand" label="Excess Declaration" onclick="{!c.GenerateVolanteExcessDeclaration}" /> 
+    </aura:if>
+    <aura:if isTrue="{!v.Property}">
+    	<lightning:button name="btn11" variant="brand" label="Property Declaration" onclick="{!c.GenerateVolantePropertyDeclaration}" /> 
+    </aura:if>
+    <aura:if isTrue="{!v.wrapup}">
+    	<lightning:button name="btn12" variant="brand" label="Wrap UP" onclick="{!c.GenerateWrapup}" />
+    </aura:if>
+    <aura:if isTrue="{!v.CommercialGLPL}">
+    	<lightning:button name="btn13" variant="brand" label="Commercial GLPL" onclick="{!c.GenerateCommercialGLPL}" />
+    </aura:if>
+    <aura:if isTrue="{!v.allowDelete}">
+        <aura:if isTrue="{!!v.mta}">
+            <lightning:button name="btn10" variant="brand" label="Delete PS" onclick="{!c.deletePS}" />
+        </aura:if>
+    </aura:if>
+</aura:component>

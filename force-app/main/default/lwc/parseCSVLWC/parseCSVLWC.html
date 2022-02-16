@@ -1,0 +1,36 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 10-28-2021
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+    <lightning-card  title="CSV Parse" icon-name="action:new_lead">
+        <div class="slds-p-around_large">
+            <form class="slds-form--inline">
+                <div class="slds-form-element">
+                    <lightning-input type="file" label="Attachment" accept=".csv" class="csv"></lightning-input>
+                </div>
+                <div class="slds-form-element">
+                    <lightning-button onclick={readFiles} label="Import"></lightning-button>
+                </div>
+            </form>
+            
+            <template if:true={data}>
+                <div class="slds-p-around_medium">
+                    <div class="slds-box ">
+                        <lightning-datatable
+                            data={data}
+                            columns={columns}
+                            key-field="Id"
+                            hide-checkbox-column
+                        >
+                        </lightning-datatable>
+                    </div>
+                </div>
+                
+            </template>
+        </div>
+    </lightning-card>
+</template>

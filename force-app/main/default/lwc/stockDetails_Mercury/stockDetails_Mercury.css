@@ -1,0 +1,77 @@
+.grid{
+    display: grid;
+    grid-template-columns: auto 675px;
+    /* grid-gap: 10px; */
+}
+.fontSize{
+    font-size: 20px;
+}
+
+dl{
+    margin-left: 15px;
+    /* font: message-box; */
+}
+dt,dd{
+    background: linear-gradient(75deg, #4094f9, transparent);
+    margin-bottom: 6px;
+    /* color: white; */
+}
+/* .box{
+    background: lightcyan;
+} */
+.in{
+    display: inline-flex;
+}
+.imgBox{
+    background: white;
+}
+.border{
+    border: #4094f9;
+    border-style: outset;
+}
+
+.prev, .next{
+    position: absolute;
+    top: 50%;
+    width: auto;
+    margin-left: 4px;
+    font-weight: 900;
+    border-radius: 0 3px 3px 0;
+}
+.next{
+    right:0;
+    margin-right: 17px;
+    border-radius:  3px 0 0 3px ;
+}
+.prev:hover , .next:hover{
+    background: rgb(0,0,0,0.3);
+}
+
+.fade{
+    animation-name:fade;
+    animation-duration: .5s;
+}
+@keyframes fade{
+    from {opacity: .4}
+    to {opacity: 1}
+}
+/* img{
+    margin-left: 5%;
+    margin-top: 20%;
+} */
+
+img.displayed {
+    display: block;
+    margin-left: auto;
+    margin-right: auto 
+}
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 100%;
+    border-radius: 5px;
+  }
+/* .color{
+    background: rgb(216, 224, 240);
+} */

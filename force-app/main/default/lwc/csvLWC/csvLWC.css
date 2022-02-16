@@ -1,0 +1,28 @@
+.my-css {
+    --slds-c-button-brand-color-background: #BB00FF;
+    --slds-c-button-brand-color-background-hover: #8700B8;
+    --slds-c-button-brand-color-border: #BB00FF;
+    --slds-c-button-brand-color-border-hover: #8700B8;
+  }
+
+  .avatar{
+    --sds-c-avatar-radius-border: 1rem;
+    --sds-c-avatar-text-color: rgb(111, 111, 128);
+    --sds-c-avatar-initials-text-color: rgb(111, 111, 128);
+    --sds-c-avatar-initials-text-color-hover: rgb(111, 111, 128);
+}
+
+.badge{
+    --sds-c-badge-color-background: rgb(223, 20, 20);
+    --sds-c-badge-color-border: rgb(223, 20, 20);
+    --sds-c-badge-sizing-border: 10px;
+}
+
+
+.button{
+    --sds-c-button-shadow:rgb(32, 204, 83);
+    --sds-c-button-shadow-focus:blue;
+    --sds-c-button-inverse-shadow-focus:rgb(148, 72, 114);
+    --sds-c-button-neutral-color-background:rgb(255, 123, 0);
+    --sds-c-button-neutral-color-border-hover:rgb(216, 119, 27);
+}

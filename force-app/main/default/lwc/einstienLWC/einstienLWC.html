@@ -1,0 +1,103 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 10-21-2021
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+    
+    <lightning-accordion allow-multiple-sections-open>
+        <lightning-accordion-section name="Detect Text in Image" label="Detect Text in Image">
+            <lightning-card  variant="Narrow" title="Detector" icon-name="utility:einstein">
+        
+                <lightning-layout multiple-rows>
+                    <lightning-layout-item size="12" padding="around-small">
+                        <template if:true={isLoading}>
+                            <lightning-spinner variant="brand" alternative-text="Loading" size="small">
+                            </lightning-spinner>
+                        </template>
+                        <div class="slds-p-around_medium lgc-bg slds-box card">
+                            <lightning-input accept="image/png,image/jpg,image/jpeg" type="file"
+                                onchange={handleFilesChange} 
+                                label={fileLabel} class="slds-p-around_small">
+                            </lightning-input>
+                            <lightning-badge icon-name="utility:file" label={fileName} class="slds-badge"></lightning-badge>
+                            <lightning-combobox
+                                name="Create Record?"
+                                label="Create Record?"
+                                value={value}
+                                placeholder="Create Record?"
+                                options={options}
+                                onchange={handleChangePick} class="slds-p-around_small">
+                            </lightning-combobox>
+                        </div>
+                    </lightning-layout-item>
+                    <template if:true={show}>
+                        <lightning-layout-item size="12" padding="around-small">
+                            <template if:true={isLoading}>
+                                <lightning-spinner variant="brand" alternative-text="Loading" size="small">
+                                </lightning-spinner>
+                            </template>
+                        </lightning-layout-item>
+                    </template>
+                </lightning-layout>
+                <template if:true={isOpenModel}>
+                    <section role="dialog"  tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_medium" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" >
+                        <div class="slds-modal__container">
+                           <header class="slds-modal__header slds-modal__header_empty">
+                              <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                                 <lightning-icon icon-name="utility:close"
+                                    alternative-text="close"
+                                    variant="inverse"
+                                    size="small" ></lightning-icon>
+                                 <span class="slds-assistive-text">Close</span>
+                              </button>
+                           </header>
+                           <div class="slds-modal__content slds-p-around_large content" id="modal-content-id-2">
+                                <div class="slds-p-around_medium lgc-bg slds-box card">
+                                    <lightning-card title="Result Details" icon-name="utility:table">
+                                        <template if:true={isLoadingModal}>
+                                            <lightning-spinner variant="brand" alternative-text="Loading" size="small">
+                                            </lightning-spinner>
+                                        </template>
+                                        <template for:each={tableData} for:item="data">
+                                            <div class="slds-grid slds-wrap" key={data.Id}>
+                                                <div class="slds-col slds-size_6-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+                                                    <lightning-Input type="text" label="Name" value={data.LastName} name="Name" onchange={handleFormChange}></lightning-input>
+                                                </div>
+                                                
+                                                <div class="slds-col slds-size_6-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+                                                    <lightning-Input type="text"  label="Phone" value={data.Phone} name="Phone" onchange={handleFormChange}></lightning-input>
+                                                </div>
+                                                
+                                                <div class="slds-col slds-size_6-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+                                                    <lightning-Input type="text" label="Email" value={data.Email} name="Email" onchange={handleFormChange}></lightning-input>
+                                                </div>
+                                                
+                                                <div class="slds-col slds-size_6-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+                                                    <lightning-Input type="text" label="Account Name" value={data.AssistantName} read-only></lightning-input>
+                                                </div>
+
+                                                <div class="slds-col slds-size_6-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+                                                    <lightning-textarea name="Street" value={data.MailingStreet} label="Street" onchange={handleFormChange}></lightning-textarea>
+                                                </div>
+                                            </div>
+                                        </template>
+                                        <div class="slds-p-around_small">
+                                            <lightning-button variant="success"
+                                                label="Fetch Data" title="insertContact" onclick={insertContact}>
+                                            </lightning-button>
+                                        </div>
+                                    </lightning-card>
+                                </div>
+                           </div>
+                        </div>
+                     </section>
+                     <div class="slds-backdrop slds-backdrop_open"></div>
+                </template>
+            </lightning-card>
+        </lightning-accordion-section>
+    </lightning-accordion>
+    
+</template>

@@ -1,0 +1,610 @@
+<!--
+   @description       : 
+   @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+   @group             : 
+   @last modified on  : 04-28-2021
+   @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+   Modifications Log 
+   Ver   Date         Author                               Modification
+   1.0   02-17-2021   ChangeMeIn@UserSettingsUnder.SFDoc   Initial Version
+   -->
+   <template>
+    <lightning-button variant="brand"
+       label="Governances and Compliance"
+       title="Governances and Compliance"
+       onclick={handleViewGC}
+       class="slds-m-left_x-small">
+    </lightning-button>
+    <template if:true={isGCOpen}>
+       <section role="dialog"  tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_large" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" >
+          <div class="slds-modal__container">
+             <header class="slds-modal__header">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeGC}>
+                   <lightning-icon icon-name="utility:close"
+                      alternative-text="close"
+                      variant="inverse"
+                      size="small" ></lightning-icon>
+                   <span class="slds-assistive-text">Close</span>
+                </button>
+             </header>
+             <template if:true={showLoadingSpinner}>
+                <lightning-spinner variant="brand" alternative-text="Uploading......" size="small"></lightning-spinner>
+             </template>
+             <div class="slds-modal__content slds-p-around_large" id="modal-content-id-1">
+                <div style="padding:0.5rem;background:#16325c">
+                   <div class="slds-text-color_inverse">General Information</div>
+                </div>
+                </br>
+                <lightning-record-edit-form>
+                   <div class="slds-grid slds-gutters ">
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <lightning-record-edit-form record-id={recordId} object-api-name="Policy__c" onload={handleOnLoad}>
+                               <lightning-output-field variant = "label-inline"   field-name="Insured__c"></lightning-output-field>
+                            </lightning-record-edit-form>
+                         </span>
+                      </div>
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <lightning-record-edit-form >
+                               <div class="table">
+                                  <lightning-combobox
+                                     name="Select PS"
+                                     label="Select PS"
+                                     value={value}
+                                     placeholder="--None--"
+                                     options={statusOptions}
+                                     onchange={handleChange}
+                                     variant = "label-inline"
+                                     required
+                                     ></lightning-combobox>
+                               </div>
+                            </lightning-record-edit-form>
+                         </span>
+                      </div>
+                   </div>
+                   <div class="slds-grid slds-gutters ">
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <lightning-input type="text" variant = "label-inline" label="Business Description" value={BusinessDescription} read-only></lightning-input>
+                            <!--<lightning-record-edit-form  object-api-name="Account">
+                               <lightning-input-field variant = "label-inline"  field-name="Business_Description__c" value={BusinessDescription} read-only></lightning-input-field>
+                            </lightning-record-edit-form>-->
+                         </span>
+                      </div>
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <lightning-record-edit-form record-id={psId} object-api-name="Policy_Schedule__c" onchange={handleChange}>
+                               <lightning-output-field variant = "label-inline"  field-name="Product__c" ></lightning-output-field>
+                            </lightning-record-edit-form>
+                         </span>
+                      </div>
+                   </div>
+                   <div class="slds-grid slds-gutters ">
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <lightning-record-edit-form record-id={recordId} object-api-name="Policy__c" onload={handleOnLoad}>
+                               <lightning-output-field  variant = "label-inline" field-name="Broker_Name__c"></lightning-output-field>
+                            </lightning-record-edit-form>
+                         </span>
+                      </div>
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <lightning-record-edit-form record-id={psId}  object-api-name="Policy_Schedule__c" onchange={handleChange}>
+                               <lightning-output-field variant = "label-inline"  field-name="VG_Total_Layer_Premium__c" ></lightning-output-field>
+                            </lightning-record-edit-form>
+                         </span>
+                      </div>
+                   </div>
+                   <div class="slds-grid slds-gutters ">
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <lightning-record-edit-form record-id={recordId} object-api-name="Policy__c" onload={handleOnLoad}>
+                               <lightning-output-field  variant = "label-inline" field-name="Line_Of_Business__c"></lightning-output-field>
+                            </lightning-record-edit-form>
+                         </span>
+                      </div>
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <lightning-record-edit-form record-id={psId}  object-api-name="Policy_Schedule__c" onchange={handleChange}>
+                               <lightning-output-field  variant = "label-inline" field-name="Limit__c"></lightning-output-field>
+                            </lightning-record-edit-form>
+                         </span>
+                      </div>
+                   </div>
+                   <div class="slds-grid slds-gutters ">
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <lightning-record-edit-form record-id={recordId} object-api-name="Policy__c" onload={handleOnLoad}>
+                               <lightning-output-field variant = "label-inline"  field-name="VG_Inception_Date__c"></lightning-output-field>
+                            </lightning-record-edit-form>
+                         </span>
+                      </div>
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <lightning-record-edit-form record-id={psId} object-api-name="Policy_Schedule__c" onchange={handleChange}>
+                               <lightning-output-field  variant = "label-inline" field-name="Share__c"></lightning-output-field>
+                            </lightning-record-edit-form>
+                         </span>
+                      </div>
+                   </div>
+                   <div class="slds-grid slds-gutters ">
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <lightning-record-edit-form record-id={recordId} object-api-name="Policy__c" onload={handleOnLoad}>
+                               <lightning-output-field  variant = "label-inline" field-name="VG_Expiry_Date__c"></lightning-output-field>
+                            </lightning-record-edit-form>
+                         </span>
+                      </div>
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <lightning-record-edit-form record-id={psId} object-api-name="Policy_Schedule__c" onchange={handleChange}>
+                               <lightning-output-field  variant = "label-inline" field-name="Sum_Insured__c"></lightning-output-field>
+                            </lightning-record-edit-form>
+                         </span>
+                      </div>
+                   </div>
+                   <div class="slds-grid slds-gutters ">
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <lightning-record-edit-form record-id={recordId} object-api-name="Policy__c" onload={handleOnLoad}>
+                               <lightning-output-field variant = "label-inline"  field-name="Type_of_Insurance__c"></lightning-output-field>
+                            </lightning-record-edit-form>
+                         </span>
+                      </div>
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <lightning-record-edit-form record-id={psId} object-api-name="Policy_Schedule__c" onchange={handleChange}>
+                               <lightning-output-field variant = "label-inline"  field-name="Attachment__c"></lightning-output-field>
+                            </lightning-record-edit-form>
+                         </span>
+                      </div>
+                   </div>
+                   <div class="slds-grid slds-gutters ">
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <lightning-record-edit-form record-id={recordId} object-api-name="Policy__c" onload={handleOnLoad}>
+                               <lightning-output-field  variant = "label-inline" field-name="VG_Lead_or_Follow__c"></lightning-output-field>
+                            </lightning-record-edit-form>
+                         </span>
+                      </div>
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <lightning-record-edit-form record-id={psId} object-api-name="Policy_Schedule__c" onchange={handleChange}>
+                               <!--<label for="fieldid0">Gross Written Premium</label>-->
+                               <lightning-output-field variant = "label-inline" field-name="Gross_Written_Premium__c" ></lightning-output-field>
+                            </lightning-record-edit-form>
+                         </span>
+                      </div>
+                   </div>
+                   <div class="slds-grid slds-gutters ">
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <lightning-record-edit-form record-id={recordId} object-api-name="Policy__c" onload={handleOnLoad}>
+                               <lightning-output-field variant = "label-inline"  field-name="VG_Wording__c"></lightning-output-field>
+                            </lightning-record-edit-form>
+                         </span>
+                      </div>
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <lightning-record-edit-form record-id={psId}  object-api-name="Policy_Schedule__c" onchange={handleChange}>
+                               <lightning-output-field variant = "label-inline"  field-name="VG_Brokerage_Amount__c"></lightning-output-field>
+                            </lightning-record-edit-form>
+                         </span>
+                      </div>
+                   </div>
+                   <div class="slds-grid slds-gutters ">
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <lightning-record-edit-form record-id={recordId} object-api-name="Policy__c" onload={handleOnLoad}>
+                               <lightning-output-field  variant = "label-inline" field-name="VG_Territorial_Limits__c"></lightning-output-field>
+                            </lightning-record-edit-form>
+                         </span>
+                      </div>
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <lightning-record-edit-form record-id={recordId} object-api-name="Policy__c" onload={handleOnLoad}>
+                               <lightning-output-field variant = "label-inline"  field-name="CreatedDate"></lightning-output-field>
+                            </lightning-record-edit-form>
+                         </span>
+                      </div>
+                   </div>
+                   <div class="slds-grid slds-gutters ">
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <lightning-record-edit-form record-id={recordId} object-api-name="Policy__c" onload={handleOnLoad}>
+                               <lightning-output-field  variant = "label-inline" field-name="VG_Policy_Currency__c"></lightning-output-field>
+                            </lightning-record-edit-form>
+                         </span>
+                      </div>
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <lightning-record-edit-form object-api-name="Policy__c">
+                               <lightning-input-field variant = "label-inline"  field-name="VG_Deadline__c"></lightning-input-field>
+                            </lightning-record-edit-form>
+                         </span>
+                      </div>
+                   </div>
+                </lightning-record-edit-form>
+                <lightning-record-edit-form record-id={gcsId} object-api-name="VG_Governance_Compliance__c" onload={handleSRNLoad}>
+                   </br>
+                   <div style="padding:0.5rem;background:#16325c" >
+                      <div class="slds-text-color_inverse">Underwriter Assessment</div>
+                   </div>
+                   </br>
+                   <div class="slds-grid slds-gutters ">
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <!--<lightning-record-edit-form record-id={gcId} object-api-name="VG_Governance_Compliance__c" >-->
+                               <lightning-input-field variant = "label-inline" field-name="VG_Slip_Reference_No__c" value={gcRecords.VG_Slip_Reference_No__c}  onchange={handleChange1} required></lightning-input-field>
+                            <!--</lightning-record-edit-form>-->
+                         </span>
+                      </div>
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <!--<lightning-record-edit-form record-id={gcId} object-api-name="VG_Governance_Compliance__c" >-->
+                               <lightning-input-field variant = "label-inline" field-name="VG_Loss_History__c" value={gcRecords.VG_Loss_History__c}  onchange={handleChange2} ></lightning-input-field>
+                            <!--</lightning-record-edit-form>-->
+                         </span>
+                      </div>
+                   </div>
+                   <div class="slds-grid slds-gutters ">
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <!--<lightning-record-edit-form record-id={gcId} object-api-name="VG_Governance_Compliance__c" >-->
+                               <lightning-input-field variant = "label-inline" field-name="VG_Pricing_Rationale__c" value={gcRecords.VG_Pricing_Rationale__c}  onchange={handleChange3} ></lightning-input-field>
+                            <!--</lightning-record-edit-form>-->
+                         </span>
+                      </div>
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <!--<lightning-record-edit-form record-id={gcId} object-api-name="VG_Governance_Compliance__c" >-->
+                               <lightning-input-field variant = "label-inline" field-name="VG_UW_Consideration__c"  value={gcRecords.VG_UW_Consideration__c} onchange={handleChange4} ></lightning-input-field>
+                            <!--</lightning-record-edit-form>-->
+                         </span>
+                      </div>
+                   </div>
+                   <div class="slds-grid slds-gutters ">
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <!--<lightning-record-edit-form record-id={gcId} object-api-name="VG_Governance_Compliance__c" >-->
+                               <lightning-input-field variant = "label-inline" field-name="VG_Key_Clauses_Exclusions__c" value={gcRecords.VG_Key_Clauses_Exclusions__c}  onchange={handleChange5}></lightning-input-field>
+                            <!--</lightning-record-edit-form>-->
+                         </span>
+                      </div>
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <!--<lightning-record-edit-form record-id={gcId} object-api-name="VG_Governance_Compliance__c" >-->
+                               <lightning-input-field variant = "label-inline" field-name="VG_Conditions_Subjectivites__c" value={gcRecords.VG_Conditions_Subjectivites__c} onchange={handleChange6}></lightning-input-field>
+                            <!--</lightning-record-edit-form>-->
+                         </span>
+                      </div>
+                   </div>
+                   </br>
+                   <div style="padding:0.5rem;background:#16325c" >
+                      <div class="slds-text-color_inverse">Underwriter Referral</div>
+                   </div>
+                   </br>
+                   <div class="slds-grid slds-gutters ">
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <!--<lightning-record-edit-form record-id={gcId} object-api-name="VG_Governance_Compliance__c" >-->
+                               <lightning-input-field variant = "label-inline"  field-name="VG_Referral__c" value={gcRecords.VG_Referral__c} onchange={handleChange7} required></lightning-input-field>
+                            <!--</lightning-record-edit-form>-->
+                         </span>
+                      </div>
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <!--<lightning-record-edit-form record-id={gcId} object-api-name="VG_Governance_Compliance__c" >-->
+                               <lightning-input-field variant = "label-inline"  field-name="VG_Reason_for_Referral__c" value={gcRecords.VG_Reason_for_Referral__c}  onchange={handleChange8}></lightning-input-field>
+                            <!--</lightning-record-edit-form>-->
+                         </span>
+                      </div>
+                   </div>
+                   <div class="slds-grid slds-gutters ">
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <!--<lightning-record-edit-form record-id={gcId} object-api-name="VG_Governance_Compliance__c" >-->
+                               <lightning-input-field variant = "label-inline"  field-name="Referred_to__c" value={gcRecords.Referred_to__c} onchange={handleChange9}></lightning-input-field>
+                            <!--</lightning-record-edit-form>-->
+                         </span>
+                      </div>
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <!--<lightning-record-edit-form record-id={gcId} object-api-name="VG_Governance_Compliance__c" >-->
+                               <lightning-input-field variant = "label-inline"  field-name="VG_Rating_Considerations__c" value={gcRecords.VG_Rating_Considerations__c}  onchange={handleChange10}></lightning-input-field>
+                            <!--</lightning-record-edit-form>-->
+                         </span>
+                      </div>
+                   </div>
+                   <div class="slds-grid slds-gutters ">
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <!--<lightning-record-edit-form record-id={gcId} object-api-name="VG_Governance_Compliance__c" >-->
+                               <lightning-input-field variant = "label-inline"  field-name="VG_Proposed_Terms__c"  value={gcRecords.VG_Proposed_Terms__c} onchange={handleChange11}></lightning-input-field>
+                            <!--</lightning-record-edit-form>-->
+                         </span>
+                      </div>
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <!--<lightning-record-edit-form record-id={gcId} object-api-name="VG_Governance_Compliance__c" >-->
+                               <lightning-input-field variant = "label-inline"  field-name="VG_Referral_Underwirter_Comments__c" value={gcRecords.VG_Referral_Underwirter_Comments__c} onchange={handleChange12}></lightning-input-field>
+                            <!--</lightning-record-edit-form>-->
+                         </span>
+                      </div>
+                   </div>
+                   <div class="slds-grid slds-gutters ">
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <!--<lightning-record-edit-form record-id={gcId} object-api-name="VG_Governance_Compliance__c" >-->
+                               <lightning-input-field variant = "label-inline"  field-name="VG_Referral_Complete__c"  value={gcRecords.VG_Referral_Complete__c} onchange={handleChange13} required></lightning-input-field>
+                            <!--</lightning-record-edit-form>-->
+                         </span>
+                      </div>
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <!--<lightning-record-edit-form record-id={gcId} object-api-name="VG_Governance_Compliance__c" >-->
+                               <lightning-input-field variant = "label-inline" field-name="VG_Referral_completed_By__c"  value={gcRecords.VG_Referral_completed_By__c}  onchange={handleChange14} required></lightning-input-field>
+                            <!--</lightning-record-edit-form>-->
+                         </span>
+                      </div>
+                   </div>
+                   </br>
+                   <div style="padding:0.5rem;background:#16325c" >
+                      <div class="slds-text-color_inverse">Peer Review</div>
+                   </div>
+                   </br>
+                   <div class="slds-grid slds-gutters ">
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <!--<lightning-record-edit-form record-id={gcId} object-api-name="VG_Governance_Compliance__c" >-->
+                               <lightning-input-field variant = "label-inline"  field-name="VG_Peer_Review__c" value={gcRecords.VG_Peer_Review__c}  onchange={handleChange15} required></lightning-input-field>
+                            <!--</lightning-record-edit-form>-->
+                         </span>
+                      </div>
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <!--<lightning-record-edit-form >-->
+                               <lightning-input-field  name="check"></lightning-input-field>
+                            <!--</lightning-record-edit-form>-->
+                         </span>
+                      </div>
+                   </div>
+                   <div class="slds-grid slds-gutters ">
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <!--<lightning-record-edit-form record-id={gcId} object-api-name="VG_Governance_Compliance__c" >-->
+                               <lightning-input-field variant = "label-inline" field-name="VG_Peer_Reviewer_1__c"  value={gcRecords.VG_Peer_Reviewer_1__c} onchange={handleChange16} required ></lightning-input-field>
+                            <!--</lightning-record-edit-form>-->
+                         </span>
+                      </div>
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <!--<lightning-record-edit-form record-id={gcId} object-api-name="VG_Governance_Compliance__c" >-->
+                               <lightning-input-field variant = "label-inline" field-name="VG_Peer_Reviewer_2__c" value={gcRecords.VG_Peer_Reviewer_2__c}  onchange={handleChange17}></lightning-input-field>
+                            <!--</lightning-record-edit-form>-->
+                         </span>
+                      </div>
+                   </div>
+                   <div class="slds-grid slds-gutters ">
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <!--<lightning-record-edit-form record-id={gcId} object-api-name="VG_Governance_Compliance__c" >-->
+                               <lightning-input-field variant = "label-inline"  field-name="VG_Peer_Review_1_Comments__c" value={gcRecords.VG_Peer_Review_1_Comments__c}   onchange={handleChange18}></lightning-input-field>
+                            <!--</lightning-record-edit-form>-->
+                         </span>
+                      </div>
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <!--<lightning-record-edit-form record-id={gcId} object-api-name="VG_Governance_Compliance__c" >-->
+                               <lightning-input-field variant = "label-inline"  field-name="VG_Peer_Review_2_Comments__c"  value={gcRecords.VG_Peer_Review_2_Comments__c}  onchange={handleChange19}></lightning-input-field>
+                            <!--</lightning-record-edit-form>-->
+                         </span>
+                      </div>
+                   </div>
+                   <div class="slds-grid slds-gutters ">
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <!--<lightning-record-edit-form record-id={gcId} object-api-name="VG_Governance_Compliance__c" >-->
+                               <lightning-input-field  variant = "label-inline" field-name="VG_Peer_Review_1_Complete__c" value={gcRecords.VG_Peer_Review_1_Complete__c} onchange={handleChange20}></lightning-input-field>
+                            <!--</lightning-record-edit-form>-->
+                         </span>
+                      </div>
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <!--<lightning-record-edit-form record-id={gcId} object-api-name="VG_Governance_Compliance__c" >-->
+                               <lightning-input-field variant = "label-inline"  field-name="VG_Peer_Review_2_Complete__c" value={gcRecords.VG_Peer_Review_2_Complete__c}  onchange={handleChange21}></lightning-input-field>
+                            <!--</lightning-record-edit-form>-->
+                         </span>
+                      </div>
+                   </div>
+                   <div class="slds-grid slds-gutters ">
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <!--<lightning-record-edit-form record-id={gcId} object-api-name="VG_Governance_Compliance__c" >-->
+                               <lightning-input-field variant = "label-inline"  field-name="VG_Peer_Review_1_Date__c" value={gcRecords.VG_Peer_Review_1_Date__c}  onchange={handleChange22} required></lightning-input-field>
+                            <!--</lightning-record-edit-form>-->
+                         </span>
+                      </div>
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <!--<lightning-record-edit-form record-id={gcId} object-api-name="VG_Governance_Compliance__c" >-->
+                               <lightning-input-field variant = "label-inline"  field-name="VG_Peer_Review_2_Date__c" value={gcRecords.VG_Peer_Review_2_Date__c}  onchange={handleChange23}></lightning-input-field>
+                            <!--</lightning-record-edit-form>-->
+                         </span>
+                      </div>
+                   </div>
+                
+                </br>
+                <div style="padding:0.5rem;background:#16325c" >
+                   <div class="slds-text-color_inverse">Contract Certainty</div>
+                </div>
+                </br>
+
+                   <div class="slds-grid slds-gutters ">
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <!--<lightning-record-edit-form record-id={gcId} object-api-name="VG_Governance_Compliance__c" >-->
+                               <label class="slds-checkbox" for="fieldid1">Are parties clearly identified?</label>
+                               <lightning-input-field id="fieldid1" field-name="VG_Question_1__c" value={gcRecords.VG_Question_1__c} onchange={handleChange24} variant="label-hidden
+                               "></lightning-input-field>
+                            <!--</lightning-record-edit-form>-->
+                         </span>
+                      </div>
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <!--<lightning-record-edit-form record-id={gcId} object-api-name="VG_Governance_Compliance__c" >-->
+                               <label for="fieldid6">Are the limits clearly expressed?</label>
+                               <lightning-input-field id="fieldid6"  field-name="VG_Question_6__c"  value={gcRecords.VG_Question_6__c} onchange={handleChange25} variant="label-hidden" ></lightning-input-field>
+                            <!--</lightning-record-edit-form>-->
+                         </span>
+                      </div>
+                   </div>
+                   <div class="slds-grid slds-gutters ">
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <!--<lightning-record-edit-form record-id={gcId} object-api-name="VG_Governance_Compliance__c" >-->
+                               <label for="fieldid2">Is wording attached or clearly referenced?</label>
+                               <lightning-input-field id="fieldid2"  field-name="VG_Question_2__c"  value={gcRecords.VG_Question_2__c} onchange={handleChange26} variant="label-hidden"></lightning-input-field>
+                            <!--</lightning-record-edit-form>-->
+                         </span>
+                      </div>
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <!--<lightning-record-edit-form record-id={gcId} object-api-name="VG_Governance_Compliance__c" >-->
+                               <label for="fieldid7">Is the premium or rate clearly expressed?</label>
+                               <lightning-input-field id="fieldid7" field-name="VG_Question_7__c" value={gcRecords.VG_Question_7__c}  onchange={handleChange27} variant="label-hidden" ></lightning-input-field>
+                            <!--</lightning-record-edit-form>-->
+                         </span>
+                      </div>
+                   </div>
+                   <div class="slds-grid slds-gutters ">
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <!--<lightning-record-edit-form record-id={gcId} object-api-name="VG_Governance_Compliance__c" >-->
+                               <label for="fieldid3">Are all conditions clearly expressed?</label>
+                               <lightning-input-field id="fieldid3" field-name="VG_Question_3__c"  value={gcRecords.VG_Question_3__c} onchange={handleChange28} variant="label-hidden"></lightning-input-field>
+                            <!--</lightning-record-edit-form>-->
+                         </span>
+                      </div>
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <!--<lightning-record-edit-form record-id={gcId} object-api-name="VG_Governance_Compliance__c" >-->
+                               <label for="fieldid8">Are any applicable taxes expressed?</label>
+                               <lightning-input-field id="fieldid8" field-name="VG_Question_8__c" value={gcRecords.VG_Question_8__c}  onchange={handleChange29} variant="label-hidden" ></lightning-input-field>
+                            <!--</lightning-record-edit-form>-->
+                         </span>
+                      </div>
+                   </div>
+                   <div class="slds-grid slds-gutters ">
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <!--<lightning-record-edit-form record-id={gcId} object-api-name="VG_Governance_Compliance__c" >-->
+                               <label for="fieldid4">Regulatory requirements addressed?</label>
+                               <lightning-input-field id="fieldid4" field-name="VG_Question_4__c" value={gcRecords.VG_Question_4__c}  onchange={handleChange30} variant="label-hidden"></lightning-input-field>
+                            <!--</lightning-record-edit-form>-->
+                         </span>
+                      </div>
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <!--<lightning-record-edit-form record-id={gcId} object-api-name="VG_Governance_Compliance__c" >-->
+                               <label for="fieldid9">Are any payment terms clearly expressed?</label>
+                               <lightning-input-field id="fieldid9" field-name="VG_Question_9__c" value={gcRecords.VG_Question_9__c}  onchange={handleChange31} variant="label-hidden" ></lightning-input-field>
+                            <!--</lightning-record-edit-form>-->
+                         </span>
+                      </div>
+                   </div>
+                   <div class="slds-grid slds-gutters ">
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <!--<lightning-record-edit-form record-id={gcId} object-api-name="VG_Governance_Compliance__c" >-->
+                               <label for="fieldid5">Is the period of cover clearly expressed?</label>
+                               <lightning-input-field id="fieldid5"  field-name="VG_Question_5__c" value={gcRecords.VG_Question_5__c}  onchange={handleChange32} variant="label-hidden"></lightning-input-field>
+                            <!--</lightning-record-edit-form>-->
+                         </span>
+                      </div>
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <!--<lightning-record-edit-form record-id={gcId} object-api-name="VG_Governance_Compliance__c" >-->
+                               <label for="fieldid10">Are currencies clearly identified?</label>
+                               <lightning-input-field id="fieldid10"  field-name="VG_Question_10__c" value={gcRecords.VG_Question_10__c}  onchange={handleChange33} variant="label-hidden" ></lightning-input-field>
+                            <!--</lightning-record-edit-form>-->
+                         </span>
+                      </div>
+                   </div>
+                   <div class="slds-grid slds-gutters ">
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <!--<lightning-record-edit-form record-id={gcId} object-api-name="VG_Governance_Compliance__c" >-->
+                               <label for="fieldid11">Full Terms and Conditions?</label>
+                               <lightning-input-field id="fieldid11" field-name="VG_Question_11__c" value={gcRecords.VG_Question_11__c}  onchange={handleChange34} variant="label-hidden"></lightning-input-field>
+                            <!--</lightning-record-edit-form>-->
+                         </span>
+                      </div>
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <!--<lightning-record-edit-form >-->
+                               <lightning-input-field name="hh" ></lightning-input-field>
+                            <!--</lightning-record-edit-form>-->
+                         </span>
+                      </div>
+                   </div>
+                   <div class="slds-grid slds-gutters ">
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <!--<lightning-record-edit-form record-id={gcId} object-api-name="VG_Governance_Compliance__c" >-->
+                               <lightning-input-field variant = "label-inline" field-name="VG_Contract_Certainty__c" value={gcRecords.VG_Contract_Certainty__c}  onchange={handleChange35}></lightning-input-field>
+                            <!--</lightning-record-edit-form>-->
+                         </span>
+                      </div>
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <!--<lightning-record-edit-form record-id={gcId} object-api-name="VG_Governance_Compliance__c" >-->
+                               <lightning-input-field variant = "label-inline" field-name="VG_Documents_attached__c"  value={gcRecords.VG_Documents_attached__c} onchange={handleChange36}></lightning-input-field>
+                            <!--</lightning-record-edit-form>-->
+                         </span>
+                      </div>
+                   </div>
+                   <div class="slds-grid slds-gutters ">
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <!--<lightning-record-edit-form record-id={gcId} object-api-name="VG_Governance_Compliance__c" >-->
+                               <lightning-input-field variant = "label-inline" field-name="VG_Contact_Certainty_Date__c" value={gcRecords.VG_Contact_Certainty_Date__c}  onchange={handleChange37}></lightning-input-field>
+                            <!--</lightning-record-edit-form>-->
+                         </span>
+                      </div>
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <!--<lightning-record-edit-form record-id={gcId} object-api-name="VG_Governance_Compliance__c" >-->
+                               <lightning-input-field variant = "label-inline" field-name="VG_Contract_Certainty_Comments__c"  value={gcRecords.VG_Contract_Certainty_Comments__c} onchange={handleChange38}></lightning-input-field>
+                            <!--</lightning-record-edit-form>-->
+                         </span>
+                      </div>
+                   </div>
+                   <div class="slds-grid slds-gutters ">
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <!--<lightning-record-edit-form record-id={gcId} object-api-name="VG_Governance_Compliance__c" >-->
+                               <lightning-input-field variant = "label-inline" field-name="VG_Policy_Issuance_Date__c" value={gcRecords.VG_Policy_Issuance_Date__c}  onchange={handleChange39}></lightning-input-field>
+                            <!--</lightning-record-edit-form>-->
+                         </span>
+                      </div>
+                      <div class="slds-col slds-size_1-of-2">
+                         <span>
+                            <!--<lightning-record-edit-form >-->
+                               <lightning-input-field name="hbj"></lightning-input-field>
+                            <!--</lightning-record-edit-form>-->   
+                         </span>
+                      </div>
+                   </div>
+                </lightning-record-edit-form>
+             </div>
+             <footer  class="slds-modal__footer">
+                <lightning-button  variant="brand" label="Save" class="slds-m-left_x-small" onclick={handleCreateGC}></lightning-button>
+                <lightning-button variant="brand" label="Cancel" class="slds-m-left_x-small" onclick={closeGC}></lightning-button>
+             </footer>
+          </div>
+       </section>
+       <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+ </template>

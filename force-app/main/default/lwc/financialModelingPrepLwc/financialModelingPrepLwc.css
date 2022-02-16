@@ -1,0 +1,63 @@
+.grid{
+    display: grid;
+    grid-template-columns: auto 550px;
+    /* grid-gap: 10px; */
+}
+.fontSize{
+    font-size: 20px;
+}
+
+dl{
+    margin-left: 15px;
+    /* font: message-box; */
+}
+dt,dd{
+    background: linear-gradient(75deg, #97c2be, transparent);
+    margin-bottom: 6px;
+}
+.box{
+    background: lightcyan;
+}
+.imgBox{
+    background: white;
+}
+.border{
+    border: aqua;
+    border-style: outset;
+}
+
+.prev, .next{
+    position: absolute;
+    top: 50%;
+    width: auto;
+    margin-left: 4px;
+    font-weight: 900;
+    border-radius: 0 3px 3px 0;
+}
+.next{
+    right:0;
+    margin-right: 17px;
+    border-radius:  3px 0 0 3px ;
+}
+.prev:hover , .next:hover{
+    background: rgb(0,0,0,0.3);
+}
+
+.fade{
+    animation-name:fade;
+    animation-duration: 1.5s;
+}
+@keyframes fade{
+    from {opacity: .4}
+    to {opacity: 1}
+}
+img{
+    margin-left: 5%;
+    margin-top: 20%;
+}
+.card{
+    background: aliceblue;
+}
+/* .color{
+    background: rgb(216, 224, 240);
+} */

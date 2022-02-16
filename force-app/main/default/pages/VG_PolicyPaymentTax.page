@@ -1,0 +1,181 @@
+<apex:page docType="html-5.0" showHeader="false" controller="VG_PolicyPaymentTaxController" tabStyle="Policy__c">
+    <apex:form >
+        <apex:pageBlock title="Policy Payment Details {!policy.Name}">
+            <apex:pageBlock title="Policy Payment" Id="policyBlock">
+                <apex:pageBlockButtons location="top">
+                    <apex:commandButton disabled="{!showBtnpp}" reRender="policyPayments" value="Add Policy Payment" action="{!addPolicyPayment}"/>
+                </apex:pageBlockButtons>
+                <!------------->
+                <apex:pageBlock rendered="{!InsertedPFList.size > 0}">
+                    <apex:outputPanel Id="policyPaymentss">
+                        <apex:repeat value="{!pfwMap}" var="key">
+                            <apex:pageblockSection title="Policy Payment Amount" columns="2">
+                                <apex:pageBlockSectionItem >
+                                    <apex:outputLabel >Due Date</apex:outputLabel>
+                                    <apex:outputText value="{!pfwMap2[key]}" label="Policy Amount" style="width:200px;"></apex:outputText>
+                                </apex:pageBlockSectionItem>
+                                <apex:pageBlockSectionItem >
+                                    <apex:outputLabel >Policy Payment (%)</apex:outputLabel>
+                                    <apex:outputText value="{!pfwMap1[key]}" label="Policy Amount" style="width:200px;"></apex:outputText>
+                                </apex:pageBlockSectionItem>
+                            </apex:pageblockSection>
+                            <apex:pageblockSection title="Payment Frequencies" Id="paymentFrequencies" columns="1" collapsible="true">
+                                <apex:pageblockTable value="{!pfwMap[key]}" var="i">
+                                    <apex:column headerValue="Select Policy Schedule">
+                                        <apex:outputText value="{!i.psSelected}" label="Policy Amount" style="width:50%;"></apex:outputText>
+                                    </apex:column>
+                                    <apex:column headerValue="GWP">
+                                        <apex:outputText value="{0, number,###,##0.00}" label="Policy Amount" style="width:50%;">
+                                            <apex:param value="{!i.paymentAmount}"/>
+                                        </apex:outputText>
+                                    </apex:column>
+                                </apex:pageblockTable>
+                            </apex:pageblockSection>
+                        </apex:repeat>
+                    </apex:outputPanel>
+                </apex:pageBlock>
+                <!------------->
+                <apex:pageBlock >
+                    <apex:outputPanel Id="policyPayments">
+                        <apex:pageMessages ></apex:pageMessages>
+                        <apex:repeat value="{!ppWrapperList}" var="pp">
+                            <apex:pageblockSection title="Policy Payment Amount" columns="2" >
+                                <apex:pageBlockSectionItem >
+                                    <apex:outputLabel >Due Date</apex:outputLabel>
+                                    <apex:outputPanel styleClass="requiredInput" layout="block" id="pwPanel2" >
+                                        <apex:outputPanel styleClass="requiredBlock"/>  
+                                        <apex:input title="Due Date" label="Due Date" html-placeholder="Start Date" type="date" value="{!pp.dueDate}"></apex:input>
+                                    </apex:outputPanel>
+                                </apex:pageBlockSectionItem>
+                                <apex:pageBlockSectionItem >
+                                    <apex:outputLabel >Policy Payment (%)</apex:outputLabel>
+                                    <apex:outputPanel styleClass="requiredInput" layout="block" id="pwPanel2" >
+                                        <apex:outputPanel styleClass="requiredBlock"/>  
+                                        <apex:inputText value="{!pp.policyPaymenyAmount}" label="Policy Amount" style="width:200px;">
+                                            <apex:actionSupport event="onchange" action="{!polCalc}" reRender="policyPayments,policyBlock">
+                                                <!--<apex:param assignTo="{!IndexCounterPP}" name="pfw" value="{!pfw.Counter}"/>-->
+                                                <apex:param assignTo="{!Index}" name="" value="{!pp.counter}"/>
+                                            </apex:actionSupport>
+                                        </apex:inputText>
+                                    </apex:outputPanel>
+                                </apex:pageBlockSectionItem>
+                            </apex:pageblockSection>
+                            <apex:pageblockSection title="Payment Frequencies" Id="paymentFrequencies" columns="1" collapsible="true">
+                                <apex:commandButton disabled="{!pp.showBtnpf}" reRender="policyPayments" value="Add Payment" action="{!addPayment}">
+                                    <apex:param assignTo="{!Index}" name="" value="{!pp.counter}"/>
+                                </apex:commandButton>
+                                <apex:pageblockTable value="{!pp.pfWrapperList}" var="pfw">
+                                    <apex:column headerValue="Select Policy Schedule">
+                                        <apex:outputPanel styleClass="requiredInput" layout="block" id="pwPanel1" >
+                                            <apex:outputPanel styleClass="requiredBlock"/>  
+                                            <apex:selectList value="{!pfw.psSelected}" size="1">
+                                                <apex:selectOptions value="{!psNameList}" ></apex:selectOptions>
+                                                <apex:actionSupport event="onchange" action="{!calc}" reRender="policyPayments,policyBlock">
+                                                    <apex:param assignTo="{!IndexCounterPP}" name="pfw" value="{!pfw.Counter}"/>
+                                                    <apex:param assignTo="{!Index}" name="" value="{!pp.counter}"/>
+                                                </apex:actionSupport>
+                                            </apex:selectList>
+                                        </apex:outputPanel> 
+                                    </apex:column>
+                                    <apex:column headerValue="GWP">
+                                        <apex:outputPanel styleClass="requiredInput" layout="block" id="pwPanel2" >
+                                            <apex:outputPanel styleClass="requiredBlock"/>  
+                                            <apex:outputText style="width:370px" value="{0, number,###,##0.00}">
+                                                <apex:param value="{!pfw.GWP}"/>
+                                            </apex:outputText>
+                                        </apex:outputPanel>
+                                    </apex:column>
+                                </apex:pageblockTable>
+                            </apex:pageblockSection>
+                        </apex:repeat>
+                    </apex:outputPanel>
+                </apex:pageBlock>
+            </apex:pageBlock>
+            
+            <apex:pageBlock title="Policy Taxes" Id="policyBlockT">
+                <apex:pageBlockButtons location="top">
+                    <apex:commandButton reRender="policyTaxes" value="Add Policy Taxes" action="{!addPolicyTax}"/>
+                </apex:pageBlockButtons>
+                <!------------->
+                <apex:pageBlock rendered="{!InsertedTaxList.size > 0}">
+                    <apex:outputPanel Id="policyTaxess">
+                        <apex:repeat value="{!twMap}" var="key">
+                            <apex:pageblockSection title="Policy Tax Type" columns="2">
+                                <apex:pageBlockSectionItem >
+                                    <apex:outputLabel >Tax Type</apex:outputLabel>
+                                    <apex:outputText value="{!twMap1[key]}" label="Tax Type" style="width:200px;"></apex:outputText>
+                                </apex:pageBlockSectionItem>
+                                <apex:pageBlockSectionItem >
+                                    <apex:outputLabel >Tax Jurisdiction</apex:outputLabel>
+                                    <apex:outputText value="{!twMap2[key]}" label="Tax Type" style="width:200px;"></apex:outputText>
+                                </apex:pageBlockSectionItem>
+                            </apex:pageblockSection>
+                            <apex:pageblockSection title="Taxes" Id="taxes" columns="1" collapsible="true">
+                                <apex:pageblockTable value="{!twMap[key]}" var="i">
+                                    <apex:column headerValue="Select Policy Schedule">
+                                        <apex:outputText value="{!i.psSelected}" label="Policy Amount" style="width:200px;"></apex:outputText>
+                                    </apex:column>
+                                    <apex:column headerValue="Tax Amount">
+                                        <apex:outputText value="{!i.taxAmount}" label="Tax Amount" style="width:200px;"></apex:outputText>
+                                    </apex:column>
+                                </apex:pageblockTable>
+                            </apex:pageblockSection>
+                        </apex:repeat>
+                    </apex:outputPanel>
+                </apex:pageBlock>
+                <!------------->
+                <apex:pageBlock >
+                    <apex:outputPanel Id="policyTaxes">
+                        <apex:repeat value="{!taxWrapperList}" var="taxw">
+                            <apex:pageblockSection title="Policy Tax Type" columns="2">
+                                <apex:pageBlockSectionItem >
+                                    <apex:outputLabel >Tax Type</apex:outputLabel>
+                                    <apex:outputPanel styleClass="requiredInput" layout="block" id="pwPanel2" >
+                                        <apex:outputPanel styleClass="requiredBlock"/>  
+                                        <apex:selectList style="width:200px;" value="{!taxw.taxSelected}" size="1">
+                                            <apex:selectOptions value="{!taxTypeList}" ></apex:selectOptions>
+                                        </apex:selectList>
+                                    </apex:outputPanel>
+                                </apex:pageBlockSectionItem>
+                                <apex:pageBlockSectionItem >
+                                    <apex:outputLabel >Tax Jurisdiction</apex:outputLabel>
+                                    <apex:outputPanel styleClass="requiredInput" layout="block" id="pwPanel2" >
+                                        <apex:outputPanel styleClass="requiredBlock"/>  
+                                        <apex:selectList style="width:200px;" value="{!taxw.taxJurisdictionListSelected}" size="1">
+                                            <apex:selectOptions value="{!taxJurisdictionList}" ></apex:selectOptions>
+                                        </apex:selectList>
+                                    </apex:outputPanel>
+                                </apex:pageBlockSectionItem>
+                            </apex:pageblockSection>
+                            <apex:pageblockSection title="Taxes" Id="taxes" columns="1" collapsible="true">
+                                <apex:commandButton reRender="policyTaxes" value="Add Tax" action="{!addTax}" >
+                                    <apex:param assignTo="{!IndexT}" name="" value="{!taxw.counter}"/>
+                                </apex:commandButton>
+                                <apex:pageblockTable value="{!taxw.taxWList}" var="tw">
+                                    <apex:column headerValue="Select Policy Schedule">
+                                        <apex:outputPanel styleClass="requiredInput" layout="block" id="pwPanel1" >
+                                            <apex:outputPanel styleClass="requiredBlock"/>  
+                                            <apex:selectList value="{!tw.psSelected}" size="1">
+                                                <apex:selectOptions value="{!psNameList}" ></apex:selectOptions>
+                                            </apex:selectList>
+                                        </apex:outputPanel> 
+                                    </apex:column>
+                                    <apex:column headerValue="Tax Amount">
+                                        <apex:outputPanel styleClass="requiredInput" layout="block" id="pwPanel2" >
+                                            <apex:outputPanel styleClass="requiredBlock"/>  
+                                            <apex:inputText value="{!tw.taxAmount}" style="width:170px"></apex:inputText>
+                                        </apex:outputPanel>
+                                    </apex:column>
+                                </apex:pageblockTable>
+                            </apex:pageblockSection>
+                        </apex:repeat>
+                    </apex:outputPanel>
+                </apex:pageBlock>
+            </apex:pageBlock>
+            <apex:pageBlockButtons location="both">
+                <apex:commandButton value="Finish" action="{!finish}"/>
+                <apex:commandButton value="Cancel" action="{!cancel}"/>
+            </apex:pageBlockButtons>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

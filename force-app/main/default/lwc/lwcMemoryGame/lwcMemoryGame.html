@@ -1,0 +1,132 @@
+<!--
+  @description       : 
+  @author            : Murugan
+  @group             : 
+  @last modified on  : 07-05-2021
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+  Modifications Log 
+  Ver   Date         Author                               Modification
+  1.0   06-28-2021   ChangeMeIn@UserSettingsUnder.SFDoc   Initial Version
+-->
+<template>
+    <div class="font">
+        <lightning-card icon-name="standard:app" title="Puzzle Game">
+            <button type="button" class="slds-button slds-button_success" slot="actions" onclick={openG}>Start</button>
+        </lightning-card>
+    </div>
+    <template if:true={isOpenG}>
+        <template if:true={loader}>
+            <div class="slds-backdrop slds-backdrop_open" style="padding: 20px;">
+              <div class="loader pos" ></div>
+            </div>
+        </template>
+        <template if:false={loader}>
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open back_container">
+                <div class="slds-modal__container">
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-01" style="display: contents;">
+                        <div class="container">
+                            <div class="lightning-Card slds-m-around_medium" title="Memory Game">
+                                <p class="heading"><strong>Memory Game</strong></p>
+                                <div class="slds-p-around_medium">
+                                    <section class="scorePanal font">
+                                        <span class="move">{moves}</span> Move(s)
+                                        <div class="timer">{totaltimes}</div>
+                                        <div class="restart" onclick={closeG}>
+                                            <i class="fa fa-times" aria-hidden="true"></i>
+                                        </div>
+                                        <div class="restart" onclick={shuffle}>
+                                            <i class="fa fa-repeat" aria-hidden="true"></i>
+                                        </div>
+                                    </section>
+                                    <div class="slds-m-around_medium"></div>
+                                    <section class="gamePanal">
+                                    <ul class="deck card-deck grid-container">
+                                            <template for:each={cards} for:item="card">
+                                                <li class={card.listClass} type={card.type} key={card.id} onclick={displayCard}>
+                                                    <i class={card.icon}></i>
+                                                </li>
+                                            </template>
+                                        </ul> 
+                    
+                                        <template if:true={showCongratulations}>
+                                            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                                                <div class="slds-modal__container">
+                                                <header class="slds-modal__header modalColor">
+                                                    <h2 id="modal-heading-02" class="slds-modal__title slds-hyphenate">Congratulations you're a winner 🎉 🎉
+                                                    </h2>
+                                                </header>
+                                                <div class="slds-modal__content slds-p-around_medium content" id="modal-content-id-1">
+                                                    <p>You made <strong>{moves}</strong> moves in {totalTime}</p>
+                                                    <p>Your rating:
+                                                        <template for:each={gameRating} for:item="rating">
+                                                            <i class="fa fa-star" key={rating}></i>
+                                                        </template>
+                                                    </p>
+                                                </div>
+                                                <footer class="slds-modal__footer modalColor">
+                                                <lightning-button variant="success" label="Play Again" onclick={shuffle}></lightning-button>
+                                                </footer>
+                                                </div>
+                                                </section>
+                                                <!-- <div class="slds-backdrop slds-backdrop_open"></div> -->
+                                        </template>
+                    
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+    </template>
+    <!-- <div class="container back_container">
+        <div class="lightning-Card slds-m-around_medium" title="Memory Game">
+            <p class="heading"><strong>Memory Game</strong></p>
+            <div class="slds-p-around_medium">
+                <section class="scorePanal font">
+                    <span class="move">{moves}</span> Move(s)
+                    <div class="timer">{totaltimes}</div>
+                    <div class="restart" onclick={shuffle}>
+                        <i class="fa fa-repeat" aria-hidden="true"></i>
+                    </div>
+                </section>
+                <div class="slds-m-around_medium"></div>
+                <section class="gamePanal">
+                   <ul class="deck card-deck grid-container">
+                        <template for:each={cards} for:item="card">
+                            <li class={card.listClass} type={card.type} key={card.id} onclick={displayCard}>
+                                <i class={card.icon}></i>
+                            </li>
+                        </template>
+                    </ul> 
+
+                    <template if:true={showCongratulations}>
+                        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                            <div class="slds-modal__container">
+                            <header class="slds-modal__header modalColor">
+                                <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Congratulations you're a winner 🎉 🎉
+                                </h2>
+                            </header>
+                            <div class="slds-modal__content slds-p-around_medium content" id="modal-content-id-1">
+                                <p>You made <strong>{moves}</strong> moves in {totalTime}</p>
+                                <p>Your rating:
+                                    <template for:each={gameRating} for:item="rating">
+                                        <i class="fa fa-star" key={rating}></i>
+                                    </template>
+                                </p>
+                            </div>
+                            <footer class="slds-modal__footer modalColor">
+                            <lightning-button variant="success" label="Play Again" onclick={shuffle}></lightning-button>
+                            </footer>
+                            </div>
+                            </section>
+                            <div class="slds-backdrop slds-backdrop_open"></div>
+                       </template>
+
+                </section>
+            </div>
+        </div>
+    </div> -->
+</template>

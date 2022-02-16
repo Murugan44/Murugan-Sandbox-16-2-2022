@@ -1,0 +1,139 @@
+<!--
+   @description       : 
+   @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+   @group             : 
+   @last modified on  : 06-30-2021
+   @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+   Modifications Log 
+   Ver   Date         Author                               Modification
+   1.0   06-28-2021   ChangeMeIn@UserSettingsUnder.SFDoc   Initial Version
+   -->
+   <template>
+    <div class="container box"> 
+      <form>
+      <lightning-card icon-name="utility:salesforce1" title="Quiz App">
+         <!-- <lightning-button class="im" variant="success" label="Start" slot="actions" onclick={openQuiz}></lightning-button> -->
+         <button type="reset" class="slds-button slds-button_success im" slot="actions" onclick={openQuiz}>Start</button>
+         <button type="button" class="slds-button slds-button_brand" slot="actions" onclick={close}>Close</button>
+         <template if:true={isOpen}>
+            <div class="slds-p-around_medium">
+               
+                  <div class="slds-box box">
+                     <template for:each={myQuestions} for:item="qus">
+                        <div key={qus.id}>
+                           <div class="slds-p-around_small bg"><strong>{qus.id} - {qus.question}</strong></div>
+                           <div class="slds-grid slds-gutters slds-p-bottom_medium slds-p-around_medium">
+                              <div class="slds-col">
+                                 <lightning-input type="radio" label={qus.answers.a} value="a" name={qus.id} onchange={changeHandler}></lightning-input>
+                              </div>
+                              <div class="slds-col">
+                                 <lightning-input type="radio" label={qus.answers.b} value="b" name={qus.id} onchange={changeHandler}></lightning-input>
+                              </div>
+                              <div class="slds-col">
+                                 <lightning-input type="radio" label={qus.answers.c} value="c" name={qus.id} onchange={changeHandler}></lightning-input>
+                              </div>
+                           </div>
+                        </div>
+                     </template>
+                  </div>
+                  <div class="slds-m-around_medium"></div>
+                  <div class="slds-box box">
+                     <div class="btnscore">
+                        <lightning-button 
+                           variant="brand" 
+                           type="submit"
+                           label="Submit"
+                           title="Submit Quiz"
+                           class="slds-m-around_small"
+                           disabled={allNotSelected}
+                           onclick={submitHandler}>
+                        </lightning-button>
+                        <!-- <lightning-button 
+                           variant="destructive" 
+                           type="reset"
+                           label="Reset"
+                           title="Reset Quiz"
+                           onclick={resetHandler}
+                           class="slds-m-around_small">
+                        </lightning-button> -->
+                     </div>
+                  </div>
+                  <div class="slds-m-around_medium"></div>
+                  <div>
+                     <template if:true={isSubmitted} >
+                        <div class="slds-box score">
+                           <div class={isScoredFull} >You have Scored {correctAnswers} out of {myQuestions.length}</div>
+                        </div>
+                     </template>
+                  </div>
+               
+            </div>
+         </template>
+      </lightning-card>
+   </form>
+    </div> 
+    <template if:true={isOpens}>
+       <c-modal>
+          <!-- <div slot="title">
+             <lightning-card  title="Quiz Question" icon-name="utility:salesforce1">
+                 <lightning-button-icon icon-name="utility:close"  variant="brand" alternative-text="Settings" slot="actions" onclick={close}></lightning-button-icon>
+             </lightning-card>
+             </div> -->
+          <div slot="content" class="slds-p-around_medium slds-box">
+             <lightning-card title="Quiz Questions" icon-name="utility:salesforce1">
+                <lightning-button-icon icon-name="utility:close"  variant="brand" alternative-text="Settings" slot="actions" onclick={close}></lightning-button-icon>
+             </lightning-card>
+             <form>
+                <div class="slds-box box">
+                   <template for:each={myQuestions} for:item="qus">
+                      <div key={qus.id}>
+                         <div class="slds-p-around_small bg"><strong>{qus.id} - {qus.question}</strong></div>
+                         <div class="slds-grid slds-gutters slds-p-bottom_medium slds-p-around_medium">
+                            <div class="slds-col">
+                               <lightning-input type="radio" label={qus.answers.a} value="a" name={qus.id} onchange={changeHandler}></lightning-input>
+                            </div>
+                            <div class="slds-col">
+                               <lightning-input type="radio" label={qus.answers.b} value="b" name={qus.id} onchange={changeHandler}></lightning-input>
+                            </div>
+                            <div class="slds-col">
+                               <lightning-input type="radio" label={qus.answers.c} value="c" name={qus.id} onchange={changeHandler}></lightning-input>
+                            </div>
+                         </div>
+                      </div>
+                   </template>
+                </div>
+                <div class="slds-m-around_medium"></div>
+                <div class="slds-box box">
+                   <div class="btnscore">
+                      <lightning-button 
+                         variant="brand" 
+                         type="submit"
+                         label="Submit"
+                         title="Submit Quiz"
+                         class="slds-m-around_small"
+                         disabled={allNotSelected}
+                         onclick={submitHandler}>
+                      </lightning-button>
+                      <lightning-button 
+                         variant="destructive" 
+                         type="reset"
+                         label="Reset"
+                         title="Reset Quiz"
+                         onclick={resetHandler}
+                         class="slds-m-around_small">
+                      </lightning-button>
+                   </div>
+                </div>
+                <div class="slds-m-around_medium"></div>
+                <div>
+                   <template if:true={isSubmitted} >
+                      <div class="slds-box score ">
+                         <div class={isScoredFull} >You have Scored {correctAnswers} out of {myQuestions.length}</div>
+                      </div>
+                   </template>
+                </div>
+             </form>
+          </div>
+       </c-modal>
+    </template>
+ </template>

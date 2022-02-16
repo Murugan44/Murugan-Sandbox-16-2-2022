@@ -1,0 +1,92 @@
+<apex:page contentType="application/msword#EdisonSchedule.doc" cache="true" showHeader="false" controller="VG_VCLDocumentController" standardStylesheets="false" applyHtmlTag="false" applyBodyTag="false">
+    <apex:form >
+    <html xmlns:w="urn:schemas-microsoft-com:office:word">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>   
+        <style type="text/css" media="print">    
+            @page {
+            size:8.27in 11.69in;
+            margin:0in 0in 0in 0in;
+            
+            } 
+            @font-face {
+                font-family: Open Sans Condensed Light;
+                src: url({!URLFOR($Resource.Font_OpenSan_CondLight, '/root/to/OpenSans-CondLight.ttf')});
+            }
+            
+            body{
+                font-family: Open Sans Condensed Light;              
+            }
+            @font-face {
+                font-family: Open Sans Condensed Light;
+                src: url({!URLFOR($Resource.Doc_Header_Font, '/root/to/OpenSans-CondLight.ttf')});
+            }
+           
+            #header{
+                font-family: Open Sans Condensed Light;
+                font-size:30.0pt;
+            }
+            @page footer{
+            size:8.27in 11.69in;
+            margin:0in 0in 0in 0in;
+            margin-bottom:0in;
+            mso-header-margin:0.5in;
+            mso-footer-margin:0in;
+            mso-pagination:widow-orphan;
+            mso-paper-source:0;
+            
+            }
+            div.footer
+            {page:footer;}
+            
+            #lasttable {
+            border-collapse:collapse;
+            border-color:#ADB5B0;
+            }
+        </style>
+        
+        <body>
+            
+            <apex:outputText value="{!PrintView}" escape="false"/>
+            <div Style="margin-top:60px" >
+            <h3 Align="left">Schedule of Underlying Insurance</h3>
+            
+         <table Align="left" border="1" id="lastttable" style="word-break:break-all;">
+               <tr style="height:2.95pt;">
+                    <th width="125" style="background:#F0550C;font-size:
+                                           9.0pt;color:#004040"><font color="#ffffff">Carrier</font></th>           
+                    <th width="125" style="background:#F0550C;font-size:
+                                           9.0pt;color:#004040"><font color="#ffffff"> Policy Number</font></th>
+                    <th width="125" style="background:#F0550C;font-size:
+                                           9.0pt;color:#004040"><font color="#ffffff">Policy Start Date</font></th>
+                    <th width="125" style="background:#F0550C;font-size:
+                                           9.0pt;color:#004040"><font color="#ffffff">Policy End Date</font></th>
+                    <th width="125" style="background:#F0550C;font-size:
+                                           9.0pt;color:#004040"><font color="#ffffff">Coverage</font></th>
+                    <th width="125" style="background:#F0550C;font-size:
+                                           9.0pt;color:#004040"><font color="#ffffff">Underlying Limits <br/>of Liability</font></th>
+                    
+                </tr>
+                <apex:repeat value="{!riskDetailList}" rendered="{!UEPolicies=='Yes'}" var="rcw">
+                    <tr style="height:1.95pt;">
+                        <td width="100" style="font-size:
+                                               9.0pt;color:#004040">{!rcw.CA1}</td>
+                        <td width="100" style="font-size:
+                                               9.0pt;color:#004040">{!rcw.PA1}</td>
+                        <td width="100" style="font-size:
+                                               9.0pt;color:#004040">{!rcw.PSD1}</td>
+                        <td width="100" style="font-size:
+                                               9.0pt;color:#004040">{!rcw.PED1}</td>                      
+                        <td width="100" style="font-size:
+                                               9.0pt;color:#004040">{!rcw.CO1}</td>
+                        <td width="100" style="font-size:
+                                               9.0pt;color:#004040">{!rcw.UI1}</td>
+                        
+                    </tr>
+                </apex:repeat>
+           </table>
+            
+           </div>
+           </body>
+           </html>           
+    </apex:form>
+</apex:page>

@@ -1,0 +1,204 @@
+<!--
+   @description       : 
+   @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+   @group             : 
+   @last modified on  : 08-16-2021
+   @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+   -->
+   <template>
+    <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
+       <lightning-layout multiple-rows>
+          <lightning-layout-item padding="around-small" size="12" small-device-size="12" medium-device-size="3">
+             <div class="custom-box slds-box slds-p-around_medium slds-text-align_center card">
+                <lightning-vertical-navigation selected-item="">
+                   <lightning-vertical-navigation-section>
+                      <lightning-vertical-navigation-item-icon class="slds-m-top_x-small card" label="Apex Classes" name="apex_classes" icon-name="action:apex" onclick={openApex}></lightning-vertical-navigation-item-icon>
+                      <lightning-vertical-navigation-item-icon class="slds-m-top_x-small card" label="VisualForce Pages" name="apex_pages" icon-name="action:manage_perm_sets" onclick={openApexPage}></lightning-vertical-navigation-item-icon>
+                      <lightning-vertical-navigation-item-icon class="slds-m-top_x-small card" label="Users" name="users" icon-name="action:user" onclick={openUser}></lightning-vertical-navigation-item-icon>
+                      <lightning-vertical-navigation-item-icon class="slds-m-top_x-small card" label="All Sites" name="allSites" icon-name="action:fallback" onclick={openAllSites}></lightning-vertical-navigation-item-icon>
+                      <lightning-vertical-navigation-item-icon class="slds-m-top_x-small card" label="Debug Log" name="debugLog" icon-name="action:bug" onclick={openDebugLog}></lightning-vertical-navigation-item-icon>
+                      <lightning-vertical-navigation-item-icon class="slds-m-top_x-small card" label="Custom Labels" name="customLabels" icon-name="action:quote" onclick={openCustomLabels}></lightning-vertical-navigation-item-icon>
+                   
+                   </lightning-vertical-navigation-section>
+                </lightning-vertical-navigation>
+             </div>
+          </lightning-layout-item>
+          <template if:true={openLayout}>
+             <lightning-layout-item padding="around-small" size="12" small-device-size="12" medium-device-size="9">
+                <div class="custom-box slds-box slds-p-around_medium slds-text-align_center card">
+                   <template if:true={isLoading}>
+                      <c-spinner-l-w-c size="medium" variant="brand" message={spinnerMessage}></c-spinner-l-w-c>
+                   </template>
+                   <template if:true={isApexClass}>
+                      <lightning-tile type="standard">
+                         <div class="color-only color_from">
+                            <div class="slds-text-color_inverse colors-only margin-top"><b>Search Apex Classes</b></div>
+                            <lightning-input variant="label-hidden" slot="actions" type="Search" label="Search Apex Classes" value={apexKey} onchange={searchApexHandler}></lightning-input>
+                            <lightning-button variant="neutral" label="Clear All" slot="actions" onclick={clearAll}></lightning-button>
+                         </div>
+                         <div class="slds-p-around_medium">
+                            <table>
+                               <tbody>
+                                  <template for:each={searchList} for:item="s">
+                                     <tr key={s.Id}>
+                                        <td>
+                                           <lightning-icon icon-name="action:record" alternative-text={s.Name} title={s.Name} size="x-small"></lightning-icon> &nbsp;&nbsp;&nbsp;
+                                           <a href={links} data-recordid={s.Id} value={s.Id} onclick={link} target="_blank">
+                                              <lightning-badge label={s.Name} ></lightning-badge>
+                                           </a>
+                                        </td>
+                                     </tr>
+                                  </template>
+                               </tbody>
+                            </table>
+                         </div>
+                      </lightning-tile>
+                   </template>
+                   <template if:true={isApexPage}>
+                      <lightning-tile type="standard">
+                         <div class="color-only color_from">
+                            <div class="slds-text-color_inverse colors-only margin-top"><b>Search Apex Pages</b></div>
+                            <lightning-input variant="label-hidden" type="Search" label="Search VisualForce Pages" value={pageKey} onchange={searchPageHandler}></lightning-input>
+                            <lightning-button variant="neutral" label="Clear All" slot="actions" onclick={clearAllpages}></lightning-button>
+                         </div>
+                         <div class="slds-p-around_medium">
+                            <table>
+                               <tbody>
+                                  <template for:each={searchPageList} for:item="s">
+                                     <tr key={s.Id}>
+                                        <td>
+                                           <lightning-icon icon-name="action:record" alternative-text={s.Name} title={s.Name} size="x-small"></lightning-icon> &nbsp;&nbsp;&nbsp;
+                                           <a href={links} data-recordid={s.Id} value={s.Id} onclick={link} target="_blank">
+                                              <lightning-badge label={s.Name} ></lightning-badge>
+                                           </a>
+                                        </td>
+                                     </tr>
+                                  </template>
+                               </tbody>
+                            </table>
+                         </div>
+                      </lightning-tile>
+                   </template>
+                   <template if:true={isUser}>
+                     <lightning-tile type="standard">
+                    <div class="color-only color_from">
+                        <div class="slds-text-color_inverse colors-only margin-top"><b>Search User</b></div>
+                        <lightning-input variant="label-hidden" type="Search" label="Search VisualForce Pages" value={usernameKey} onchange={searchUserHandler}></lightning-input>
+                        <lightning-button variant="neutral" label="Clear All" slot="actions" onclick={clearAlluser}></lightning-button>
+                     </div>
+                    <!-- <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none"> -->
+                        <lightning-layout multiple-rows>
+                            <lightning-layout-item padding="around-small" size="12" small-device-size="12" medium-device-size="6">
+                                <!-- <div class="custom-box slds-box slds-p-around_medium slds-text-align_center"> -->
+                                 <lightning-combobox variant="label-inline"  name="ReadWriteAccess" value={userRWAccess} label="Read/Write Access"
+                                 options={RWOptions} onchange={userHandler}></lightning-combobox>
+                                <!-- </div> -->
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="around-small" size="12" small-device-size="12" medium-device-size="4">
+                                 <lightning-input type="checkbox" label="Underwriter Check" onchange={userHandler} name="UnderwriterCheck"></lightning-input>
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="around-small" alignment-bump="left" size="12" small-device-size="12" medium-device-size="2">
+                                 <lightning-button variant="brand" label="Get User" onclick={getUserByFilter}></lightning-button>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                        <template if:true={userTable}>
+                            <table>
+                                <thead>
+                                    <tr style="color: rgb(250, 250, 250);">
+                                        <template for:each={headings} for:item="heading">
+                                            <th key={heading}>{heading}</th>
+                                        </template>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={getUserList} for:item="data">
+                                       <tr key={data.userId}>
+                                          <td style="white-space:nowrap;">{data.isActive}</td>
+                                          <td style="white-space:nowrap;">{data.Name}</td>
+                                          <!-- <td>{data.Username}</td> -->
+                                          <td style="white-space:nowrap;">{data.ProfileName}</td>
+                                          <td>{data.ReadWriteAccess}</td>
+                                          <td style="white-space:nowrap;">{data.UWCheck}</td>
+                                          <td>{data.UWAccess}</td>
+                                          <td>
+                                             <a href={links} data-recordid={data.userId} value={data.userId} onclick={userlink} target="_blank">
+                                                <lightning-icon icon-name="action:more" alternative-text={data.Name} title={data.Name} size="x-small"></lightning-icon>
+                                             </a>
+                                          </td>
+                                       </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </template>
+                        </lightning-tile>
+                    <!-- </div> -->
+                   </template>
+                   <template if:true={isSites}>
+                     <lightning-tile type="standard">
+                        <div class="color-only color_from">
+                           <div class="slds-text-color_inverse colors-only margin-top"><b>All Sites</b></div>
+                        </div>
+                        <div class="slds-p-around_medium">
+                           <table>
+                              <tbody>
+                                 <template for:each={siteList} for:item="s">
+                                    <tr key={s.Name}>
+                                       <td>
+                                          <lightning-icon icon-name="action:web_link" alternative-text={s.Name} title={s.Name} size="x-small"></lightning-icon> &nbsp;&nbsp;&nbsp;
+                                          <!-- <a href={links} data-recordid={s.Id} value={s.Id} onclick={link} target="_blank"> -->
+                                             <lightning-badge label={s.Name} ></lightning-badge>
+                                          <!-- </a> -->
+                                       </td>
+                                       <td>
+                                          <a href={s.Link} target="_blank">
+                                             <lightning-badge class="slds-badge_lightest" label={s.Link} ></lightning-badge>
+                                          </a>
+                                       </td>
+                                    </tr>
+                                 </template>
+                              </tbody>
+                           </table>
+                        </div>
+                     </lightning-tile>
+                   </template>
+                   <template if:true={isOpenDebugger}>
+                     <lightning-tile type="standard">
+                        <div class="color-only color_from">
+                           <div class="slds-text-color_inverse colors-only margin-top"><b>Debug Log</b></div>
+                        </div>
+                        <div class="slds-p-around_medium">
+                           <c-delete-debug-logs-l-w-c></c-delete-debug-logs-l-w-c>
+                        </div>
+                     </lightning-tile>
+                   </template>
+                   <template if:true={isOpenCustomLabel}>
+                     <lightning-tile type="standard">
+                        <div class="color-only color_from">
+                           <div class="slds-text-color_inverse colors-only margin-top"><b>Custom Label List</b></div>
+                        </div>
+                        <div class="slds-p-around_medium">
+                           <table>
+                              <tbody>
+                                 <template for:each={customLabelList} for:item="s">
+                                    <tr key={s.labelIds}>
+                                       <td>
+                                          <lightning-icon icon-name='utility:classic_interface' alternative-text={s.Name} variant='success' size='small' title='classic_interface'></lightning-icon> &nbsp;&nbsp;&nbsp;
+                                          <a href={links} data-recordid={s.labelIds} value={s.labelIds} onclick={link} target="_blank">
+                                             <lightning-badge label={s.Name} ></lightning-badge>
+                                          </a>
+                                       </td>
+                                    </tr>
+                                 </template>
+                              </tbody>
+                           </table>
+                        </div>
+                        <!-- <c-data-export-l-w-c></c-data-export-l-w-c> -->
+                     </lightning-tile>
+                     
+                  </template>
+                </div>
+             </lightning-layout-item>
+          </template>
+       </lightning-layout>
+    </div>
+ </template>

@@ -1,0 +1,60 @@
+<template>
+    <lightning-card>
+        <lightning-layout multiple-rows>
+            <lightning-layout-item padding="around-small" size="12" small-device-size="12" medium-device-size="12" large-device-size="3">
+                <div class="slds-box card">
+                    <h5>Alumni Dues</h5>
+                    <div class="slds-grid slds-grid_align-center">
+                        <div class="slds-col">
+                           <div class="slds-m-top_medium">
+                              <lightning-button-group>
+                                 <button class="slds-button slds-button_neutral Annual" name="Annual" onclick={onAnnual}>Annual</button>
+                                 <button class="slds-button slds-button_neutral Lifetime" name="Lifetime" onclick={onAnnual}>Lifetime</button>
+                                 <button class="slds-button slds-button_neutral Young" name="Young" onclick={onAnnual}>Young Alumni</button>
+                              </lightning-button-group>
+                           </div>
+                        </div>
+                    </div>
+                    <div class="slds-grid slds-grid_align-center">
+                        <div class="slds-col">
+                            <div class="slds-m-top_medium">
+                                <button class="slds-button slds-button_neutral fifty slds-m-around_small" name="fifty" onclick={onCheck}>$50</button>
+                                <button class="slds-button slds-button_neutral hundered slds-m-around_small" name="hundered" onclick={onCheck}>$100</button>
+                                <button class="slds-button slds-button_neutral oneFifty slds-m-around_small" name="oneFifty" onclick={onCheck}>$150</button>
+                                <button class="slds-button slds-button_neutral twoFifty slds-m-around_small" name="twoFifty" onclick={onCheck}>$250</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-grid slds-grid_align-center">
+                        <div class="slds-col">
+                            <div class="">
+                                <button class="slds-button slds-button_neutral fivehundered slds-m-around_small" name="fivehundered" onclick={onCheck}>$500</button>
+                                <button class="slds-button slds-button_neutral other slds-m-around_small" name="other" onclick={onCheck}>Other</button>
+                            </div>
+                        </div>
+                    </div>
+                    <h5 class="slds-m-around_small" style="text-align: start;">About you</h5>
+                    <div class="slds-grid">
+                        <div class="slds-col">
+                            <lightning-input label="First Name" class="" required></lightning-input>
+                        </div>
+                        <div class="slds-col">
+                            <lightning-input label="Last Name" class="slds-m-left_small" required></lightning-input>
+                        </div>
+                    </div>
+                    <div class="slds-grid">
+                        <div class="slds-col">
+                            <lightning-input type="emial" label="Email" class="" required></lightning-input>
+                        </div>
+                    </div>
+                    <div class="slds-grid">
+                        <div class="slds-col">
+                            <lightning-input type="checkbox" label={checkBoxLabel} name="input1" class="slds-m-around_small" onclick={payHandle} value={check}></lightning-input>
+                        </div>
+                    </div>
+                    <button class="slds-button slds-button_destructive slds-button_stretch">{bntValue}</button>
+                </div>
+            </lightning-layout-item>
+        </lightning-layout>
+    </lightning-card>
+</template>

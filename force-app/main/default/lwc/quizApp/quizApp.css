@@ -1,0 +1,26 @@
+.bg {
+	background: antiquewhite;
+	color: black;
+}
+
+.score {
+	background: beige;
+	display: inline-block;
+	border-radius: 10px;
+	font: message-box;
+}
+
+.box{
+	background: #f0f8ff;
+    border-radius: 10px;
+	font: message-box;
+}
+
+/* .btn{
+    display:flex
+} */
+
+
+/* .btnscore{
+    margin-left:300px
+} */

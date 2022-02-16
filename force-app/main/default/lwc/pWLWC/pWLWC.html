@@ -1,0 +1,241 @@
+<template>
+   <lightning-card title="Visual Pickers">
+      <template if:true={isSpinner}>
+         <div>
+            <c-icon-spinner></c-icon-spinner>
+         </div>
+      </template>
+      <div class="slds-p-around_large">
+         <div class="slds-box card">
+            <template if:true={isStepOne}>
+               <lightning-layout multiple-rows>
+                  <lightning-layout-item size="12" padding="around-small">
+                     <div class="">
+                        <div class="slds-p-around_medium slds-text-align_center">
+                           <div class="slds-visual-picker slds-visual-picker_large">
+                              <input type="radio" id="0"  value="Crime" name="set1" onchange={handleSetChange}  />
+                              <label for="0">
+                                 <span class="slds-visual-picker__figure slds-visual-picker__text slds-align_absolute-center">
+                                    <span>
+                                       <span class="main">
+                                          <div lwc:dom="manual" class="animation" ></div>
+                                       </span>
+                                       <span class="slds-badge slds-badge_inverse" >Crime</span>
+                                    </span>
+                                 </span>
+                                 <lightning-icon variant="inverse" class="slds-icon_container slds-visual-picker__text-check" icon-name="utility:check" size="x-small"></lightning-icon>
+                              </label>
+                           </div>
+                           <div class="slds-visual-picker slds-visual-picker_large">
+                              <input type="radio" id="1"  value="PI" name="set1" onchange={handleSetChange}  />
+                              <label for="1">
+                                 <span class="slds-visual-picker__figure slds-visual-picker__text slds-align_absolute-center">
+                                    <span>
+                                       <span class="main">
+                                          <div lwc:dom="manual" class="ani" ></div>
+                                       </span>
+                                       <span class="slds-badge slds-badge_inverse" >PI</span>
+                                    </span>
+                                 </span>
+                                 <lightning-icon variant="inverse" class="slds-icon_container slds-visual-picker__text-check" icon-name="utility:check" size="x-small"></lightning-icon>
+                              </label>
+                           </div>
+                           <div class="slds-visual-picker slds-visual-picker_large">
+                              <input type="radio" id="2"  value="D&O" name="set1" onchange={handleSetChange}  />
+                              <label for="2">
+                                 <span class="slds-visual-picker__figure slds-visual-picker__text slds-align_absolute-center">
+                                    <span>
+                                       <span class="main">
+                                          <div lwc:dom="manual" class="profile" ></div>
+                                       </span>
+                                       <span class="slds-badge slds-badge_inverse" >D&O</span>
+                                    </span>
+                                 </span>
+                                 <lightning-icon variant="inverse" class="slds-icon_container slds-visual-picker__text-check" icon-name="utility:check" size="x-small"></lightning-icon>
+                              </label>
+                           </div>
+                           <div class="slds-visual-picker slds-visual-picker_large">
+                              <input type="radio" id="3"  value="Clinical Trials" name="set1" onchange={handleSetChange}  />
+                              <label for="3">
+                                 <span class="slds-visual-picker__figure slds-visual-picker__text slds-align_absolute-center">
+                                    <span>
+                                       <span class="main" >
+                                          <div lwc:dom="manual" class="book" ></div>
+                                       </span>
+                                       <span class="slds-badge slds-badge_inverse" >Clinical Trials</span>
+                                    </span>
+                                 </span>
+                                 <lightning-icon variant="inverse" class="slds-icon_container slds-visual-picker__text-check" icon-name="utility:check" size="x-small"></lightning-icon>
+                              </label>
+                           </div>
+                        </div>
+
+                        <!-- <div class="body-container"> -->
+		<!-- <div class="container">
+			<div class="card">
+				<div class="face face1">
+					<div class="content">
+						<img src="https://github.com/Jhonierpc/WebDevelopment/blob/master/CSS%20Card%20Hover%20Effects/img/design_128.png?raw=true">
+                  <div lwc:dom="manual" class="animation" ></div>
+						<h3>Design</h3>
+					</div>
+				</div>
+				<div class="face face2">
+					<div class="content">
+						<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cum cumque minus iste veritatis provident
+							at.</p>
+						<a href="#">Read More</a>
+					</div>
+				</div>
+			</div>
+			<div class="card">
+				<div class="face face1">
+					<div class="content">
+						<img src="https://github.com/Jhonierpc/WebDevelopment/blob/master/CSS%20Card%20Hover%20Effects/img/code_128.png?raw=true">
+						<h3>Code</h3>
+					</div>
+				</div>
+				<div class="face face2">
+					<div class="content">
+						<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cum cumque minus iste veritatis provident
+							at.</p>
+						<a href="#">Read More</a>
+					</div>
+				</div>
+			</div>
+			<div class="card">
+				<div class="face face1">
+					<div class="content">
+						<img src="https://github.com/Jhonierpc/WebDevelopment/blob/master/CSS%20Card%20Hover%20Effects/img/launch_128.png?raw=true">
+						<h3>Launch</h3>
+					</div>
+				</div>
+				<div class="face face2">
+					<div class="content">
+						<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cum cumque minus iste veritatis provident
+							at.</p>
+						<a href="#">Read More</a>
+					</div>
+				</div>
+			</div>
+		</div> -->
+	<!-- </div> -->
+
+                     </div>
+                  </lightning-layout-item>
+               </lightning-layout>
+            </template>
+            <template if:true={isStepTwo}>
+               <div class="slds-p-around_medium">
+                  <div class="slds-box slds-m-bottom_large">
+                     <lightning-card title="General Company Information">
+                        <lightning-layout multiple-rows>
+                           <lightning-layout-item size="4" padding="around-small"></lightning-layout-item>
+                           <lightning-layout-item size="4" padding="around-small">
+                              <lightning-input type="text" label="Turn Over(USD)" class="slds-m-bottom_large" variant="label-inline" onchange={turnOverHandler}></lightning-input>
+                              <div class="slds-m-bottom_xx-large grid" >
+                                 Type of operations <c-combobox field-label="" options={typeOfOperation} placeholder="Select Product" value={rateValue} onchange={handleChange}></c-combobox>
+                              </div>
+                           </lightning-layout-item>
+                           <lightning-layout-item size="4" padding="around-small"></lightning-layout-item>
+                        </lightning-layout>
+                     </lightning-card>
+                  </div>
+                  <div class="slds-align_absolute-center">
+                     <lightning-button variant="destructive" label="Cancel" title="cancel" onclick={handleCancel} class="slds-m-left_x-small"></lightning-button>
+                     <lightning-button variant="Neutral" label="Previous" title="Previous" onclick={handleStepOne} class="slds-m-left_x-small"></lightning-button>
+                     <lightning-button variant="brand"  label="Next" title="Next" onclick={handleStepThree} class="slds-m-left_x-small"></lightning-button>
+                  </div>
+               </div>
+            </template>
+             <template if:true={isStepThree}>
+                <div class="slds-p-around_medium">
+                   <div class="slds-box slds-m-bottom_xx-large">
+                     <lightning-card title="Exposure Information">
+                        <lightning-layout multiple-rows="true" style="align-items:center">
+                           <template if:true={crimeOptions} for:each={crimeOptions} for:item="price" for:index="index">
+                              <lightning-layout-item size="2" key={price.key} padding="around-medium" class="">
+                                 <!-- <button class="btn">{price.key}</button> --><strong>{price.key}</strong>
+                                 <!-- <c-combobox field-label={price.key} options={price.value} placeholder="Select Product" onchange={handleChange}></c-combobox> -->
+                              </lightning-layout-item>
+                              <lightning-layout-item size="10" key={price.value} padding="around-medium" class="slds-box">
+                                 <lightning-layout multiple-rows>
+                                    <template for:each={price.value} for:item="p" for:index="index">
+                                       <lightning-layout-item key={p.label} size="3" >
+                                             <div key={p.label}>
+                                                <div class="slds-m-around_small" >
+                                                   <button data-name={p.section} class={p.class} name={p.name} value={p.value} onclick={rateHandle}>{p.label}</button>
+                                                </div>
+                                                <!-- <button name={p.label} class={p.class} data-id={p.label} value={p.value} onclick={rateHandle}>
+                                                   <span>{p.label}</span>
+                                                   <svg width="15px" height="10px" viewBox="0 0 13 10">
+                                                      <path d="M1,5 L11,5"></path>
+                                                      <polyline points="8 1 12 5 8 9"></polyline>
+                                                   </svg>
+                                                </button> -->
+                                             </div>
+                                          </lightning-layout-item>
+                                    </template>
+                                 </lightning-layout>
+                                 
+                                 <!-- <c-combobox field-label={price.key} options={price.value} placeholder="Select Product" onchange={handleChange}></c-combobox> -->
+                              </lightning-layout-item>
+                           </template>
+                        </lightning-layout>
+                     </lightning-card>
+                  </div>
+                </div>
+                <div class="slds-align_absolute-center">
+                     <lightning-button variant="destructive" label="Cancel" title="cancel" onclick={handleCancel} class="slds-m-left_x-small"></lightning-button>
+                     <lightning-button variant="Neutral" label="Previous" title="Previous" onclick={handleStepTwo} class="slds-m-left_x-small"></lightning-button>
+                     <lightning-button variant="brand"  label="Next" title="Next" onclick={handleStepFour} class="slds-m-left_x-small"></lightning-button>
+                  </div>
+             </template>
+             <template if:true={isStepFour}>
+                  <div class="slds-p-around_medium">
+                     <div class="slds-box slds-m-bottom_xx-large">
+                        <lightning-card title="">
+                              <lightning-layout multiple-rows>
+                                 <lightning-layout-item size="4" padding="around-small"></lightning-layout-item>
+                                 <lightning-layout-item size="4" padding="around-small">
+                                    <div class="slds-align_absolute-center">
+                                       <!-- <p>Your Total Premium :<strong> {totalNetBasePremium}</strong></p> -->
+                                       <c-checkout onpass={fetchValue}></c-checkout>
+                                    </div>
+                                    
+                                 </lightning-layout-item>
+                                 <lightning-layout-item size="4" padding="around-small"></lightning-layout-item>
+                              </lightning-layout>
+                        </lightning-card>
+                     </div>
+                  </div>
+                  <div class="slds-align_absolute-center">
+                     <lightning-button variant="destructive" label="Cancel" title="cancel" onclick={handleCancel} class="slds-m-left_x-small"></lightning-button>
+                     <lightning-button variant="Neutral" label="Previous" title="Previous" onclick={handleStepThree} class="slds-m-left_x-small"></lightning-button>
+                     <lightning-button variant="brand"  label="Next" title="Next" onclick={handleStepFive} class="slds-m-left_x-small"></lightning-button>
+                  </div>
+             </template>
+             <template if:true={isStripePayment}>
+                 <div class="slds-p-around_medium">
+                     <div class="slds-box slds-m-bottom_xx-large">
+                        <lightning-card title="">
+                              <lightning-layout multiple-rows>
+                                 <lightning-layout-item size="4" padding="around-small"></lightning-layout-item>
+                                 <lightning-layout-item size="4" padding="around-small">
+                                    <div class="slds-align_absolute-center">
+                                       <!-- <p>Your Total Premium :<strong> {totalNetBasePremium}</strong></p> -->
+                                       <c-credit-card-lwc payment-amt={totalNetBasePremium} ondone={allDoneHandler}></c-credit-card-lwc>
+                                    </div>
+                                    
+                                 </lightning-layout-item>
+                                 <lightning-layout-item size="4" padding="around-small"></lightning-layout-item>
+                              </lightning-layout>
+                        </lightning-card>
+                     </div>
+                  </div>
+                
+             </template>
+         </div>
+      </div>
+   </lightning-card>
+</template>

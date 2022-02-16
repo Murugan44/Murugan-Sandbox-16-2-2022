@@ -1,0 +1,507 @@
+<!--
+   @description       : 
+   @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+   @group             : 
+   @last modified on  : 11-01-2021
+   @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+   -->
+   <template>
+      <div if:true={showLoadingSpinner}>
+         <lightning-spinner variant="Brand" alternative-text="Loading" size="large"></lightning-spinner>
+      </div>
+      <div class="">
+         <lightning-card variant="Narrow" title="Payments & Taxes Details">
+            <lightning-button variant="brand" disabled={ppBtn} onclick={addPaymentPolicy} label="Add Payment" slot="actions" class="slds-p-around_medium"></lightning-button>
+            <lightning-button variant="brand" disabled={ppBtn} onclick={addTaxPolicy} label="Add Tax" slot="actions" class="slds-p-around_medium"></lightning-button>
+         </lightning-card>
+         <lightning-tabset variant="vertical" title="Payments & Taxes Details" active-tab-value={isActiveMainTab}>
+            <lightning-tab label="Payments" value="paymentSection">
+               <lightning-tabset variant="scoped" label="Payment" active-tab-value={isActiveTabPayment}>
+                  <template if:false={isPaymentHasValue}>
+                     <lightning-tab label="No Payment">
+                        <lightning-badge class="slds-badge slds-current-color slds-theme_warning slds-badge__icon_inverse slds-p-around_medium" icon-name="utility:info" label="No Payments in this policy"></lightning-badge>
+                     </lightning-tab>
+                  </template>
+                  <template if:true={isPaymentHasValue}>
+                     <lightning-tab label="Payment List">
+                        <!-- <div if:true={showLoadingSpinner}>
+                           <lightning-spinner variant="Brand" alternative-text="Loading" size="large"></lightning-spinner>
+                        </div> -->
+                        <div class="slds-box">
+                           <lightning-accordion allow-multiple-sections-open>
+                              <template for:each={paymentRetriveList} for:item="payR" for:index="index">
+                                 <lightning-accordion-section key={payR.key} name="Payment Amount" label={payR.paymentLabel}>
+                                    <lightning-button-icon icon-name="utility:edit_form" slot="actions" value={payR.key}  alternative-text="Edit" title="edit" onclick={editPayments}></lightning-button-icon>
+                                    <div class="slds-box card">
+                                       <div class="slds-box gridPay">
+                                          <lightning-input variant="label-inline" type="text" name="Due Date" label="Due Date" value={payR.key2} readonly></lightning-input>
+                                          <lightning-input variant="label-inline" type="number" formatter="percent-fixed"  name="Amount" label="Policy Percent (%)" value={payR.key1} readonly></lightning-input>
+                                          <lightning-input variant="label-inline" type="text" name="Comment" label="Comment" value={payR.comment} readonly></lightning-input>
+                                          <lightning-input variant="label-inline" type="text"   name="Broker" label="Broker" value={payR.broker} readonly></lightning-input>
+                                          <!-- <lightning-input variant="label-inline" type="text"   name="Debt Details" label="Debt Details" value={payR.debtDetails} readonly></lightning-input> -->
+                                       </div>
+                                       <lightning-accordion-section name="Payment Frequencies" label="Payment Frequencies">
+                                          <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-box slds-table_col-bordered">
+                                             <thead>
+                                                <tr class="slds-line-height_reset">
+                                                   <th class="" scope="col">
+                                                      <div class="slds-truncate" title="Select Policy Schedule">Select Policy Schedule</div>
+                                                   </th>
+                                                   <th class="" scope="col">
+                                                      <div class="slds-truncate" title="GWP">GWP</div>
+                                                   </th>
+                                                </tr>
+                                             </thead>
+                                             <tbody>
+                                                <template for:each={payR.value} for:item="value">
+                                                   <tr key={value}>
+                                                      <td>
+                                                         <div class="slds-truncate" title={value.ps}>{value.ps}</div>
+                                                      </td>
+                                                      <td>
+                                                         <div class="slds-truncate" title={value.paymentAmount}>
+                                                            <lightning-input variant="label-hidden" type="number" value={value.paymentAmount} label="t" readonly></lightning-input>
+                                                         </div>
+                                                      </td>
+                                                   </tr>
+                                                </template>
+                                             </tbody>
+                                          </table>
+                                       </lightning-accordion-section>
+                                    </div>
+                                 </lightning-accordion-section>
+                              </template>
+                           </lightning-accordion>
+                        </div>
+                     </lightning-tab>
+                  </template>
+                  <template if:true={isAddPaymentTab}>
+                     <lightning-tab label="Add Payment" value="add-payment">
+                        <div class="slds-scrollable">
+                           <!-- <div if:true={showLoadingSpinner}>
+                              <lightning-spinner variant="Brand" alternative-text="Loading" size="large"></lightning-spinner>
+                           </div> -->
+                           <template if:true={paymentList}>
+                              <template for:each={paymentList} for:item="pay" for:index="index">
+                                 <div key={pay.counter} title="Payment Amount">
+                                    <template if:true={dueDateValidation}>
+                                       <lightning-badge class="slds-badge slds-theme_error slds-p-around_small" label={paymentInsertValidationMsg} icon-name="action:info" ></lightning-badge>
+                                    </template>
+                                    <div class="slds-box card slds-p-around_small" >
+                                       <div class="color-only">
+                                          <div class="slds-text-color_inverse"><b>Payment Amount</b></div>
+                                       </div>
+                                       <div class="slds-box gridPay">
+                                          <lightning-input required variant="label-inline" type="date" name="Due Date" label="Due Date" value={pay.dueDate} access-key={pay.counter} id={pay.counter} onchange={paymentHandler}></lightning-input>
+                                          <lightning-input required variant="label-inline" type="number" formatter="percent-fixed"  name="Amount" label="Policy Percent (%)" value={pay.policyPaymenyAmount} access-key={pay.counter} id={pay.counter} onchange={paymentHandler}></lightning-input>
+                                          <lightning-textarea variant="label-inline" name="Comment" label="Comment" value={pay.comment} access-key={pay.counter} id={pay.counter} onchange={paymentHandler}></lightning-textarea>
+                                          <c-lookup-lwc help-text={pay.brokerName} lookup-label="Broker" object-api-name="account" icon-name="standard:account"  
+                                             onrecordselection={onAccountSelection} access-key={pay.counter} id={pay.counter} value={pay.broker}></c-lookup-lwc>
+                                          <!-- <lightning-combobox name="DebetDetails" label="Debt Details" value={pay.debtDetails} placeholder="Select Debt Details"
+                                             options={debetDetailsValueList} variant="label-inline"
+                                             onchange={paymentHandler} access-key={pay.counter} id={pay.counter} >
+                                             </lightning-combobox> -->
+                                       </div>
+                                       <template if:true={pay.btnpf1}>
+                                          <lightning-badge class="slds-badge slds-theme_error slds-p-around_small" label="Cant add new Payment Frequency because sum of Payment (%) reached 100 .." icon-name="action:info" ></lightning-badge>
+                                       </template>
+                                       <lightning-card title="Payment Frequencies" access-key={pay.counter} id={pay.counter}>
+                                          <lightning-button variant="brand" disabled={pay.btnpf} onclick={addPayment} label="Add Payment Frequencies" slot="actions" class="slds-p-around_medium" access-key={pay.counter} id={pay.counter}></lightning-button>
+                                          <div class="table">
+                                             <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-box slds-table_col-bordered slds-scrollable_y">
+                                                <thead>
+                                                   <tr class="slds-line-height_reset">
+                                                      <th class="" scope="col">
+                                                         <div class="slds-truncate" title="Select Policy Schedule">Select Policy Schedule</div>
+                                                      </th>
+                                                      <th class="" scope="col">
+                                                         <div class="slds-truncate" title="GWP">GWP</div>
+                                                      </th>
+                                                      <th class="" scope="col">
+                                                         <div class="slds-truncate" title="Remove">Remove</div>
+                                                      </th>
+                                                   </tr>
+                                                </thead>
+                                                <tbody>
+                                                   <template for:each={pay.pfList} for:item="pf" for:index="index">
+                                                      <tr key={pay.counter}>
+                                                         <td>
+                                                            <!-- <div class="slds-truncate" title={pf.ps}> -->
+                                                               <lightning-combobox
+                                                                  name={pf.pfCounter}
+                                                                  value={pf.ps}
+                                                                  placeholder="Select Policy Schedule"
+                                                                  options={psOption}
+                                                                  onchange={pfHandler} access-key={pay.counter} disabled={pf.disablePS}>
+                                                               </lightning-combobox>
+                                                            <!-- </div> -->
+                                                         </td>
+                                                         <td>
+                                                            <div class="slds-truncate" title={pf.gwp}>
+                                                               <lightning-input variant="label-hidden" type="number" value={pf.gwp} label="t" readonly></lightning-input>
+                                                            </div>
+                                                         </td>
+                                                         <td>
+                                                            <div class="slds-truncate" >
+                                                               <lightning-button variant="destructive-text" access-key={pay.counter} data-name={pf.ps} name={pf.pfCounter} label="Remove" onclick={removePFView} title="Remove"></lightning-button>
+                                                            </div>
+                                                         </td>
+                                                         <template if:true={pf.validationMsg}>
+                                                            <td>
+                                                               <div class="slds-badge slds-theme_error" >
+                                                                  <p style="font-size: 10px;font-weight: bold;">Payment Frequency GWP should be Less than<br> or equal to PS GWP</p>
+                                                                  <!-- <lightning-badge class="slds-badge slds-theme_error" label={validationText} icon-name="action:info" ></lightning-badge> -->
+                                                               </div>
+                                                            </td>
+                                                         </template>
+                                                      </tr>
+                                                   </template>
+                                                </tbody>
+                                             </table>
+                                          </div>
+                                       </lightning-card>
+                                    </div>
+                                 </div>
+                              </template>
+                           </template>
+                           <lightning-card>
+                              <lightning-button slot="actions" variant="destructive" label="Cancel" onclick={cancelAddPayment} class="slds-p-around_small" ></lightning-button>
+                              <lightning-button label="Save" variant="brand" slot="actions" onclick={finish} class="slds-p-around_small" disabled={isDisableSaveCancelBtn}></lightning-button>
+                           </lightning-card>
+                        </div>
+                     </lightning-tab>
+                  </template>
+                  <template if:true={isPaymentEdit}>
+                     <lightning-tab label="Edit Payment" value="edit-Payment">
+                        <!-- <div if:true={showLoadingSpinner}>
+                           <lightning-spinner variant="Brand" alternative-text="Loading" size="large"></lightning-spinner>
+                        </div> -->
+                        <div class="slds-box">
+                           <template if:true={dueDateValidation}>
+                              <lightning-badge class="slds-badge slds-theme_error slds-p-around_small" label={paymentInsertValidationMsg} icon-name="action:info" ></lightning-badge>
+                           </template>
+                           <lightning-accordion allow-multiple-sections-open>
+                              <template for:each={editPaymentList} for:item="payEdit" for:index="index">
+                                 <lightning-accordion-section key={payEdit.key} name="Payment Amount" label={payEdit.paymentLabel}>
+                                    <lightning-button-group slot="actions">
+                                       <lightning-button disabled={amtBtn1} variant="brand-outline" icon-name="utility:save" label="Update" data-title={payEdit.broker} name={payEdit.comment} data-name={payEdit.key2} data-value={payEdit.key1} value={payEdit.key} onclick={updatePayment}></lightning-button>
+                                       <lightning-button variant="brand-outline" icon-name="utility:delete" label="Cancel" onclick={cancelPayment}></lightning-button>
+                                    </lightning-button-group>
+                                    <div class="slds-box card">
+                                       <template if:true={amtBtn}>
+                                          <lightning-badge class="slds-badge slds-theme_error slds-p-around_small" label="Cant Update Payment Frequency because sum of Payment (%) reached 100 .." icon-name="action:info" ></lightning-badge>
+                                       </template>
+                                       <div class="slds-box gridPay">
+                                          <lightning-input access-key={index} variant="label-inline" type="date" name="Due Date" label="Due Date" value={payEdit.key2} onchange={editPaymentOnchangeHandler} required></lightning-input>
+                                          <lightning-input access-key={index} variant="label-inline" type="number" formatter="percent-fixed"  name="Amount" label="Policy Percent (%)" value={payEdit.key1} onchange={editPaymentOnchangeHandler} required></lightning-input>
+                                          <lightning-textarea access-key={index} variant="label-inline" name="Comment" label="Comment" value={payEdit.comment} onchange={editPaymentOnchangeHandler}></lightning-textarea>
+                                          <c-lookup-lwc help-text={payEdit.brokerName} lookup-label="Broker" object-api-name="account" icon-name="standard:account"  
+                                             onrecordselection={onAccountSelection1} access-key={index} value={payEdit.broker} ></c-lookup-lwc>
+                                          <!-- <lightning-combobox name="DebetDetails" label="Debt Details" value={payEdit.debtDetails} placeholder="Select Debt Details"
+                                             options={debetDetailsValueList} variant="label-inline"
+                                             onchange={editPaymentOnchangeHandler} access-key={index} >
+                                             </lightning-combobox> -->
+                                       </div>
+                                       <div class="color-only">
+                                          <div class="slds-text-color_inverse"><b>Payment Frequencies</b></div>
+                                       </div>
+                                       <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-box slds-table_col-bordered">
+                                          <thead>
+                                             <tr class="slds-line-height_reset">
+                                                <th class="" scope="col">
+                                                   <div class="slds-truncate" title="Select Policy Schedule">Select Policy Schedule</div>
+                                                </th>
+                                                <th class="" scope="col">
+                                                   <div class="slds-truncate" title="GWP">GWP</div>
+                                                </th>
+                                                <th class="" scope="col">
+                                                   <div class="slds-truncate" title="Remove">Remove</div>
+                                                </th>
+                                             </tr>
+                                          </thead>
+                                          <tbody>
+                                             <template for:each={payEdit.value} for:item="value">
+                                                <tr key={value}>
+                                                   <td>
+                                                      <div class="slds-truncate" title={value.ps}>{value.ps}</div>
+                                                   </td>
+                                                   <td>
+                                                      <div class="slds-truncate" title={value.paymentAmount}>
+                                                         <lightning-input variant="label-hidden" type="number" value={value.paymentAmount} label="t" readonly></lightning-input>
+                                                      </div>
+                                                   </td>
+                                                   <td>
+                                                      <lightning-button variant="destructive-text" value={value.pfId} label="Remove" onclick={deletePFView} title="Remove"></lightning-button>
+                                                   </td>
+                                                   <!-- <template if:true={value.validationMsg}>
+                                                      <td>
+                                                         <div class="slds-badge slds-theme_error" >
+                                                            <p style="font-size: 10px;font-weight: bold;">Payment Frequency GWP should be Less than<br> or equal to PS GWP</p>
+                                                         </div>
+                                                      </td>
+                                                   </template> -->
+                                                </tr>
+                                             </template>
+                                          </tbody>
+                                       </table>
+                                    </div>
+                                 </lightning-accordion-section>
+                              </template>
+                           </lightning-accordion>
+                        </div>
+                     </lightning-tab>
+                  </template>
+               </lightning-tabset>
+            </lightning-tab>
+            <lightning-tab label="Taxes" value="taxSection">
+               <lightning-tabset variant="scoped" active-tab-value={isActiveTabTax}>
+                  <template if:false={isTaxHasValue}>
+                     <lightning-tab label="No Taxes">
+                        <lightning-badge class="slds-badge slds-current-color slds-theme_warning slds-badge__icon_inverse slds-p-around_medium" icon-name="utility:info" label="No Tax in this policy"></lightning-badge>
+                     </lightning-tab>
+                  </template>
+                  <template if:true={isTaxHasValue}>
+                     <lightning-tab label="Tax List">
+                        <!-- <div if:true={showLoadingSpinner}>
+                           <lightning-spinner variant="Brand" alternative-text="Loading" size="large"></lightning-spinner>
+                        </div> -->
+                        <div class="slds-box" title="Taxes">
+                           <lightning-accordion allow-multiple-sections-open>
+                              <template for:each={taxRetriveList} for:item="taxR" for:index="index">
+                                 <lightning-accordion-section key={taxR.key} name="Tax Section" label="Tax Section">
+                                    <lightning-button-icon icon-name="utility:edit_form" slot="actions" access-key={index} value={taxR.key} data-name={taxR.key1} data-value={taxR.key2} data-title={taxR.key3} data-element={taxR.key4}  alternative-text="Edit" title="edit" onclick={editTaxes}></lightning-button-icon>
+                                    <div class="slds-box card">
+                                       <div class="slds-box gridTax">
+                                          <lightning-input variant="label-inline" type="text" name="Tax Type" label="Tax Type" value={taxR.key1} readonly></lightning-input>
+                                          <lightning-input variant="label-inline" type="text" name="Tax Jurisdiction" label="Tax Jurisdiction" value={taxR.key2} readonly></lightning-input>
+                                          <lightning-input variant="label-inline" type="text" name="Tax Paid By" label="Tax Paid By" value={taxR.key4} readonly></lightning-input>
+                                          <lightning-input variant="label-inline" type="text" name="Tax Administered By" label="Tax Administered By" value={taxR.key3} readonly></lightning-input>
+                                          <lightning-input  type="checkbox" name="Tax Included" label="Tax Included" checked={taxR.taxIncluded} disabled></lightning-input>
+                                          <lightning-textarea variant="label-inline" name="Comment" label="Comment" value={taxR.comment} readonly></lightning-textarea>
+                                          <lightning-input variant="label-inline" type="number" formatter="percent-fixed"  name="TaxPercent" label="Tax Percent (%)" value={taxR.taxPercent} disabled></lightning-input>
+                                          
+                                       </div>
+                                       <lightning-accordion-section name="Taxes" label="Taxes">
+                                          <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-box slds-table_col-bordered">
+                                             <thead>
+                                                <tr class="slds-line-height_reset">
+                                                   <th class="" scope="col">
+                                                      <div class="slds-truncate" title="Select Policy Schedule">Select Policy Schedule</div>
+                                                   </th>
+                                                   <th class="" scope="col">
+                                                      <div class="slds-truncate" title="Taxable Amount">Taxable Amount</div>
+                                                   </th>
+                                                   <th class="" scope="col">
+                                                      <div class="slds-truncate" title="Taxable Amount">Tax Amount</div>
+                                                   </th>
+                                                </tr>
+                                             </thead>
+                                             <tbody>
+                                                <template for:each={taxR.value} for:item="value">
+                                                   <tr key={value}>
+                                                      <td>
+                                                         <div class="slds-truncate" title={value.psSelected}>{value.psSelected}</div>
+                                                      </td>
+                                                      <td>
+                                                         <div class="slds-truncate" title={value.taxableAmount}>{value.taxableAmount}</div>
+                                                      </td>
+                                                      <td>
+                                                         <div class="slds-truncate" title={value.taxAmount}>{value.taxAmount}</div>
+                                                      </td>
+                                                   </tr>
+                                                </template>
+                                             </tbody>
+                                          </table>
+                                       </lightning-accordion-section>
+                                    </div>
+                                 </lightning-accordion-section>
+                              </template>
+                           </lightning-accordion>
+                        </div>
+                     </lightning-tab>
+                  </template>
+                  <template if:true={isTaxTab}>
+                     <lightning-tab label="Add Tax" value="add-Tax">
+                        <div title="Taxes" class="slds-scrollable">
+                           <!-- <div if:true={showLoadingSpinner}>
+                              <lightning-spinner variant="Brand" alternative-text="Loading" size="large"></lightning-spinner>
+                           </div> -->
+                           <template if:true={taxList}>
+                              <template for:each={taxList} for:item="tax" for:index="index">
+                                 <div key={tax.counter}>
+                                    <div class="slds-box card">
+                                       <div class="color-only">
+                                          <div class="slds-text-color_inverse"><b>Taxes</b></div>
+                                       </div>
+                                       <div class="slds-box gridTax">
+                                          <lightning-combobox name="Tax Type" label="Tax Type" value={tax.taxSelected} placeholder="Select Tax Type"
+                                             options={taxTypeValueList} variant="label-inline"
+                                             onchange={taxHandler} access-key={tax.counter}>
+                                          </lightning-combobox>
+                                          <lightning-combobox name="Tax Jurisdiction" label="Tax Jurisdiction" value={tax.taxJurisdictionListSelected} placeholder="Select Tax Jurisdiction"
+                                             options={taxJurisdictionValueList} variant="label-inline"
+                                             onchange={taxHandler} access-key={tax.counter}>
+                                          </lightning-combobox>
+                                          <lightning-combobox name="Tax Paid By" label="Tax Paid By" value={tax.taxPaidBySelected} placeholder="Select Tax Paid By"
+                                             options={taxPaidByOption} variant="label-inline"
+                                             onchange={taxHandler} access-key={tax.counter}>
+                                          </lightning-combobox>
+                                          <lightning-combobox name="Tax Administered By" label="Tax Administered By" value={tax.taxAdministeredBySelected} placeholder="Select Tax Administered By"
+                                             options={taxAdministeredByOption} variant="label-inline"
+                                             onchange={taxHandler} access-key={tax.counter}>
+                                          </lightning-combobox>
+                                          <lightning-input type="checkbox" label="Tax Included" access-key={tax.counter} name="TaxIncluded" checked={taxChecked} onchange={taxHandler} disabled></lightning-input>
+                                          <lightning-textarea access-key={tax.counter} variant="label-inline" name="Comment" label="Comment" value={tax.comment} onchange={taxHandler}></lightning-textarea>
+                                          <lightning-input access-key={tax.counter} variant="label-inline" type="number" formatter="percent-fixed"  name="TaxPercent" label="Tax Percent (%)" value={tax.taxPercent} onchange={taxHandler} required></lightning-input>
+                                          
+                                       </div>
+                                       <lightning-card title="Taxes" access-key={tax.counter} id={tax.counter}>
+                                          <lightning-button variant="brand" onclick={addTax} label="Add Tax" slot="actions" class="slds-p-around_medium" access-key={tax.counter} id={tax.counter}></lightning-button>
+                                          <div class="table">
+                                             <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-box">
+                                                <thead>
+                                                   <tr class="slds-line-height_reset">
+                                                      <th class="" scope="col">
+                                                         <div class="slds-truncate" title="Select Policy Schedule">Select Policy Schedule</div>
+                                                      </th>
+                                                      <th class="" scope="col">
+                                                         <div class="slds-truncate" title="Taxable Amount">Taxable Amount</div>
+                                                      </th>
+                                                      <th class="" scope="col">
+                                                         <div class="slds-truncate" title="Tax Amount">Tax Amount</div>
+                                                      </th>
+                                                      <th class="" scope="col">
+                                                         <div class="slds-truncate" title="Remove">Remove</div>
+                                                      </th>
+                                                   </tr>
+                                                </thead>
+                                                <tbody>
+                                                   <template for:each={tax.taxWList} for:item="tw" for:index="index">
+                                                      <tr key={tax.counter}>
+                                                         <td>
+                                                            <lightning-combobox
+                                                               data-name={tw.taxCounter}
+                                                               name="Select Policy Schedule"
+                                                               value={tw.psSelected}
+                                                               placeholder="Select Policy Schedule"
+                                                               options={psOption}
+                                                               onchange={taxwHandler} access-key={tax.counter}>
+                                                            </lightning-combobox>
+                                                         </td>
+                                                         <td>
+                                                            <lightning-input type="number" onchange={taxwHandler} data-name={tw.taxCounter} name="TaxableAmount" value={tw.taxableAmount} access-key={tax.counter}></lightning-input>
+                                                         </td>
+                                                         <td>
+                                                            {tw.taxAmount}
+                                                         </td>
+                                                         <td>
+                                                            <lightning-button variant="destructive-text" access-key={tax.counter} name={tw.taxCounter} label="Remove" onclick={removeTaxView} title="Remove"></lightning-button>
+                                                         </td>
+                                                      </tr>
+                                                   </template>
+                                                </tbody>
+                                             </table>
+                                          </div>
+                                       </lightning-card>
+                                    </div>
+                                 </div>
+                              </template>
+                           </template>
+                           <lightning-card>
+                              <lightning-button slot="actions" variant="destructive" label="Cancel" onclick={cancelAddTax} class="slds-p-around_small"></lightning-button>
+                              <lightning-button label="Save" variant="brand" slot="actions" onclick={finish} class="slds-p-around_small"></lightning-button>
+                           </lightning-card>
+                        </div>
+                     </lightning-tab>
+                  </template>
+                  <template if:true={isEditTax}>
+                     <lightning-tab label="Edit Tax" value="edit-Tax">
+                        <!-- <div if:true={showLoadingSpinner}>
+                           <lightning-spinner variant="Brand" alternative-text="Loading" size="large"></lightning-spinner>
+                        </div> -->
+                        <div class="slds-box" title="Taxes">
+                           <lightning-accordion allow-multiple-sections-open>
+                              <template for:each={editTaxList} for:item="taxE" for:index="index">
+                                 <lightning-accordion-section key={taxE.key} name="Tax Section" label="Tax Section">
+                                    <lightning-button-group slot="actions">
+                                       <lightning-button variant="brand-outline" icon-name="utility:save" label="Update" data-name={taxE.key1} data-value={taxE.key2} data-title={taxE.key3} data-element={taxE.key4} value={taxE.key} onclick={updateTax}></lightning-button>
+                                       <lightning-button variant="brand-outline" icon-name="utility:delete" label="Cancel" onclick={cancelTax}></lightning-button>
+                                    </lightning-button-group>
+                                    <div class="slds-box card">
+                                       <div class="slds-box gridTax">
+                                          <lightning-combobox name="Tax Type" label="Tax Type" value={taxE.key1} placeholder="Select Tax Type"
+                                             options={taxTypeValueList} variant="label-inline"
+                                             onchange={editTaxHandler} access-key={index}>
+                                          </lightning-combobox>
+                                          <lightning-combobox name="Tax Jurisdiction" label="Tax Jurisdiction" value={taxE.key2} placeholder="Select Tax Jurisdiction"
+                                             options={taxJurisdictionValueList} variant="label-inline"
+                                             onchange={editTaxHandler} access-key={index}>
+                                          </lightning-combobox>
+                                          <lightning-combobox name="Tax Paid By" label="Tax Paid By" value={taxE.key4} placeholder="Select Tax Paid By"
+                                             options={taxPaidByOption} variant="label-inline"
+                                             onchange={editTaxHandler} access-key={index}>
+                                          </lightning-combobox>
+                                          <lightning-combobox name="Tax Administered By" label="Tax Administered By" value={taxE.key3} placeholder="Select Tax Administered By"
+                                             options={taxAdministeredByOption} variant="label-inline"
+                                             onchange={editTaxHandler} access-key={index}>
+                                          </lightning-combobox>
+                                          <lightning-input type="checkbox" label="Tax Included" access-key={index} name="TaxIncluded" checked={taxCheckedEdit} onchange={editTaxHandler} disabled></lightning-input>
+                                          <lightning-textarea access-key={index} variant="label-inline" name="Comment" label="Comment" value={taxE.comment} onchange={editTaxHandler}></lightning-textarea>
+                                          <lightning-input access-key={index} variant="label-inline" type="number" formatter="percent-fixed"  name="TaxPercent" label="Tax Percent (%)" value={taxE.taxPercent} onchange={editTaxHandler} required></lightning-input>
+                                          
+                                       </div>
+                                       <!-- <lightning-accordion-section name="Taxes" label="Taxes"> -->
+                                       <div class="color-only">
+                                          <div class="slds-text-color_inverse"><b>Taxes</b></div>
+                                       </div>
+                                       <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-box slds-table_col-bordered">
+                                          <thead>
+                                             <tr class="slds-line-height_reset">
+                                                <th class="" scope="col">
+                                                   <div class="slds-truncate" title="Select Policy Schedule">Select Policy Schedule</div>
+                                                </th>
+                                                <th class="" scope="col">
+                                                   <div class="slds-truncate" title="Taxable Amount">Taxable Amount</div>
+                                                </th>
+                                                <th class="" scope="col">
+                                                   <div class="slds-truncate" title="Tax Amount">Tax Amount</div>
+                                                </th>
+                                                <th class="" scope="col">
+                                                   <div class="slds-truncate" title="Remove">Remove</div>
+                                                </th>
+                                             </tr>
+                                          </thead>
+                                          <tbody>
+                                             <template for:each={taxE.value} for:item="value">
+                                                <tr key={value.taxCounter}>
+                                                   <td>
+                                                      <div class="slds-truncate" title="Select Policy Schedule">{value.psSelected}</div>
+                                                   </td>
+                                                   <td>
+                                                      <lightning-input type="number" name="TaxableAmount" value={value.taxableAmount} access-key={index} data-value={value.taxCounter} onchange={taxAmtChangeHandler}></lightning-input>
+                                                   </td>
+                                                   <td>
+                                                      <div class="slds-truncate" title={value.taxAmount}>{value.taxAmount}
+                                                         <!-- <lightning-input variant="label-hidden" type="number" value={value.taxAmount} label="t" readonly></lightning-input> -->
+                                                      </div>
+                                                   </td>
+                                                   <td>
+                                                      <lightning-button variant="destructive-text" value={value.taxId} label="Remove" onclick={deleteTaxView} title="Remove"></lightning-button>
+                                                   </td>
+                                                </tr>
+                                             </template>
+                                          </tbody>
+                                       </table>
+                                       <!-- </lightning-accordion-section> -->
+                                    </div>
+                                 </lightning-accordion-section>
+                              </template>
+                           </lightning-accordion>
+                        </div>
+                     </lightning-tab>
+                  </template>
+               </lightning-tabset>
+            </lightning-tab>
+         </lightning-tabset>
+      </div>
+   </template>

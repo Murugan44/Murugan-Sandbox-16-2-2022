@@ -1,0 +1,14 @@
+.sec{
+    font-weight: 900;
+    font-size: medium;
+    background: #68a3c8;
+    text-align: center;
+}
+
+.align{
+    display: grid;
+    font: message-box;
+}
+.col{
+    background: lightskyblue;
+}

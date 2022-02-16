@@ -1,0 +1,68 @@
+.grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-template-rows: repeat(2, 0fr);
+	grid-column-gap: 18px;
+	grid-row-gap: 18px;
+}
+
+.gridBar {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	grid-column-gap: 18px;
+	grid-row-gap: 18px;
+}
+
+.card {
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+	transition: 0.3s;
+	width: 100%;
+	border-radius: 5px;
+}
+.user-bar{
+    padding: 8px;
+    background-color: #1497c0;
+    display: grid;
+    grid-template-columns: 150px 416px 161px 170px;
+    grid-column-gap: 19px;
+    border-radius: 10px;
+}
+.color-only {
+	padding: 8px;
+	background-color: #1497c0;
+	display: grid;
+	grid-template-columns: 150px 410px 90px;
+	grid-column-gap: 150px;
+	border-radius: 10px;
+}
+
+.margin-top {
+	margin-top: 5px;
+}
+
+table {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+thead {
+	background: #1497c0;
+	color: black;
+}
+
+td,
+th {
+	border: 1px solid #ddd;
+	text-align: left;
+	padding: 8px;
+	word-break: break-all;
+}
+
+tr {
+	color: blueviolet;
+}
+
+tr:nth-child(even) {
+	background-color: #ddd;
+	color: brown;
+}

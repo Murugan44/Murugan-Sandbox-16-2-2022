@@ -1,0 +1,1535 @@
+<!--
+   @description       : 
+   @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+   @group             : 
+   @last modified on  : 07-26-2021
+   @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+   Modifications Log 
+   Ver   Date         Author                               Modification
+   1.0   02-03-2021   ChangeMeIn@UserSettingsUnder.SFDoc   Initial Version
+   -->
+   <template>
+    <!-- lightning button for open modal window -->
+    <lightning-button variant="brand"
+       label="New PS"
+       title="New PS"
+       onclick={Step1}
+       class="slds-m-left_x-small">
+    </lightning-button>
+    <template if:true={loader0}>
+      <div class="slds-backdrop slds-backdrop_open" style="padding: 20px;">
+        <div class="loader pos"></div>
+      </div>
+    </template>
+    <template if:false={loader0}>
+    <template if:true={isModalOpen}>
+       <section role="dialog"  tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_large" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" >
+          <div class="slds-modal__container">
+             <header class="slds-modal__header">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                   <lightning-icon icon-name="utility:close"
+                      alternative-text="close"
+                      variant="inverse"
+                      size="small" ></lightning-icon>
+                   <span class="slds-assistive-text">Close</span>
+                </button>
+                <!--<h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate"><b>Select Product</b></h2>-->
+                <lightning-progress-indicator current-step="step1" type="path" variant="base">
+                   <template for:each={steps} for:item="step">
+                      <lightning-progress-step label={step.label} value={step.value} key={step.label}></lightning-progress-step>
+                   </template>
+                </lightning-progress-indicator>
+             </header>
+             <div class="slds-modal__content slds-p-around_large back_container" id="modal-content-id-1">
+                </br> 
+                <div class="color-only" >
+                   <div class="slds-text-color_inverse">Select Product</div>
+                </div>
+                </br></br>
+                <lightning-record-edit-form object-api-name="Policy_Schedule__c">
+                   <lightning-messages></lightning-messages>
+                   <!--<lightning-input-field field-name="Product__c"></lightning-input-field>-->
+                   <lightning-combobox
+                      name="Product"
+                      label="Product"
+                      value={product}
+                      options={productOptions}
+                      onchange={handleChange}
+                      variant ="label-inline"
+                      required
+                      ></lightning-combobox>
+                   <lightning-combobox
+                      name="Lloyds Product"
+                      label="Lloyds Product"
+                      value={lProduct}
+                      options={lloydsProductOptions}
+                      variant ="label-inline"
+                      onchange={lloydsProductSelected}
+                      required
+                      ></lightning-combobox>
+                   <!--<lightning-input-field label="Lloyds Product" field-name="VG_Lloyds_Product__c"></lightning-input-field>-->
+                   <template if:true={isRententions}>
+                      <lightning-combobox
+                         name="D &amp; O Product"
+                         label="D &amp; O Product"
+                         value={doproduct}
+                         options={doprodOptions}
+                         variant ="label-inline"
+                         onchange={doProductSelected}
+                         required
+                         ></lightning-combobox>
+                      </br></br>
+                      <div class="color-only" >
+                         <div class="slds-text-color_inverse">Rentention</div>
+                      </div>
+                      </br></br>
+                      <lightning-record-edit-form object-api-name="Policy_Schedule__c">
+                         <div class="slds-grid slds-gutters">
+                            <div class="slds-col slds-size_1-of-3">
+                               <span>
+                                  <label for="fieldid10">Side B Amount({curr})</label>
+                                  <lightning-input id="fieldid10" type="text" value={SideBRentention} onchange={Side_B_Rentention}></lightning-input>
+                               </span>
+                            </div>
+                            <div class="slds-col slds-size_1-of-3">
+                               <span>
+                                  <label for="fieldid8">Side B Currency</label>
+                                  <lightning-combobox
+                                     id="fieldid8"
+                                     name="Side B Currency"
+                                     options={options}
+                                     value={SideBCurrencys}
+                                     onchange={SideBCurrency}
+                                     ></lightning-combobox>
+                               </span>
+                            </div>
+                            <div class="slds-col slds-size_1-of-3">
+                               <span>
+                                  <label for="fieldid1">Side B Amount({SideBCurrencys})</label>
+                                  <lightning-input id="fieldid1" type="text" value={SideBRentention1} onchange={Side_B_Rentention2}></lightning-input>
+                               </span>
+                            </div>
+                         </div>
+                         <br/>
+                         <div class="slds-grid slds-gutters">
+                            <div class="slds-col slds-size_1-of-3">
+                               <span>
+                                  <label for="fieldid9">Side C Amount({curr})</label>
+                                  <lightning-input id="fieldid9" type="text" value={SideCRentention} onchange={Side_C_Rentention1}></lightning-input>
+                               </span>
+                            </div>
+                            <div class="slds-col slds-size_1-of-3">
+                               <span>
+                                  <label for="fieldid7">Side C Currency</label>
+                                  <lightning-combobox
+                                     id="fieldid7"
+                                     name="Side C Currency"
+                                     options={options}
+                                     value={SideCCurrencys}
+                                     onchange={SideCCurrency}
+                                     ></lightning-combobox>
+                               </span>
+                            </div>
+                            <div class="slds-col slds-size_1-of-3">
+                               <span>
+                                  <label for="fieldid11">Side C Amount({SideCCurrencys})</label>
+                                  <lightning-input id="fieldid11" type="text" value={SideCRentention1} onchange={Side_C_Rentention2}></lightning-input>
+                               </span>
+                            </div>
+                         </div>
+                      </lightning-record-edit-form>
+                   </template>
+                   </br></br>
+                   </br></br>
+                   </br></br>
+                   </br></br>
+                   </br></br>
+                   </br></br>
+                   </br></br>
+                   </br></br>
+                   </br></br>
+                   </br></br>
+                   </br></br>
+                </lightning-record-edit-form>
+             </div>
+             <footer  class="slds-modal__footer">
+                <button class="slds-button slds-button_brand" onclick={closeModal} title="Cancel">Cancel</button>
+                <button class="slds-button slds-button_brand" onclick={step2} title="Next">Next</button>
+             </footer>
+          </div>
+       </section>
+       <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+   </template>
+    <!--<template if:true={isStep2}>
+       <lightning-spinner alternative-text="Loading"></lightning-spinner>
+       </template>-->
+    <!--<second page-->
+      
+    <template if:true={isStep2}>
+       <section role="dialog"  tabindex="-1" aria-labelledby="modal-heading-02" aria-modal="true" aria-describedby="modal-content-id-2" class="slds-modal slds-fade-in-open slds-modal_large">
+          <div class="slds-modal__container">
+             <header class="slds-modal__header">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                   <lightning-icon icon-name="utility:close"
+                      alternative-text="close"
+                      variant="inverse"
+                      size="small" ></lightning-icon>
+                   <span class="slds-assistive-text">Close</span>
+                </button>
+                <!--<h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate"><b>Risk Detail</b></h2>-->
+                <lightning-progress-indicator current-step="step2" type="path" variant="base">
+                   <template for:each={steps} for:item="step">
+                      <lightning-progress-step label={step.label} value={step.value} key={step.label}></lightning-progress-step>
+                   </template>
+                </lightning-progress-indicator>
+             </header>
+             <div class="slds-modal__content slds-p-around_large back_container" id="modal-content-id-2">
+               <template if:true={loader1}>
+                  <div class="slds-backdrop slds-backdrop_open" style="padding: 20px;position: absolute;">
+                    <div class="loaders pos"></div>
+                  </div>
+                </template>
+               <template if:false={loader1}>
+                </br> 
+                <div class="color-only">
+                   <div class="slds-text-color_inverse">Risk Details Section</div>
+                </div>
+                </br>
+                <template if:true={isFIProductRC}>
+                   <lightning-record-edit-form object-api-name="Risk_Capture__c">
+                      <lightning-messages></lightning-messages>
+                      <lightning-input-field variant="label-inline" field-name="VG_Company_Domicile__c" value={rdRecordsFI.VG_Company_Domicile__c} onchange={handleChange1}></lightning-input-field>
+                      <lightning-input-field variant="label-inline" field-name="VG_Industry__c" value={rdRecordsFI.VG_Industry__c} onchange={handleChange2}></lightning-input-field>
+                      <lightning-input-field variant="label-inline" field-name="VG_Revenue__c" value={rdRecordsFI.VG_Revenue__c} onchange={handleChange3}></lightning-input-field>
+                      <lightning-input-field variant="label-inline" field-name="VG_Total_Assets__c" value={rdRecordsFI.VG_Total_Assets__c} onchange={handleChange4}></lightning-input-field>
+                      <lightning-input-field variant="label-inline" field-name="VG_Market_Cap__c" value={rdRecordsFI.VG_Market_Cap__c} onchange={handleChange5}></lightning-input-field>
+                      <lightning-input-field variant="label-inline" field-name="VG_Net_Profit__c" value={rdRecordsFI.VG_Net_Profit__c} onchange={handleChange6}></lightning-input-field>
+                      <lightning-input-field variant="label-inline" field-name="VG_Net_Equity__c" value={rdRecordsFI.VG_Net_Equity__c} onchange={handleChange7}></lightning-input-field>
+                      <lightning-input-field variant="label-inline" field-name="VG_Headcount__c" value={rdRecordsFI.VG_Headcount__c} onchange={handleChange8}></lightning-input-field>
+                      <lightning-input-field variant="label-inline" field-name="VG_No_of_Reinstatements__c"  value={rdRecordsFI.VG_No_of_Reinstatements__c} onchange={handleChangeNORFI}></lightning-input-field>
+                      <lightning-input-field variant="label-inline" field-name="VG_Proposal_form_date__c" value={rdRecordsFI.VG_Proposal_form_date__c} onchange={handleChange9}></lightning-input-field>
+                   </lightning-record-edit-form>
+                </template>
+                <template if:true={isDOProductRC}>
+                   <lightning-record-edit-form object-api-name="Risk_Capture__c">
+                      <lightning-messages></lightning-messages>
+                      <lightning-input-field  variant="label-inline" field-name="VG_Company_Type__c" value={rdRecordsDO.VG_Company_Type__c} onchange={handleChangeDO10}></lightning-input-field>
+                      <lightning-input-field  variant="label-inline" field-name="VG_Company_Domicile__c" value={rdRecordsDO.VG_Company_Domicile__c} onchange={handleChangeDO1}></lightning-input-field>
+                      <lightning-input-field  variant="label-inline" field-name="VG_Industry__c" value={rdRecordsDO.VG_Industry__c} onchange={handleChangeDO2}></lightning-input-field>
+                      <lightning-input-field  variant="label-inline" field-name="VG_Revenue__c" value={rdRecordsDO.VG_Revenue__c} onchange={handleChangeDO3}></lightning-input-field>
+                      <lightning-input-field  variant="label-inline" field-name="VG_Total_Assets__c" value={rdRecordsDO.VG_Total_Assets__c} onchange={handleChangeDO4}></lightning-input-field>
+                      <lightning-input-field  variant="label-inline" field-name="VG_Market_Cap__c" value={rdRecordsDO.VG_Market_Cap__c} onchange={handleChangeDO5}></lightning-input-field>
+                      <lightning-input-field  variant="label-inline" field-name="VG_Net_Profit__c" value={rdRecordsDO.VG_Net_Profit__c} onchange={handleChangeDO6}></lightning-input-field>
+                      <lightning-input-field  variant="label-inline" field-name="VG_Net_Equity__c" value={rdRecordsDO.VG_Net_Equity__c} onchange={handleChangeDO7}></lightning-input-field>
+                      <lightning-input-field  variant="label-inline" field-name="VG_No_of_Reinstatements__c"></lightning-input-field>
+                      <lightning-input-field  variant="label-inline" field-name="VG_Proposal_form_date__c" value={rdRecordsDO.VG_Proposal_form_date__c} onchange={handleChangeDO9}></lightning-input-field>
+                   </lightning-record-edit-form>
+                </template>
+                <template if:true={isPIProductRC}>
+                   <lightning-record-edit-form object-api-name="Risk_Capture__c">
+                      <lightning-messages></lightning-messages>
+                      <lightning-input-field  variant="label-inline" field-name="VG_Profession__c" value={rdRecords.VG_Profession__c} onchange={handleChange11}></lightning-input-field>
+                      <lightning-input-field  variant="label-inline" field-name="VG_Fees_Current_Year__c" value={rdRecords.VG_Fees_Current_Year__c} onchange={handleChange12}></lightning-input-field>
+                      <lightning-input-field  variant="label-inline" field-name="VG_Fees_Year_1__c" value={rdRecords.VG_Fees_Year_1__c} onchange={handleChange13}></lightning-input-field>
+                      <lightning-input-field  variant="label-inline" field-name="VG_Fees_Year_2__c" value={rdRecords.VG_Fees_Year_2__c} onchange={handleChange14}></lightning-input-field>
+                      <lightning-input-field  variant="label-inline" field-name="VG_Fees_Year_3__c" value={rdRecords.VG_Fees_Year_3__c} onchange={handleChange15}></lightning-input-field>
+                      <lightning-input-field  variant="label-inline" field-name="VG_Dispute_Clause__c" value={rdRecords.VG_Dispute_Clause__c} onchange={handleChange16}></lightning-input-field>
+                      <lightning-input-field  variant="label-inline" field-name="VG_No_of_Reinstatements__c"></lightning-input-field>
+                      <lightning-input-field  variant="label-inline" field-name="VG_Proposal_form_date__c" value={rdRecordsPI.VG_Proposal_form_date__c} onchange={handleChangePI9}></lightning-input-field>
+                   </lightning-record-edit-form>
+                </template>
+                <template if:true={isCCProductRC}>
+                   <lightning-record-edit-form object-api-name="Risk_Capture__c">
+                      <lightning-messages></lightning-messages>
+                      <lightning-input-field  variant="label-inline" field-name="VG_Company_Type__c" value={rdRecordsCC.VG_Company_Type__c} onchange={handleChangeCC10}></lightning-input-field>
+                      <lightning-input-field  variant="label-inline" field-name="VG_Company_Domicile__c" value={rdRecordsCC.VG_Company_Domicile__c} onchange={handleChangeCC1}></lightning-input-field>
+                      <lightning-input-field  variant="label-inline" field-name="VG_Industry__c" value={rdRecordsCC.VG_Industry__c} onchange={handleChangeCC2}></lightning-input-field>
+                      <lightning-input-field  variant="label-inline" field-name="VG_Revenue__c" value={rdRecordsCC.VG_Revenue__c} onchange={handleChangeCC3}></lightning-input-field>
+                      <lightning-input-field  variant="label-inline" field-name="VG_Total_Assets__c" value={rdRecordsCC.VG_Total_Assets__c} onchange={handleChangeCC4}></lightning-input-field>
+                      <lightning-input-field  variant="label-inline" field-name="VG_Market_Cap__c" value={rdRecordsCC.VG_Market_Cap__c} onchange={handleChangeCC5}></lightning-input-field>
+                      <lightning-input-field  variant="label-inline" field-name="VG_Net_Profit__c" value={rdRecordsCC.VG_Net_Profit__c} onchange={handleChangeCC6}></lightning-input-field>
+                      <lightning-input-field  variant="label-inline" field-name="VG_Net_Equity__c" value={rdRecordsCC.VG_Net_Equity__c} onchange={handleChangeCC7}></lightning-input-field>
+                      <lightning-input-field  variant="label-inline" field-name="VG_Headcount__c" value={rdRecordsCC.VG_Headcount__c} onchange={handleChangeCC8}></lightning-input-field>
+                      <lightning-input-field  variant="label-inline" field-name="VG_Class_1_Employees__c" value={rdRecordsCC.VG_Class_1_Employees__c} onchange={handleChangeCC11}></lightning-input-field>
+                      <lightning-input-field  variant="label-inline" field-name="VG_No_of_Reinstatements__c" value={rdRecordsCC.VG_No_of_Reinstatements__c} onchange={handleChangeNOR}></lightning-input-field>
+                      <lightning-input-field  variant="label-inline" field-name="VG_Proposal_form_date__c" value={rdRecordsCC.VG_Proposal_form_date__c} onchange={handleChangeCC9}></lightning-input-field>
+                   </lightning-record-edit-form>
+                </template>
+                <template if:true={isWIProductRC}>
+                   <lightning-record-edit-form object-api-name="Risk_Capture__c">
+                      <lightning-messages></lightning-messages>
+                      <lightning-input-field  variant="label-inline" field-name="VG_Buyer__c" value={rdRecords.VG_Buyer__c} onchange={handleChange17}></lightning-input-field>
+                      <lightning-input-field  variant="label-inline" field-name="VG_Seller__c" value={rdRecords.VG_Seller__c} onchange={handleChange18}></lightning-input-field>
+                      <lightning-input-field  variant="label-inline" field-name="VG_Target__c" value={rdRecords.VG_Target__c} onchange={handleChange19}></lightning-input-field>
+                      <lightning-input-field  variant="label-inline" field-name="VG_Enterprise_Value__c" value={rdRecords.VG_Enterprise_Value__c} onchange={handleChange20}></lightning-input-field>
+                      <lightning-input-field  variant="label-inline" field-name="VG_Retention_Amount__c" value={rdRecords.VG_Retention_Amount__c} onchange={handleChange21}></lightning-input-field>
+                      <lightning-input-field  variant="label-inline" field-name="VG_Retention_description__c" value={rdRecords.VG_Retention_description__c} onchange={handleChange22}></lightning-input-field>
+                      <lightning-input-field  variant="label-inline" field-name="VG_Retention_of_EV__c" value={retensionVal} read-only></lightning-input-field>
+                      <lightning-input-field  variant="label-inline" field-name="VG_De_Minimis_Amount__c" value={rdRecords.VG_De_Minimis_Amount__c} onchange={handleChange24}></lightning-input-field>
+                      <lightning-input-field  variant="label-inline" field-name="De_Minimis_description__c" value={rdRecords.De_Minimis_description__c} onchange={handleChange25}></lightning-input-field>
+                      <lightning-input-field  variant="label-inline" field-name="VG_De_Minimis_of_EV__c" value={deminimisVal} read-only></lightning-input-field>
+                      <lightning-input-field  variant="label-inline" field-name="VG_Completion_Date__c" value={rdRecords.VG_Completion_Date__c} onchange={handleChange27}></lightning-input-field>
+                      <lightning-input-field  variant="label-inline" field-name="VG_Sector__c" value={rdRecords.VG_Sector__c} onchange={handleChange28}></lightning-input-field>
+                      <lightning-input-field  variant="label-inline" field-name="VG_Governing_Law_of_Sale_Agreement__c" value={rdRecords.VG_Governing_Law_of_Sale_Agreement__c} onchange={handleChange29}></lightning-input-field>
+                      <lightning-input-field  variant="label-inline" field-name="VG_Endorsed__c" value={rdRecords.VG_Endorsed__c} onchange={handleChange30}></lightning-input-field>
+                      <lightning-input-field  variant="label-inline" field-name="VG_Expense_Agreement_Amount__c" value={rdRecords.VG_Expense_Agreement_Amount__c} onchange={handleChange31}></lightning-input-field>
+                      <lightning-input-field  variant="label-inline" field-name="VG_Expense_Agreement_t_Amount_Tax__c" value={rdRecords.VG_Expense_Agreement_t_Amount_Tax__c} onchange={handleChange32}></lightning-input-field>
+                      <lightning-input-field  variant="label-inline" field-name="VG_Proposal_form_date__c" value={rdRecordsWI.VG_Proposal_form_date__c} onchange={handleChangeWI9}></lightning-input-field>
+                   </lightning-record-edit-form>
+                </template>
+                </br></br>
+                </br></br>
+                </template>
+             </div>
+             <footer  class="slds-modal__footer">
+                <button class="slds-button slds-button_brand" onclick={closeModal} title="Cancel">Cancel</button>
+                <button class="slds-button slds-button_brand" onclick={Previous} title="Previous">Previous</button>
+                <button class="slds-button slds-button_brand" onclick={step3} title="Next">Next</button>
+             </footer>
+          </div>
+       </section>
+       <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <!-- </template> -->
+    <!--<Thrid page-->
+    <template if:true={isStep3}>
+       <section role="dialog"  tabindex="-1" aria-labelledby="modal-heading-03" aria-modal="true" aria-describedby="modal-content-id-3" class="slds-modal slds-fade-in-open slds-modal_large">
+          <div class="slds-modal__container">
+             <header class="slds-modal__header">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                   <lightning-icon icon-name="utility:close"
+                      alternative-text="close"
+                      variant="inverse"
+                      size="small" ></lightning-icon>
+                   <span class="slds-assistive-text">Close</span>
+                </button>
+                <!--<h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate"><b>Risk Detail</b></h2>-->
+                <lightning-progress-indicator current-step="step3" type="path" variant="base">
+                   <template for:each={steps} for:item="step">
+                      <lightning-progress-step label={step.label} value={step.value} key={step.label}></lightning-progress-step>
+                   </template>
+                </lightning-progress-indicator>
+             </header>
+             <div class="slds-modal__content slds-p-around_large back_container" id="modal-content-id-3">
+                </br>
+                <div class="colors-only">
+                   <div class="slds-grid slds-gutters">
+                      <div class="slds-col  slds-size_6-of-7">
+                         
+                            <div class="slds-text-color_inverse slds-align-middle" >&nbsp; Risk Rating Section</div>
+                         
+                      </div>
+                      <div class="slds-col  slds-size_1-of-7">
+                         
+                            <!--<lightning-icon icon-name="action:new" access-key={item.id} id={index}
+                               alternative-text="Add Row" size="small" title="Add Row" onclick={addRow}>
+                               </lightning-icon>-->
+                            <lightning-button variant="brand-outline" label="Add Risk Rating" class="slds-m-left_x-small"  onclick={addRow}  ></lightning-button>
+                        
+                      </div>
+                   </div>
+                </div>
+                <!--<div class="demo-only" style="padding:0.5rem;background:#16325c">
+                   <div class="slds-text-color_inverse">Risk Rating Section</div>
+                   </div>
+                   
+                   <button class="slds-button slds-button_brand" onclick={addRR} title="Add Risk Rating">Add Risk Rating</button>-->
+                </br></br>
+                <!--<template for:each={itemList} for:item="item" for:index="index">-->
+                <!--<lightning-record-edit-form  object-api-name="VG_Policy_Schedule_Asset__c">
+                   <div class="slds-grid slds-gutters">
+                      <lightning-messages></lightning-messages>
+                      <div class="slds-col slds-size_1-of-7">
+                         <span>
+                           
+                               <lightning-input-field variant="label-stacked" field-name="VG_Coverage_Type__c"></lightning-input-field>
+                            
+                         </span>
+                      </div>
+                      <div class="slds-col slds-size_1-of-7">
+                         <span>
+                           
+                               <lightning-input-field variant="label-stacked" field-name="VG_Territorial_Limits__c"></lightning-input-field>
+                            
+                         </span>
+                      </div>
+                      <div class="slds-col slds-size_1-of-7">
+                         <span>
+                            
+                               <lightning-input-field variant="label-stacked" field-name="VG_Share__c"></lightning-input-field>
+                            
+                         </span>
+                      </div>
+                      <div class="slds-col slds-size_1-of-7">
+                         <span>
+                            
+                               <lightning-input-field variant="label-stacked" field-name="VG_Deductible__c"></lightning-input-field>
+                            
+                         </span>
+                      </div>
+                      <div class="slds-col slds-size_1-of-7">
+                         <span>
+                            
+                               <lightning-input-field variant="label-stacked" field-name="VG_Sub_limit__c"></lightning-input-field>
+                            
+                         </span>
+                      </div>
+                      <div class="slds-col slds-size_1-of-7">
+                         <span>
+                            
+                               <lightning-input-field variant="label-stacked" field-name="VG_Premium__c"></lightning-input-field>
+                           
+                         </span>
+                      </div>
+                      <div class="slds-col slds-size_1-of-7">
+                         <span>
+                            
+                               <lightning-input-field variant="label-stacked" field-name="VG_IsTempDelete__c"></lightning-input-field>
+                            
+                         </span>
+                      </div>
+                      </br></br>
+                      </br></br>
+                      </br></br>
+                      </br></br>
+                      </br></br>
+                      </br></br>
+                      </br></br>
+                      </br></br>
+                      </br></br>
+                      </br></br>
+                      </br></br>
+                      </br></br>
+                      </br>
+                   </div>
+                   </lightning-record-edit-form>-->
+                <!--</template>-->
+                <template if:true={isFIandDOProductsRR}>
+                   <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                      <thead>
+                         <tr class="slds-line-height_reset">
+                            <th class="" scope="col">
+                               <div class="slds-truncate" title="Coverage">Coverage</div>
+                            </th>
+                            <th class="" scope="col">
+                               <div class="slds-truncate" title="Territorial Limits">Territorial Limits</div>
+                            </th>
+                            <th class="" scope="col">
+                               <div class="slds-truncate" title="Share (%)">Share (%)</div>
+                            </th>
+                            <th class="" scope="col">
+                               <div class="slds-truncate" title="Deductible">Deductible</div>
+                            </th>
+                            <th class="" scope="col">
+                               <div class="slds-truncate" title="Sub-limit">Sub-limit</div>
+                            </th>
+                            <th class="" scope="col">
+                               <div class="slds-truncate" title="Annual Premium">Annual Premium</div>
+                            </th>
+                            <th class="" scope="col">
+                               <div class="slds-truncate" title="Delete">Delete</div>
+                            </th>
+                         </tr>
+                      </thead>
+                      <tbody>
+                         <template for:each={itemList} for:item="pse" for:index="index">
+                            <tr key={keyIndex}>
+                               <td>
+                                  <lightning-combobox
+                                     value={lProduct}
+                                     options={lloydsProductOptions}
+                                     variant="label-hidden"
+                                     ></lightning-combobox>
+                               </td>
+                               <td>
+                                  <lightning-record-edit-form object-api-name="VG_Policy_Schedule_Asset__c">
+                                     <lightning-input-field variant="label-hidden" field-name="VG_Territorial_Limits__c" access-key={index} id={index} onchange={handleChangeRR1} value={pse.VG_Territorial_Limits__c}></lightning-input-field>
+                                  </lightning-record-edit-form>
+                               </td>
+                               <td>
+                                  <lightning-record-edit-form object-api-name="VG_Policy_Schedule_Asset__c">
+                                     <lightning-input-field variant="label-hidden" field-name="VG_Share__c" access-key={index} id={index} onchange={handleChangeRR2} value={pse.VG_Share__c}></lightning-input-field>
+                                  </lightning-record-edit-form>
+                               </td>
+                               <td>
+                                  <lightning-record-edit-form object-api-name="VG_Policy_Schedule_Asset__c">
+                                     <lightning-input-field variant="label-hidden" field-name="VG_Deductible__c" access-key={index} id={index} onchange={handleChangeRR3} value={pse.VG_Deductible__c}></lightning-input-field>
+                                  </lightning-record-edit-form>
+                               </td>
+                               <td>
+                                  <lightning-record-edit-form object-api-name="VG_Policy_Schedule_Asset__c">
+                                     <lightning-input-field variant="label-hidden" field-name="VG_Sub_limit__c" access-key={index} id={index} onchange={handleChangeRR4} value={pse.VG_Sub_limit__c}></lightning-input-field>
+                                  </lightning-record-edit-form>
+                               </td>
+                               <td>
+                                  <lightning-record-edit-form object-api-name="VG_Policy_Schedule_Asset__c">
+                                     <lightning-input-field variant="label-hidden" field-name="VG_Premium__c" access-key={index} id={index} onchange={handleChangeRR5} value={pse.VG_Premium__c}></lightning-input-field>
+                                  </lightning-record-edit-form>
+                               </td>
+                               <td>
+                                  <lightning-button label="Remove" class="slds-m-left_x-small" access-key={index} id={index}  onclick={removeRow}  ></lightning-button>
+                               </td>
+                            </tr>
+                         </template>
+                      </tbody>
+                   </table>
+                </template>
+                <template if:true={isPTProductsRR}>
+                   <table border="5" class="slds-table slds-table_cell-buffer slds-table_bordered">
+                      <thead>
+                         <tr class="slds-line-height_reset">
+                            <th class="" scope="col">
+                               <div class="slds-truncate" title="Coverage">Coverage</div>
+                            </th>
+                            <th class="" scope="col">
+                               <div class="slds-truncate" title="Profession">Profession</div>
+                            </th>
+                            <th class="" scope="col">
+                               <div class="slds-truncate" title="Fee Amounts">Fee Amounts</div>
+                            </th>
+                            <th class="" scope="col">
+                               <div class="slds-truncate" title="Base Premium Rate (%)">Base Premium Rate (%)</div>
+                            </th>
+                            <th class="" scope="col">
+                               <div class="slds-truncate" title="Base Premium">Base Premium</div>
+                            </th>
+                            <th class="" scope="col">
+                               <div class="slds-truncate" title="Deductible">Deductible</div>
+                            </th>
+                            <th class="" scope="col">
+                               <div class="slds-truncate" title="Sub-limit">Sub-limit</div>
+                            </th>
+                            <th class="" scope="col">
+                               <div class="slds-truncate" title="Delete">Delete</div>
+                            </th>
+                         </tr>
+                      </thead>
+                      <tbody>
+                         <template for:each={itemPIList} for:item="psepi" for:index="indexx">
+                            <tr key={keyIndexPI}>
+                               <td>
+                                  <lightning-combobox
+                                     value={value}
+                                     options={lloydsProductOptions}
+                                     variant="label-hidden"
+                                     ></lightning-combobox>
+                               </td>
+                               <td>
+                                  <lightning-record-edit-form object-api-name="VG_Policy_Schedule_Asset__c">
+                                     <lightning-input-field variant="label-hidden" field-name="VG_Profession__c" access-key={indexx} id={indexx} onchange={handleChangeRRpi1} value={psepi.VG_Profession__c}></lightning-input-field>
+                                  </lightning-record-edit-form>
+                               </td>
+                               <td>
+                                  <lightning-record-edit-form object-api-name="VG_Policy_Schedule_Asset__c">
+                                     <lightning-input-field variant="label-hidden" field-name="VG_Fee_Amounts__c" access-key={indexx} id={indexx} onchange={handleChangeRRpi2} value={psepi.VG_Fee_Amounts__c}></lightning-input-field>
+                                  </lightning-record-edit-form>
+                               </td>
+                               <td>
+                                  <lightning-record-edit-form object-api-name="VG_Policy_Schedule_Asset__c">
+                                     <lightning-input-field variant="label-hidden" field-name="VG_Base_Premium_Rate__c" access-key={indexx} id={indexx} onchange={handleChangeRRpi3} value={psepi.VG_Base_Premium_Rate__c}></lightning-input-field>
+                                  </lightning-record-edit-form>
+                               </td>
+                               <td>
+                                  <lightning-record-edit-form object-api-name="VG_Policy_Schedule_Asset__c">
+                                     <lightning-input-field variant="label-hidden" field-name="VG_Base_Premium__c" access-key={indexx} id={indexx} onchange={handleChangeRRpi4} value={basePre} read-only></lightning-input-field>
+                                  </lightning-record-edit-form>
+                               </td>
+                               <td>
+                                  <lightning-record-edit-form object-api-name="VG_Policy_Schedule_Asset__c">
+                                     <lightning-input-field variant="label-hidden" field-name="VG_Deductible__c" access-key={indexx} id={indexx} onchange={handleChangeRRpi5} value={psepi.VG_Deductible__c}></lightning-input-field>
+                                  </lightning-record-edit-form>
+                               </td>
+                               <td>
+                                  <lightning-record-edit-form object-api-name="VG_Policy_Schedule_Asset__c">
+                                     <lightning-input-field variant="label-hidden" field-name="VG_Sub_limit__c" access-key={indexx} id={indexx} onchange={handleChangeRRpi6} value={psepi.VG_Sub_limit__c}></lightning-input-field>
+                                  </lightning-record-edit-form>
+                               </td>
+                               <td>
+                                  <lightning-button label="Remove" class="slds-m-left_x-small" access-key={indexx} id={indexx} onclick={removeRow}  ></lightning-button>
+                               </td>
+                            </tr>
+                         </template>
+                      </tbody>
+                      <tfoot>
+                         <tr>
+                            <td></td>
+                            <td></td>
+                            <td>{feeAmtTotal}</td>
+                            <td>{basePreRateTotal}</td>
+                            <td>{basePreTotal}</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                         </tr>
+                      </tfoot>
+                   </table>
+                </template>
+                </br></br>
+                </br></br>
+                </br></br>
+                </br></br>
+                </br></br>
+                </br></br>
+                </br></br>
+                </br></br>
+                </br></br>
+                </br></br>
+                </br></br>
+                </br></br>
+                </br>
+             </div>
+             <footer  class="slds-modal__footer">
+                <button class="slds-button slds-button_brand" onclick={closeModal} title="Cancel">Cancel</button>
+                <button class="slds-button slds-button_brand" onclick={Previous1} title="Previous">Previous</button>
+                <button class="slds-button slds-button_brand" onclick={step4} title="Next">Next</button>
+             </footer>
+          </div>
+       </section>
+       <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <!--<Fourth Page>-->
+    <template if:true={isStep4}>
+       <section role="dialog"  tabindex="-1" aria-labelledby="modal-heading-02" aria-modal="true" aria-describedby="modal-content-id-4" class="slds-modal slds-fade-in-open slds-modal_large">
+          <div class="slds-modal__container">
+             <header class="slds-modal__header">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                   <lightning-icon icon-name="utility:close"
+                      alternative-text="close"
+                      variant="inverse"
+                      size="small" ></lightning-icon>
+                   <span class="slds-assistive-text">Close</span>
+                </button>
+                <!--<h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate"><b>Risk Detail</b></h2>-->
+                <lightning-progress-indicator current-step="step4" type="path" variant="base">
+                   <template for:each={steps} for:item="step">
+                      <lightning-progress-step label={step.label} value={step.value} key={step.label}></lightning-progress-step>
+                   </template>
+                </lightning-progress-indicator>
+             </header>
+             <div class="slds-modal__content slds-p-around_large back_container" id="modal-content-id-4">
+                </br>
+                <div class="color-only">
+                   <div class="slds-text-color_inverse">SubLimits Library</div>
+                </div>
+                </br>
+                <template if:false={isSublimit}>
+                   <lightning-record-edit-form object-api-name="">
+                      <p><b>No SubLimits in library.</b>
+                      </p>
+                   </lightning-record-edit-form>
+                </template>
+                <template if:true={isSublimit}>
+                   <!--<lightning-datatable data={contacts.data} columns={columns} key-field="Id">
+                      </lightning-datatable>-->
+                   <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                      <thead>
+                         <tr class="slds-line-height_reset">
+                            <th class="" scope="col">
+                               <!--<div class="slds-truncate">
+                                  <lightning-input onchange={allSelected} type="checkbox" disabled></lightning-input>
+                                  </div>-->
+                            </th>
+                            <th class="" scope="col">
+                               <div class="slds-truncate" title="Number">Number</div>
+                            </th>
+                            <th class="" scope="col">
+                               <div class="slds-truncate" title="Title">Title</div>
+                            </th>
+                         </tr>
+                      </thead>
+                      <tbody>
+                         <template for:each={data} for:item="sl">
+                            <tr key={sl.Id}>
+                               <th scope="col">
+                                  <div>
+                                     <lightning-input type="checkbox" data-id={sl.Id}></lightning-input>
+                                  </div>
+                               </th>
+                               <th scope="col">
+                                  <div>{sl.Name}</div>
+                               </th>
+                               <th scope="col">
+                                  <div>{sl.Endorsement_Title__c}</div>
+                               </th>
+                            </tr>
+                         </template>
+                      </tbody>
+                   </table>
+                </template>
+                </br></br>
+                </br></br>
+                </br></br>
+                </br></br>
+                </br></br>
+                </br></br>
+                </br></br>
+                </br></br>
+                </br></br>
+                </br></br>
+                </br>
+                </br></br>
+                </br></br>
+             </div>
+             <footer  class="slds-modal__footer">
+                <button class="slds-button slds-button_brand" onclick={closeModal} title="Cancel">Cancel</button>
+                <button class="slds-button slds-button_brand" onclick={Previous2} title="Previous">Previous</button>
+                <button class="slds-button slds-button_brand" onclick={step5} title="Next">Next</button>
+             </footer>
+          </div>
+       </section>
+       <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <!--<Fifth Page>-->
+    <template if:true={isStep5}>
+       <section role="dialog"  tabindex="-1" aria-labelledby="modal-heading-02" aria-modal="true" aria-describedby="modal-content-id-5" class="slds-modal slds-fade-in-open slds-modal_large">
+          <div class="slds-modal__container">
+             <header class="slds-modal__header">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                   <lightning-icon icon-name="utility:close"
+                      alternative-text="close"
+                      variant="inverse"
+                      size="small" ></lightning-icon>
+                   <span class="slds-assistive-text">Close</span>
+                </button>
+                <!--<h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate"><b>Risk Detail</b></h2>-->
+                <lightning-progress-indicator current-step="step5" type="path" variant="base">
+                   <template for:each={steps} for:item="step">
+                      <lightning-progress-step label={step.label} value={step.value} key={step.label}></lightning-progress-step>
+                   </template>
+                </lightning-progress-indicator>
+             </header>
+             <div class="slds-modal__content slds-p-around_large back_container" id="modal-content-id-5">
+                </br>
+                <div class="color-only">
+                   <div class="slds-text-color_inverse">Update Sub-Limit Details</div>
+                </div>
+                </br>
+                <template if:false={isSelectedSublimit}>
+                   <lightning-record-edit-form object-api-name="">
+                      <p><b>No Sub-Limits seleted from library.....</b>
+                      </p>
+                   </lightning-record-edit-form>
+                </template>
+                <template if:true={isSelectedSublimit}>
+                   <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                      <thead>
+                         <tr class="slds-line-height_reset">
+                            <th class="" scope="col">
+                               <div class="slds-truncate" title="Description">Description</div>
+                            </th>
+                            <th class="" scope="col">
+                               <div class="slds-truncate" title="Premium">Premium</div>
+                            </th>
+                            <th class="" scope="col">
+                               <div class="slds-truncate" title="Sub-limit">Sub-limit</div>
+                            </th>
+                         </tr>
+                      </thead>
+                      <tbody>
+                         <template for:each={elList} for:item="sl" for:index="index">
+                            <tr key={sl.Id}>
+                               <th scope="col">
+                                  <div>
+                                     <lightning-record-edit-form object-api-name="VG_Policy_Schedule_Endorsement__c">
+                                        <lightning-input-field variant="label-hidden" field-name="VG_Endorsement_Details__c"  access-key={index} id={index} onchange={handleChangeSL1} value={sl.VG_Endorsement_Details__c}></lightning-input-field>
+                                     </lightning-record-edit-form>
+                                  </div>
+                               </th>
+                               <th scope="col">
+                                  <lightning-record-edit-form object-api-name="VG_Policy_Schedule_Endorsement__c">
+                                     <lightning-input-field variant="label-hidden" field-name="VG_Premium__c"  access-key={index} id={index} onchange={handleChangeSL2} value={sl.VG_Premium__c}></lightning-input-field>
+                                  </lightning-record-edit-form>
+                               </th>
+                               <th scope="col">
+                                  <lightning-record-edit-form object-api-name="VG_Policy_Schedule_Endorsement__c">
+                                     <lightning-input-field variant="label-hidden" field-name="VG_Sub_limit__c" access-key={index} id={index} onchange={handleChangeSL3} value={sl.VG_Sub_limit__c}></lightning-input-field>
+                                  </lightning-record-edit-form>
+                               </th>
+                            </tr>
+                         </template>
+                      </tbody>
+                   </table>
+                </template>
+                </br></br>
+                </br></br>
+                </br></br>
+                </br></br>
+                </br></br>
+                </br></br>
+                </br></br>
+                </br></br>
+                </br></br>
+                </br></br>
+                </br>
+                </br></br>
+                </br></br>
+             </div>
+             <footer  class="slds-modal__footer">
+                <button class="slds-button slds-button_brand" onclick={closeModal} title="Cancel">Cancel</button>
+                <button class="slds-button slds-button_brand" onclick={Previous3} title="Previous">Previous</button>
+                <button class="slds-button slds-button_brand" onclick={step6} title="Next">Next</button>
+             </footer>
+          </div>
+       </section>
+       <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <!--<sixth Page>-->
+    <template if:true={isStep6}>
+       <section role="dialog"  tabindex="-1" aria-labelledby="modal-heading-02" aria-modal="true" aria-describedby="modal-content-id-6" class="slds-modal slds-fade-in-open slds-modal_large">
+          <div class="slds-modal__container">
+             <header class="slds-modal__header">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                   <lightning-icon icon-name="utility:close"
+                      alternative-text="close"
+                      variant="inverse"
+                      size="small" ></lightning-icon>
+                   <span class="slds-assistive-text">Close</span>
+                </button>
+                <!--<h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate"><b>Risk Detail</b></h2>-->
+                <lightning-progress-indicator current-step="step6" type="path" variant="base">
+                   <template for:each={steps} for:item="step">
+                      <lightning-progress-step label={step.label} value={step.value} key={step.label}></lightning-progress-step>
+                   </template>
+                </lightning-progress-indicator>
+             </header>
+             <div class="slds-modal__content slds-p-around_large back_container" id="modal-content-id-6">
+                </br>
+                <div class="color-only">
+                   <!--<div class="demo-only" style="padding:0.5rem;background:#16325c">-->
+                   <div class="slds-text-color_inverse">Endorsement Library</div>
+                </div>
+                </br>
+                <lightning-record-edit-form object-api-name="">
+                   <p><b>No endorsements in library...</b>
+                   </p>
+                </lightning-record-edit-form>
+                <template if:true={isEndors}>
+                   <!--<lightning-datatable data={contacts.data} columns={columns} key-field="Id">
+                      </lightning-datatable>-->
+                   <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                      <thead>
+                         <tr class="slds-line-height_reset">
+                            <th class="" scope="col">
+                               <!--<div class="slds-truncate">
+                                  <lightning-input onchange={allSelected} type="checkbox" read-only></lightning-input>
+                                  </div>-->
+                            </th>
+                            <th class="" scope="col">
+                               <div class="slds-truncate" title="Number">Number</div>
+                            </th>
+                            <th class="" scope="col">
+                               <div class="slds-truncate" title="Title">Title</div>
+                            </th>
+                         </tr>
+                      </thead>
+                      <tbody>
+                         <template for:each={dataEndors} for:item="end">
+                            <tr key={end.Id}>
+                               <th scope="col">
+                                  <div>
+                                     <lightning-input type="checkbox" data-id={end.Id}></lightning-input>
+                                  </div>
+                               </th>
+                               <th scope="col">
+                                  <div>{end.Name}</div>
+                               </th>
+                               <th scope="col">
+                                  <div>{end.Endorsement_Title__c}</div>
+                               </th>
+                            </tr>
+                         </template>
+                      </tbody>
+                   </table>
+                </template>
+                </br></br>
+                </br></br>
+                </br></br>
+                </br></br>
+                </br></br>
+                </br></br>
+                </br></br>
+                </br></br>
+                </br></br>
+                </br></br>
+                </br>
+                </br></br>
+                </br></br>
+             </div>
+             <footer  class="slds-modal__footer">
+                <button class="slds-button slds-button_brand" onclick={closeModal} title="Cancel">Cancel</button>
+                <button class="slds-button slds-button_brand" onclick={Previous4} title="Previous">Previous</button>
+                <button class="slds-button slds-button_brand" onclick={step7} title="Next">Next</button>
+             </footer>
+          </div>
+       </section>
+       <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <!--<seventh Page>-->
+    <template if:true={isStep7}>
+       <section role="dialog"  tabindex="-1" aria-labelledby="modal-heading-02" aria-modal="true" aria-describedby="modal-content-id-7" class="slds-modal slds-fade-in-open slds-modal_large">
+          <div class="slds-modal__container">
+             <header class="slds-modal__header">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                   <lightning-icon icon-name="utility:close"
+                      alternative-text="close"
+                      variant="inverse"
+                      size="small" ></lightning-icon>
+                   <span class="slds-assistive-text">Close</span>
+                </button>
+                <!--<h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate"><b>Risk Detail</b></h2>-->
+                <lightning-progress-indicator current-step="step7" type="path" variant="base">
+                   <template for:each={steps} for:item="step">
+                      <lightning-progress-step label={step.label} value={step.value} key={step.label}></lightning-progress-step>
+                   </template>
+                </lightning-progress-indicator>
+             </header>
+             <div class="slds-modal__content slds-p-around_large back_container" id="modal-content-id-7">
+                </br>
+                <div class="colors-only">
+                   <div class="slds-grid slds-gutters">
+                      <div class="slds-col  slds-size_6-of-7">
+                         <span>
+                            <!--<div style="vertical-align:middle"  class="slds-text-color_inverse">Update Endorsement Detail</div>-->
+                            <p style="align-content:center"  class="slds-text-color_inverse"> Update Endorsement Detail</p>
+                         </span>
+                      </div>
+                      <div class="slds-col  slds-size_1-of-7">
+                         <span>
+                            <lightning-button variant="brand-outline" label="Add Endorsement"  onclick={addpseRow} ></lightning-button>
+                         </span>
+                      </div>
+                   </div>
+                   <!--<div class="slds-text-color_inverse">Update Endorsement Detail</div>
+                      <button class="slds-button slds-button_brand"  onclick={addEndorsement} title="Add Manuscript Endorsement">Add Manuscript Endorsement</button>-->
+                </div>
+                </br>
+                <template if:true={isCheckedEndors}>
+                   <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                      <thead>
+                         <tr class="slds-line-height_reset">
+                            <th class="" scope="col">
+                               <div class="slds-truncate" title="Description">Description</div>
+                            </th>
+                            <th class="" scope="col">
+                               <div class="slds-truncate" title="Premium">Premium</div>
+                            </th>
+                            <th class="" scope="col">
+                               <div class="slds-truncate" title="Sub-limit">Sub-limit</div>
+                            </th>
+                            <!--<th class="" scope="col">
+                               <div class="slds-truncate" title="Delete">Delete</div>
+                               </th>-->
+                         </tr>
+                      </thead>
+                      <tbody>
+                         <template for:each={endorsList} for:item="end" for:index="indexxx">
+                            <tr key={end.Id}>
+                               <td>
+                                  <lightning-record-edit-form object-api-name="VG_Policy_Schedule_Endorsement__c">
+                                     <lightning-input-field variant="label-hidden" field-name="VG_Title__c" access-key={indexxx} id={indexxx} onchange={handleChangeEndors1} value={end.VG_Title__c}></lightning-input-field>
+                                     <lightning-input-field variant="label-hidden" field-name="VG_Endorsement_Details__c" access-key={indexxx} id={indexxx} value={end.VG_Endorsement_Details__c} onchange={handleChangeEndors2}></lightning-input-field>
+                                  </lightning-record-edit-form>
+                               </td>
+                               <td>
+                                  <lightning-record-edit-form object-api-name="VG_Policy_Schedule_Endorsement__c">
+                                     <lightning-input-field variant="label-hidden" field-name="VG_Premium__c" access-key={indexxx} id={indexxx} value={end.VG_Premium__c} onchange={handleChangeEndors3}></lightning-input-field>
+                                  </lightning-record-edit-form>
+                               </td>
+                               <td>
+                                  <lightning-record-edit-form object-api-name="VG_Policy_Schedule_Endorsement__c">
+                                     <lightning-input-field variant="label-hidden" field-name="VG_Sub_limit__c" access-key={indexxx} id={indexxx} value={end.VG_Sub_limit__c} onchange={handleChangeEndors4}></lightning-input-field>
+                                  </lightning-record-edit-form>
+                               </td>
+                               <!--<td>
+                                  <lightning-button label="Remove" class="slds-m-left_x-small"  onclick={removePse}  ></lightning-button>
+                                  </td>-->
+                            </tr>
+                         </template>
+                      </tbody>
+                   </table>
+                </template>
+                <lightning-record-edit-form >
+                   <!--<template if:true={isPSE}>-->
+                   <!--<lightning-record-edit-form >
+                      <div>
+                         <div class="slds-grid ">
+                            <div class="slds-col  slds-size_9-of-12">
+                               <span>
+                                  <lightning-record-edit-form object-api-name="VG_Policy_Schedule_Endorsement__c">
+                                     <lightning-input-field field-name="VG_Title__c" variant="label-stacked"></lightning-input-field>
+                                     <lightning-input-rich-text field-name="VG_Endorsement_Details__c"></lightning-input-rich-text>
+                                  </lightning-record-edit-form>
+                               </span>
+                            </div>
+                         
+                            <div class="slds-col  slds-size_2-of-12">
+                               <span>
+                                  <lightning-record-edit-form object-api-name="VG_Policy_Schedule_Endorsement__c">
+                                     <lightning-input-field field-name="VG_Premium__c"></lightning-input-field>
+                                  </lightning-record-edit-form>
+                               </span>
+                            </div>
+                            
+                            <div class="slds-col  slds-size_1-of-12">
+                               <span>
+                                  <lightning-record-edit-form object-api-name="VG_Policy_Schedule_Endorsement__c">
+                                     <lightning-input-field field-name="VG_Sub_limit__c"></lightning-input-field>
+                                  </lightning-record-edit-form>
+                               </span>
+                            </div>
+                         </div>
+                      </div>
+                      </lightning-record-edit-form>-->
+                   <!--<template if:true={isAddEndors}>
+                      <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                         <thead>
+                            <tr class="slds-line-height_reset">
+                               <th class="" scope="col">
+                                  <div class="slds-truncate" title="Description">Description</div>
+                               </th>
+                               <th class="" scope="col">
+                                  <div class="slds-truncate" title="Premium">Premium</div>
+                               </th>
+                               <th class="" scope="col">
+                                  <div class="slds-truncate" title="Sub-limit">Sub-limit</div>
+                               </th>
+                               <th class="" scope="col">
+                                  <div class="slds-truncate" title="Delete">Delete</div>
+                               </th>
+                            </tr>
+                         </thead>
+                         <tbody>
+                            <template for:each={pseList} for:item="con" for:index="indexx">
+                               <tr key={keyIndexpse}>
+                                  <td>
+                                     <lightning-record-edit-form object-api-name="VG_Policy_Schedule_Endorsement__c">
+                                        <lightning-input-field variant="label-hidden" field-name="VG_Title__c" access-key={indexx} id={indexx} onchange={changePse}></lightning-input-field>
+                                        <lightning-input-field variant="label-hidden" field-name="VG_Endorsement_Details__c" access-key={indexx} id={indexx} onchange={changePse}></lightning-input-field>
+                                     </lightning-record-edit-form>
+                                  </td>
+                                  <td>
+                                     <lightning-record-edit-form object-api-name="VG_Policy_Schedule_Endorsement__c">
+                                        <lightning-input-field variant="label-hidden" field-name="VG_Premium__c" access-key={indexx} id={indexx} onchange={changePse}></lightning-input-field>
+                                     </lightning-record-edit-form>
+                                  </td>
+                                  <td>
+                                     <lightning-record-edit-form object-api-name="VG_Policy_Schedule_Endorsement__c">
+                                        <lightning-input-field variant="label-hidden" field-name="VG_Sub_limit__c" access-key={indexx} id={indexx} onchange={changePse}></lightning-input-field>
+                                     </lightning-record-edit-form>
+                                  </td>
+                                  <td>
+                                     <lightning-button label="Remove" class="slds-m-left_x-small"  onclick={removePse}  ></lightning-button>
+                                  </td>
+                               </tr>
+                            </template>
+                         </tbody>
+                      </table>
+                      </template>-->
+                   <!--</template>-->
+                   <template if:false={isPSE}>
+                      <lightning-record-edit-form object-api-name="">
+                         <p><b>No endorsements seleted from library.. If needed, you can add a custom endorsement.</b> </p>
+                      </lightning-record-edit-form>
+                   </template>
+                   </br></br>
+                   </br></br>
+                   </br></br>
+                   </br></br>
+                   </br></br>
+                   </br></br>
+                   </br></br>
+                   </br></br>
+                   </br></br>
+                   </br></br>
+                   </br>
+                   </br></br>
+                   </br></br>
+                </lightning-record-edit-form>
+             </div>
+             <footer  class="slds-modal__footer">
+                <button class="slds-button slds-button_brand" onclick={closeModal} title="Cancel">Cancel</button>
+                <button class="slds-button slds-button_brand" onclick={Previous5} title="Previous">Previous</button>
+                <button class="slds-button slds-button_brand" onclick={step8} title="Next">Next</button>
+             </footer>
+          </div>
+       </section>
+       <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <!--<eighth Page>-->
+    <template if:true={isfinish}>
+       <section role="dialog"  tabindex="-1" aria-labelledby="modal-heading-02" aria-modal="true" aria-describedby="modal-content-id-8" class="slds-modal slds-fade-in-open slds-modal_large">
+          <div class="slds-modal__container">
+             <header class="slds-modal__header">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                   <lightning-icon icon-name="utility:close"
+                      alternative-text="close"
+                      variant="inverse"
+                      size="small" ></lightning-icon>
+                   <span class="slds-assistive-text">Close</span>
+                </button>
+                <!--<h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate"><b>Risk Detail</b></h2>-->
+                <lightning-progress-indicator current-step="step8" type="path" variant="base">
+                   <template for:each={steps} for:item="step">
+                      <lightning-progress-step label={step.label} value={step.value} key={step.label}></lightning-progress-step>
+                   </template>
+                </lightning-progress-indicator>
+             </header>
+             <div class="slds-modal__content slds-p-around_large back_container" id="modal-content-id-8">
+                </br>
+                <div class="color-only">
+                   <div class="slds-text-color_inverse">Summary</div>
+                </div>
+                </br>
+                <template if:true={isNonWIproduct}>
+                   <lightning-record-edit-form object-api-name="Policy_Schedule__c">
+                      <div class="slds-grid slds-gutters">
+                         <div class="slds-col  slds-size_1-of-2">
+                            <span>
+                               <lightning-input-field  variant="label-inline"  field-name="Risk_Premium_Pro__c" value={totalRiskPremium} read-only></lightning-input-field>
+                            </span>
+                         </div>
+                         <div class="slds-col  slds-size_1-of-2">
+                            <span>
+                               <lightning-input-field  variant="label-inline"  field-name="Written_share__c" onchange={writtenShare} value={psRecords.Written_share__c}></lightning-input-field>
+                            </span>
+                         </div>
+                      </div>
+                      <div class="slds-grid slds-gutters">
+                         <div class="slds-col slds-size_1-of-2">
+                            <span>
+                               <lightning-input-field  variant="label-inline"  field-name="Endorsement_Premium_Pro__c" value={totalendPremium} read-only></lightning-input-field>
+                            </span>
+                         </div>
+                         <div class="slds-col slds-size_1-of-2">
+                            <span>
+                               <lightning-input-field  variant="label-inline"   field-name="Share__c" onchange={signedShare} value={psRecords.Share__c}></lightning-input-field>
+                            </span>
+                         </div>
+                      </div>
+                      <div class="slds-grid slds-gutters">
+                         <div class="slds-col slds-size_1-of-2">
+                            <span>
+                               <lightning-input-field  variant="label-inline"  field-name="Net_Premium__c" value={valueNetModelPremium} read-only></lightning-input-field>
+                            </span>
+                         </div>
+                         <div class="slds-col slds-size_1-of-2">
+                            <span>
+                               <lightning-input-field  variant="label-inline" field-name="Sum_Insured__c" value={sumInsuredValues} read-only></lightning-input-field>
+                            </span>
+                         </div>
+                      </div>
+                      <div class="slds-grid slds-gutters">
+                         <div class="slds-col slds-size_1-of-2">
+                            <span>
+                               <lightning-input-field  variant="label-inline"  field-name="Premium_Adjustment__c" onchange={premiumAdjustment} value={psRecords.Premium_Adjustment__c}></lightning-input-field>
+                            </span>
+                         </div>
+                         <div class="slds-col slds-size_1-of-2">
+                            <span>
+                               <lightning-input-field   variant="label-inline" field-name="Gross_Written_Premium__c" value={grossWrittenPremiumValues} read-only></lightning-input-field>
+                            </span>
+                         </div>
+                      </div>
+                      <div class="slds-grid slds-gutters">
+                         <div class="slds-col slds-size_1-of-2">
+                            <span>
+                               <lightning-input-field   variant="label-inline" field-name="Technical_UW_Premium__c" value={technicalUWPremiumValues} read-only></lightning-input-field>
+                            </span>
+                         </div>
+                         <div class="slds-col slds-size_1-of-2">
+                            <span>
+                               <lightning-input-field  variant="label-inline"  field-name="VG_Brokerage_Percent__c" onchange={BrokeragePercent} value={psRecords.VG_Brokerage_Percent__c}></lightning-input-field>
+                            </span>
+                         </div>
+                      </div>
+                      <div class="slds-grid slds-gutters">
+                         <div class="slds-col slds-size_1-of-2">
+                            <span>
+                               <lightning-input-field  variant="label-inline"   field-name="Premium_Adjustment_2__c" onchange={premiumAdjustment2} value={psRecords.Premium_Adjustment_2__c}></lightning-input-field>
+                            </span>
+                         </div>
+                         <div class="slds-col slds-size_1-of-2">
+                            <span>
+                               <lightning-input-field variant="label-inline"   field-name="VG_Brokerage_Amount__c" value={brokerageValues} read-only></lightning-input-field>
+                            </span>
+                         </div>
+                      </div>
+                      <div class="slds-grid slds-gutters">
+                         <div class="slds-col slds-size_1-of-2">
+                            <span>
+                               <lightning-input-field  variant="label-inline"   field-name="VG_Gross_Written_Premium_100__c" value={grossWrittenPremium100Values} read-only></lightning-input-field>
+                            </span>
+                         </div>
+                         <div class="slds-col slds-size_1-of-2">
+                            <span>
+                               <lightning-input-field variant="label-inline"  field-name="VG_Rate_Change__c" onchange={rateChange} value={psRecords.VG_Rate_Change__c}></lightning-input-field>
+                            </span>
+                         </div>
+                      </div>
+                      <div class="slds-grid slds-gutters">
+                         <div class="slds-col slds-size_1-of-2">
+                            <!--<span>
+                               <lightning-input-field  label="Layer" field-name="ILF_Layer__c"></lightning-input-field>
+                               </span>-->
+                            <lightning-combobox
+                               name="Layer"
+                               label="Layer"
+                               value={value}
+                               options={layerOptions}
+                               onchange={layer}
+                               variant ="label-inline"
+                               ></lightning-combobox>
+                         </div>
+                         <div class="slds-col slds-size_1-of-2">
+                            <span>
+                               <lightning-input-field  variant="label-inline"   field-name="Actual_GWP__c" value={actualPremiumValue} read-only></lightning-input-field>
+                            </span>
+                         </div>
+                      </div>
+                      <div class="slds-grid slds-gutters">
+                         <div class="slds-col slds-size_1-of-2">
+                            <span>
+                               <lightning-input-field  variant="label-inline"  field-name="Limit__c" onchange={limit} value={psRecords.Limit__c}></lightning-input-field>
+                            </span>
+                         </div>
+                         <div class="slds-col slds-size_1-of-2">
+                            <span>
+                               <lightning-input-field  variant="label-inline"  field-name="Gross_or_Net_Premium__c" onchange={grossorNet} value={psRecords.Gross_or_Net_Premium__c}></lightning-input-field>
+                            </span>
+                         </div>
+                      </div>
+                      <div class="slds-grid slds-gutters">
+                         <div class="slds-col slds-size_1-of-2">
+                            <span>
+                               <lightning-input-field  variant="label-inline" field-name="Attachment__c" onchange={attachment} value={psRecords.Attachment__c}></lightning-input-field>
+                            </span>
+                         </div>
+                         <div class="slds-col slds-size_1-of-2">
+                            <span>
+                               <lightning-input-field  variant="label-inline"  field-name="VG_Capacity_Paper__c" onchange={capacityPaper} value={psRecords.VG_Capacity_Paper__c}></lightning-input-field>
+                            </span>
+                         </div>
+                      </div>
+                      <div class="slds-grid slds-gutters ">
+                         <div class="slds-col slds-size_1-of-2">
+                            <span>
+                               <lightning-input-field  variant="label-inline"   field-name="Split_Type__c" onchange={splitType} value={psRecords.Split_Type__c}></lightning-input-field>
+                            </span>
+                         </div>
+                         <div class="slds-col slds-size_1-of-2">
+                            <span>
+                               <lightning-input-field  variant="label-inline"  field-name="VG_Volante_Entities__c" onchange={volanteEntities} value={psRecords.VG_Volante_Entities__c}></lightning-input-field>
+                            </span>
+                         </div>
+                      </div>
+                   </lightning-record-edit-form>
+                </template>
+                <!--WI Product-->
+                <template if:true={isWIproduct}>
+                   <lightning-record-edit-form object-api-name="Policy_Schedule__c">
+                      <div class="slds-grid slds-gutters">
+                         <div class="slds-col  slds-size_1-of-2">
+                            <span>
+                               <lightning-input-field  variant="label-inline"  field-name="Risk_Premium_Pro__c" onchange={RiskPremiumWI} value={psRecords.Risk_Premium_Pro__c}></lightning-input-field>
+                            </span>
+                         </div>
+                         <div class="slds-col  slds-size_1-of-2">
+                            <span>
+                               <lightning-input-field  variant="label-inline"  field-name="Premium_Adjustment__c" onchange={premiumAdjustmentWI} value={psRecords.Premium_Adjustment__c}></lightning-input-field>
+                            </span>
+                         </div>
+                      </div>
+                      <div class="slds-grid slds-gutters">
+                         <div class="slds-col  slds-size_1-of-2">
+                            <span>
+                               <lightning-input-field  variant="label-inline"  field-name="Endorsement_Premium_Pro__c" onchange={EndoresPremiumWI} value={psRecords.Endorsement_Premium_Pro__c}></lightning-input-field>
+                            </span>
+                         </div>
+                         <div class="slds-col  slds-size_1-of-2">
+                            <span>
+                               <lightning-input-field   variant="label-inline" field-name="Technical_UW_Premium__c" value={psRecords.Premium_Adjustment__c} read-only></lightning-input-field>
+                            </span>
+                         </div>
+                      </div>
+                      <div class="slds-grid slds-gutters">
+                         <div class="slds-col  slds-size_1-of-2">
+                            <span>
+                               <lightning-combobox
+                                  name="Layer"
+                                  label="Layer"
+                                  value={value}
+                                  options={layerOptions}
+                                  onchange={layer}
+                                  variant ="label-inline"
+                                  ></lightning-combobox>
+                            </span>
+                         </div>
+                         <div class="slds-col  slds-size_1-of-2">
+                            <span>
+                               <lightning-input-field  variant="label-inline"   field-name="Premium_Adjustment_2__c" onchange={premiumAdjustment2} value={psRecords.Premium_Adjustment_2__c}></lightning-input-field>
+                            </span>
+                         </div>
+                      </div>
+                      <div class="slds-grid slds-gutters">
+                         <div class="slds-col  slds-size_1-of-2">
+                            <span>
+                               <lightning-input-field  variant="label-inline"  field-name="Limit__c" onchange={limit} value={psRecords.Limit__c}></lightning-input-field>
+                            </span>
+                         </div>
+                         <div class="slds-col  slds-size_1-of-2">
+                            <span>
+                               <lightning-input-field   variant="label-inline" field-name="Gross_Written_Premium__c" value={grossWrittenPremiumValues} read-only></lightning-input-field>
+                            </span>
+                         </div>
+                      </div>
+                      <div class="slds-grid slds-gutters">
+                         <div class="slds-col  slds-size_1-of-2">
+                            <span>
+                               <lightning-input-field  variant="label-inline" field-name="Attachment__c" onchange={attachment} value={psRecords.Attachment__c}></lightning-input-field>
+                            </span>
+                         </div>
+                         <div class="slds-col  slds-size_1-of-2">
+                            <span>
+                               <lightning-input-field  variant="label-inline" field-name="VG_Brokerage_Percent__c" onchange={BrokeragePercent} value={psRecords.VG_Brokerage_Percent__c}></lightning-input-field>
+                            </span>
+                         </div>
+                      </div>
+                      <div class="slds-grid slds-gutters">
+                         <div class="slds-col  slds-size_1-of-2">
+                            <span>
+                               <lightning-input-field  variant="label-inline" field-name="Sum_Insured__c" value={psRecords.Limit__c} read-only></lightning-input-field>
+                            </span>
+                         </div>
+                         <div class="slds-col  slds-size_1-of-2">
+                            <span>
+                               <lightning-input-field variant="label-inline"  field-name="VG_Brokerage_Amount__c" value={brokerageValues} read-only></lightning-input-field>
+                            </span>
+                         </div>
+                      </div>
+                      <div class="slds-grid slds-gutters">
+                         <div class="slds-col  slds-size_1-of-2">
+                            <span>
+                               <lightning-input-field  variant="label-inline" field-name="VG_Fee_Income__c" ></lightning-input-field>
+                            </span>
+                         </div>
+                         <div class="slds-col  slds-size_1-of-2">
+                            <span>
+                               <lightning-input-field  variant="label-inline"  field-name="Actual_GWP__c" value={actualPremiumValue} read-only></lightning-input-field>
+                            </span>
+                         </div>
+                      </div>
+                      <div class="slds-grid slds-gutters">
+                         <div class="slds-col  slds-size_1-of-2">
+                            <span>
+                               <lightning-input-field variant="label-inline"  field-name="VG_Rate_Change__c" onchange={rateChange} value={psRecords.VG_Rate_Change__c}></lightning-input-field>
+                            </span>
+                         </div>
+                         <div class="slds-col  slds-size_1-of-2">
+                            <span>
+                               <lightning-input-field  variant="label-inline"  field-name="Gross_or_Net_Premium__c" onchange={grossorNet} value={psRecords.Gross_or_Net_Premium__c}></lightning-input-field>
+                            </span>
+                         </div>
+                      </div>
+                      <div class="slds-grid slds-gutters">
+                         <div class="slds-col  slds-size_1-of-2">
+                            <span>
+                               <lightning-input-field  variant="label-inline" field-name="VG_Capacity_Paper__c" onchange={capacityPaper} value={psRecords.VG_Capacity_Paper__c}></lightning-input-field>
+                            </span>
+                         </div>
+                         <div class="slds-col  slds-size_1-of-2">
+                            <span>
+                               <lightning-input-field  variant="label-inline"   field-name="Split_Type__c" onchange={splitType} value={psRecords.Split_Type__c}></lightning-input-field>
+                            </span>
+                         </div>
+                      </div>
+                      <div class="slds-grid slds-gutters">
+                         <div class="slds-col  slds-size_1-of-2">
+                            <span>
+                               <lightning-input-field  variant="label-inline"  field-name="VG_Volante_Entities__c" onchange={volanteEntities} value={psRecords.VG_Volante_Entities__c}></lightning-input-field>
+                            </span>
+                         </div>
+                         <div class="slds-col  slds-size_1-of-2">
+                            <span>
+                               <lightning-input-field  variant="label-inline"   field-name="VG_VAT_Amount__c" onchange={vatAmount} value={psRecords.VG_VAT_Amount__c}></lightning-input-field>
+                            </span>
+                         </div>
+                      </div>
+                   </lightning-record-edit-form>
+                </template>
+                </br></br>
+                <lightning-record-edit-form>
+                   <div class="demo-only lgc-bg">
+                      <div class="slds-box slds-text-color_inverse">Included Risk Details</div>
+
+                      <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                         <thead>
+                            <tr class="slds-line-height_reset">
+                               <th class="" scope="col">
+                                  <div class="slds-truncate" title="Currency">Currency</div>
+                               </th>
+                               <th class="" scope="col">
+                                  <div class="slds-truncate" title="Company Type">Company Type</div>
+                               </th>
+                               <th class="" scope="col">
+                                  <div class="slds-truncate" title="Company Domicile">Company Domicile</div>
+                               </th>
+                               <th class="" scope="col">
+                                  <div class="slds-truncate" title="Industry">Industry</div>
+                               </th>
+                            </tr>
+                         </thead>
+                         <tbody>
+                         
+                            <tr >
+                               <th scope="col">
+                                  <div>
+                                     <lightning-input type="Currency" read-only></lightning-input>
+                                  </div>
+                               </th>
+                               <th scope="col">
+                                  <div>{rdRecordsDO.VG_Company_Type__c}</div>
+                                  <div>{rdRecordsCC.VG_Company_Type__c}</div>
+                               </th>
+                               <th scope="col">
+                                  <div>{rdRecordsFI.VG_Company_Domicile__c}</div>
+                                  <div>{rdRecordsDO.VG_Company_Domicile__c}</div>
+                                  <div>{rdRecordsCC.VG_Company_Domicile__c}</div>
+                               </th>
+                               <th scope="col">
+                                  <div>{rdRecordsFI.VG_Industry__c}</div>
+                                  <div>{rdRecordsDO.VG_Industry__c}</div>
+                                  <div>{rdRecordsCC.VG_Industry__c}</div>
+                               </th>
+                            </tr>
+                         
+                         </tbody>
+                      </table>
+
+                   </div>
+                </lightning-record-edit-form>
+                </br></br>
+                <lightning-record-edit-form>
+                   <div class="demo-only lgc-bg">
+                      <div class="slds-text-color_inverse">Included Risk Ratings</div>
+
+                      <table class="slds-box slds-table slds-table_cell-buffer slds-table_bordered">
+                         <thead>
+                            <tr class="slds-line-height_reset">
+                               <th class="" scope="col">
+                                  <div class="slds-truncate" title="Coverage">Coverage</div>
+                               </th>
+                               <th class="" scope="col">
+                                  <div class="slds-truncate" title="Retention">Retention</div>
+                               </th>
+                               <th class="" scope="col">
+                                  <div class="slds-truncate" title="Sub-limit">Sub-limit</div>
+                               </th>
+                            </tr>
+                         </thead>
+                         <tbody>
+                            <template for:each={itemList} for:item="pse" for:index="index">
+                            <tr key={keyIndex}>
+                               <th scope="col">
+                                  <div>{lProduct}</div>
+                               </th>
+                               <th scope="col">
+                                  <div>{pse.VG_Deductible__c}</div>
+                               </th>
+                               <th scope="col">
+                                  <div>{pse.VG_Sub_limit__c}</div>
+                               </th>
+                            </tr>
+                            </template>
+                         </tbody>
+                      </table>
+
+                   </div>
+                </lightning-record-edit-form>
+                </br></br>
+                <lightning-record-edit-form>
+                   <div class="demo-only lgc-bg">
+                      <div class="slds-text-color_inverse">Included Sub-Limits</div>
+
+                      <table class="slds-box slds-table slds-table_cell-buffer slds-table_bordered">
+                         <thead>
+                            <tr class="slds-line-height_reset">
+                               <th class="" scope="col">
+                                  <div class="slds-truncate" title="Description">Description</div>
+                               </th>
+                               <th class="" scope="col">
+                                  <div class="slds-truncate" title="Retention">Premium</div>
+                               </th>
+                               <th class="" scope="col">
+                                  <div class="slds-truncate" title="Sub-limit">Sub-limit</div>
+                               </th>
+                            </tr>
+                         </thead>
+                         <tbody>
+                            <template for:each={elList} for:item="sl" for:index="index">
+                            <tr key={sl.Id}>
+                               <th scope="col">
+                                  <div>{sl.VG_Title__c}</div>
+                                  <div>{sl.VG_Endorsement_Details__c}</div>
+                               </th>
+                               <th scope="col">
+                                  <div>{sl.VG_Premium__c}</div>
+                               </th>
+                               <th scope="col">
+                                  <div>{sl.VG_Sub_limit__c}</div>
+                               </th>
+                            </tr>
+                            </template>
+                         </tbody>
+                      </table>
+                   </div>
+                </lightning-record-edit-form> 
+             </br></br>
+                <lightning-record-edit-form>
+                   <div class="demo-only lgc-bg">
+                      <div class="slds-text-color_inverse">Included Endorsements</div>
+
+                      <table class="slds-box slds-table slds-table_cell-buffer slds-table_bordered">
+                         <thead>
+                            <tr class="slds-line-height_reset">
+                               <th class="" scope="col">
+                                  <div class="slds-truncate" title="Description">Description</div>
+                               </th>
+                               <th class="" scope="col">
+                                  <div class="slds-truncate" title="Retention">Premium</div>
+                               </th>
+                               <th class="" scope="col">
+                                  <div class="slds-truncate" title="Sub-limit">Sub-limit</div>
+                               </th>
+                            </tr>
+                         </thead>
+                         <tbody>
+                            <template for:each={endorsList} for:item="end" for:index="indexxx">
+                            <tr key={end.Id}>
+                               <th scope="col">
+                                  <div>{end.VG_Title__c}</div>
+                                  <div>{end.VG_Endorsement_Details__c}</div>
+                               </th>
+                               <th scope="col">
+                                  <div>{end.VG_Premium__c}</div>
+                               </th>
+                               <th scope="col">
+                                  <div>{end.VG_Sub_limit__c}</div>
+                               </th>
+                            </tr>
+                            </template>
+                         </tbody>
+                      </table>
+                   </div>
+                </lightning-record-edit-form>      
+             </div>
+             <footer  class="slds-modal__footer">
+                <button class="slds-button slds-button_brand" onclick={closeModal} title="Cancel1">Cancel</button>
+                <button class="slds-button slds-button_brand" onclick={Previous6} title="Previous">Previous</button>
+                <button class="slds-button slds-button_brand" onclick={Finish} title="Finish">Finish</button>
+             </footer>
+          </div>
+       </section>
+       <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+ </template>

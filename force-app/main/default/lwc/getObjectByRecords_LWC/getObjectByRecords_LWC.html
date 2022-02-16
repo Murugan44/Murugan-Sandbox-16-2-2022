@@ -1,0 +1,151 @@
+<template>
+   <lightning-card title="Get Record by Objects">
+      <div if:true={isLoading}>
+         <lightning-spinner class="spins" variant="Brand" alternative-text="Loading" size="large"></lightning-spinner>
+      </div>
+      <div class="slds-p-around_medium">
+         <div class="slds-box">
+           <lightning-layout multiple-rows>
+               <!-- <lightning-layout-item padding="around-small" size="12" small-device-size="12" medium-device-size="8">
+                  <div class="card slds-p-around_medium">
+                     <label>Select Object</label>
+                     <select class="slds-select" name="optionSelect" onchange={handleSelect}>
+                        <template for:each={objectOption} for:item="field">
+                           <option key={field.label} value={field.value}>{field.label}</option>
+                        </template>
+                     </select>
+                  </div>
+               </lightning-layout-item> -->
+               <!-- <lightning-layout-item padding="around-small" size="12" small-device-size="12" medium-device-size="6">
+                  <div class="slds-card card slds-p-around_medium">
+                     <div if:true={isFieldLoading}>
+                        <lightning-spinner class="spinsField" variant="Brand" alternative-text="Loading" size="medium"></lightning-spinner>
+                     </div>
+                     <lightning-dual-listbox name="Fields"
+                        label="Select Fields"
+                        source-label="Available Fields"
+                        selected-label="Selected Fields"
+                        field-level-help="Select fields and Get Records"
+                        options={fieldOption}
+                        onchange={handleChange} value={selectedField}>
+                     </lightning-dual-listbox>
+                  </div>
+               </lightning-layout-item> -->
+           </lightning-layout>
+           
+
+           <lightning-card  variant="Narrow"  title="Table" icon-name="utility:table">
+           <lightning-button variant="brand" label="View Number Fields" slot="actions" title="view number fields" onclick={openModal} class="slds-m-right_x-small"></lightning-button>
+           <template if:true={isShowTable}>
+              <!-- <lightning-layout-item padding="around-small" size="12" small-device-size="12" medium-device-size="12"> -->
+                 <div class="slds-box">
+                    <div class="card slds-p-around_medium ">
+                       <div if:true={isTableLoading}>
+                          <lightning-spinner class="spinsTable" variant="Brand" alternative-text="Loading" size="medium"></lightning-spinner>
+                       </div>
+                       <lightning-datatable data={listOfRecords} columns={headerField} key-field="Id" show-row-number-column hide-checkbox-column></lightning-datatable>
+                    </div>
+                 </div>
+              <!-- </lightning-layout-item> -->
+           </template>
+           <template if:false={isShowTable}>
+              <!-- <lightning-layout-item padding="around-small" size="12" small-device-size="12" medium-device-size="12"> -->
+                 <div class="slds-box">
+                    <div class="card slds-p-around_medium ">
+                       <lightning-badge class="slds-badge slds-theme_warning slds-p-around_small" label={feildSetMsg} icon-name="action:info" ></lightning-badge>
+                    </div>
+                 </div>
+              <!-- </lightning-layout-item> -->
+           </template>
+           </lightning-card>
+            <!-- </lightning-layout> -->
+            <!-- <lightning-card variant="Narrow"  title={fieldSetTitle} icon-name="action:apex">
+              <div class="slds-box">
+                 <div class="card slds-p-around_medium ">
+                    <template if:true={isFeidlSetValue}>         
+                       <template for:each={fieldSetList} for:item="sf">
+                             <div class="slds-grid slds-wrap" key={sf.Id}>
+                                <div class="slds-col slds-size_8-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+                                   <lightning-input variant="label-inline" name ="input1" type="text" label={sf.label}>  </lightning-input>
+                                </div>
+                             </div> 
+                       </template> 
+                    </template>
+                    <template if:false={isFeidlSetValue}> 
+                       <lightning-badge class="slds-badge slds-theme_warning slds-p-around_small" label={feildSetMsg} icon-name="action:info" ></lightning-badge>
+                    </template>
+                 </div>
+              </div>
+           </lightning-card> -->
+         </div>
+      </div>
+   </lightning-card>
+   <template if:true={isModalOpen}>
+      <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_medium">
+        <div class="slds-modal__container">
+           <header class="slds-modal__header">
+              <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                 <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse" size="small" ></lightning-icon>
+                 <span class="slds-assistive-text">Close</span>
+              </button>
+              <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Number Type Fields view Popup</h2>
+           </header>
+           <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1" style="overflow: initial;">
+              <div class="slds-card">
+                 <div if:true={isModalLoading}>
+                    <lightning-spinner class="spinsModal" variant="Brand" alternative-text="Loading" size="medium"></lightning-spinner>
+                 </div>
+              <!-- <template if:true={isNumberTypeField}>
+                    <div if:true={isModalLoading}>
+                       <lightning-spinner class="spinsModal" variant="Brand" alternative-text="Loading" size="medium"></lightning-spinner>
+                    </div>
+                    <template for:each={numberTypeField} for:item="num" >
+                       <div key={num} class="card slds-p-around_medium ">
+                          <li >
+                             {num}
+                          </li>
+                       </div>
+                    </template>
+              </template> -->
+              <!-- <template if:false={isNumberTypeField}>
+                    <div if:true={isModalLoading}>
+                       <lightning-spinner class="spinsModal" variant="Brand" alternative-text="Loading" size="medium"></lightning-spinner>
+                    </div>
+                    <lightning-badge class="slds-badge slds-theme_warning slds-p-around_small" label={numberTypeFieldMsg} icon-name="action:info" ></lightning-badge>
+              </template> -->
+                 <lightning-layout multiple-rows>
+                    <lightning-layout-item padding="around-small" size="12" small-device-size="12" medium-device-size="6">
+                       <div class="card slds-p-around_medium">
+                          <lightning-combobox
+                             name="progress"
+                             label="Status One"
+                             value={value}
+                             placeholder="Select"
+                             options={optionsOne}
+                             onchange={handleChangeOne} variant="label-inline">
+                          </lightning-combobox>
+                       </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12" small-device-size="12" medium-device-size="6">
+                       <div class="card slds-p-around_medium">
+                          <lightning-combobox
+                             name="progress"
+                             label="Status Two"
+                             value={value}
+                             placeholder="Select"
+                             options={options}
+                              variant="label-inline">
+                          </lightning-combobox>
+                       </div>
+                    </lightning-layout-item>
+                 </lightning-layout>
+              </div>
+           </div>
+           <footer class="slds-modal__footer">
+              <button class="slds-button slds-button_neutral" onclick={closeModal}>Cancel</button>
+           </footer>
+        </div>
+     </section>
+     <div class="slds-backdrop slds-backdrop_open"></div>
+   </template>
+</template>

@@ -1,0 +1,24 @@
+<apex:page standardStylesheets="true" showHeader="false" standardController="Account">
+    <apex:slds />
+    <apex:includeLightning />
+    <apex:form >
+        <apex:pageBlock Id="policyBlock">
+            <div id="LightningAppDivId">
+            </div>
+        </apex:pageBlock>
+    </apex:form>
+     <script>
+         $Lightning.use(
+             "c:debugLogApp", // Name of Aura Dependency app where c is namespace.
+             function() { // Callback function
+                 $Lightning.createComponent(
+                     "c:deleteDebugLogsLWC", // Name of Lightning Component where c is namespace.
+                     {
+                         //recordId : '{!$CurrentPage.parameters.id}'
+                     }, // attribute parameters
+                     "LightningAppDivId" // Id of the element where Lightning Component will be rendered. // DOM Locator
+                 );
+             }
+         );
+     </script>
+</apex:page>

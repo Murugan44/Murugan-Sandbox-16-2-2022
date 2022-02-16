@@ -1,0 +1,32 @@
+<apex:page controller="VG_VCLController" sidebar="false" showHeader="false">
+    <script>
+        function handleSpinner() {
+            var fullPath = document.getElementById('mySpinner').classList.remove('slds-hidden')
+        }
+    </script>
+    <apex:slds />
+    <apex:form style="width:1200px;">
+        <div id="mySpinner" class="slds-spinner_container  slds-hidden" style="position:fixed">
+            <div  role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                <span class="slds-assistive-text">Loading..</span>
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+            <!-- <div id="spinnerMsg" class="slds-spinner" style="position: absolute;top: 50%;left: 48%;margin-top: -10px;">Please wait...</div> -->
+        </div>
+    
+        <apex:pageblock tabStyle="Account" title="Risk Rating Upload" id="rrB1">
+            <apex:pageMessages rendered="{!pmsg}"></apex:pageMessages>
+            <apex:pageblocksection >
+                <apex:outputLabel >Upload File</apex:outputLabel>
+                 <apex:inputFile id="file_File" value="{!fileBody}" filename="{!fileName}"/>
+            </apex:pageblocksection>
+            <apex:pageBlockButtons location="Bottom">
+                <apex:commandButton value="Cancel" action="{!Cancel}" onclick="if(!confirm('Are you sure?')){return false;}"/>
+                <apex:commandButton rendered="{!Product_Select=='Motor'}" action="{!gotoStep1}" value="Previous" onclick="handleSpinner()"/>
+                <apex:commandButton rendered="{!Product_Select!='Motor'}" action="{!gotoStep2}" value="Previous" onclick="handleSpinner()"/>
+                <apex:commandButton value="Next" action="{!gotoStep2b}" onclick="handleSpinner()"/>
+            </apex:pageBlockButtons> 
+        </apex:pageblock>
+    </apex:form>
+</apex:page>

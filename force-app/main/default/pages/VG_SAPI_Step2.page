@@ -1,0 +1,94 @@
+<apex:page controller="VG_SAPIProductSteps" showHeader="false" sidebar="false">
+    <apex:form >
+        <div style="width: 80%; margin-bottom:8px;margin-top: 8px;margin-left:140px;">
+            <img src="{!$Resource.LS_RD}" alt="Smiley face" height="45px" width="800px" style="margin-left: 15px;margin-top: 15px;margin-bottom:10px;"/>
+        </div>  
+        <apex:pageblock tabStyle="Account" title="Risk Detail" id="pg1">
+            <apex:pageMessages ></apex:pageMessages>
+            <apex:pageBlockSection rendered="{!Product=='SAPI'}">
+                <apex:outputLabel value="Upload File" />
+                <apex:inputFile id="file_File2"  value="{!fileBody}" />
+                <apex:commandButton action="{!processuploadAsset}" value="Upload" />
+            </apex:pageBlockSection>
+            <apex:actionRegion >
+                  <apex:pageBlockTable rendered="{!UploadAsset && Product=='SAPI'}" value="{!rc}" var="rc" id="pbt1" title="Risk Details (Annual)">
+                            <apex:column headerValue="Company Domicile" id="c1" >
+                                <apex:outputPanel styleClass="requiredInput" layout="block" id="pwPanel2" >
+                                    <apex:outputPanel styleClass="requiredBlock"/>
+                                    <apex:inputField style="width:80px" value="{!rc.VG_Company_Domicile__c}" />
+                                </apex:outputPanel> 
+                            </apex:column>
+                            <apex:column style="width:5px" headerValue="Market Cap">
+                                <apex:outputPanel styleClass="requiredInput" layout="block" id="pwPanel3" >
+                                    <apex:outputPanel styleClass="requiredBlock"/>
+                                    <apex:inputField style="width:80px" value="{!rc.VG_Market_Cap__c}" />
+                                </apex:outputPanel> 
+                            </apex:column>
+                            <apex:column style="width:10px" headerValue="Industry">
+                               <apex:outputPanel styleClass="requiredInput" layout="block" id="SAPI" >
+                                <apex:outputPanel styleClass="requiredBlock"/>                                                  
+                                <apex:selectList value="{!rc.VG_Industry__c}" size="1" style="width:200px;">
+                                    <apex:selectOptions value="{!SAPI_Industry_Select}"></apex:selectOptions>
+                                </apex:selectList>
+                            </apex:outputPanel>                              
+                            </apex:column>
+                            
+                            <apex:column style="width:5px" headerValue="RTR Score">
+                               <apex:inputField style="width:80px"  value="{!rc.VG_RTR_Score__c}" />                              
+                            </apex:column>
+                            <apex:column style="width:5px" headerValue="Attack Probability">
+                               <apex:inputField style="width:80px"  value="{!rc.VG_Attack_Probability__c}" />                              
+                            </apex:column>
+                            <apex:column style="width:5px" headerValue="Loss Cost">
+                               <apex:inputField style="width:80px"  value="{!rc.VG_Loss_Cost__c}" />                              
+                            </apex:column>
+                            <apex:column style="width:5px" headerValue="Country (%)">
+                               <apex:inputField style="width:80px"  value="{!rc.VG_Country__c}" />                              
+                            </apex:column>
+                            <apex:column style="width:5px" headerValue="Market Cap">
+                               <apex:outputPanel styleClass="requiredInput" layout="block" id="SAPI2" >
+                                <apex:outputPanel styleClass="requiredBlock"/>                                                  
+                                <apex:selectList value="{!rc.VG_Market_Cap_2__c}" size="1" style="width:200px;">
+                                    <apex:selectOptions value="{!MarketCap_Select}"></apex:selectOptions>
+                                </apex:selectList>
+                            </apex:outputPanel>                            
+                            </apex:column>
+                            <apex:column style="width:5px" headerValue="Market Cap (%)">
+                               <apex:inputField style="width:80px" value="{!rc.VG_Market_Cap_Percent__c}" />                              
+                            </apex:column>                           
+                            <apex:column style="width:5px" headerValue="Business Segment (%)">
+                               <apex:inputField style="width:80px" value="{!rc.VG_Business_Segment__c}" />                              
+                            </apex:column>
+                            <apex:column style="width:5px" headerValue="Revenue">
+                               <apex:inputField style="width:80px" value="{!rc.VG_Revenue__c}" />                              
+                            </apex:column>
+                            <apex:column style="width:5px" headerValue="Financial Score">
+                               <apex:inputField style="width:80px" value="{!rc.VG_Financial_Score__c}" />                              
+                            </apex:column>
+                            <apex:column style="width:5px" headerValue="Governance Score">
+                               <apex:inputField style="width:80px" value="{!rc.VG_Governance_Score__c}" />                              
+                            </apex:column>
+                            <apex:column style="width:5px" headerValue="Operational Score">
+                               <apex:inputField style="width:80px" value="{!rc.VG_Operational_Score__c}" />                              
+                            </apex:column>
+                            <apex:column style="width:5px" headerValue="M&A Score">
+                               <apex:inputField style="width:80px" value="{!rc.VG_M_A_Score__c}" />                              
+                            </apex:column>
+                            <apex:column style="width:5px" headerValue="Shareholders Score">
+                               <apex:inputField style="width:80px" value="{!rc.VG_Shareholders_Score__c}" />                              
+                            </apex:column>
+                            <apex:column style="width:5px" headerValue="Company Ticker">
+                               <apex:inputField style="width:80px" value="{!rc.VG_Company_Ticker__c}" />                              
+                            </apex:column>
+                            <apex:column style="width:5px" headerValue="Activist Insight Upload Date">
+                               <apex:inputField style="width:80px" value="{!rc.VG_Activist_Insight_Upload_Date__c}" />                              
+                            </apex:column>
+                        </apex:pageBlockTable>
+                    
+            </apex:actionRegion>      
+            <apex:pageBlockButtons location="Bottom" >
+                <apex:commandButton value="Cancel" action="{!Cancel}" onclick="if(!confirm('Are you sure?')){return false;}"/><apex:commandButton value="Previous" action="{!gotostep1}"/><apex:commandButton rendered="{!Product!='W&I'}" value="Next" action="{!gotostep3}"/><apex:commandButton action="{!gotostep6}" value="Next" rendered="{!(Product=='W&I')}"/>
+            </apex:pageBlockButtons>           
+        </apex:pageblock>
+    </apex:form>
+</apex:page>

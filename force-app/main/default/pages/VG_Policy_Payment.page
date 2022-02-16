@@ -1,0 +1,53 @@
+<apex:page controller="VG_Payment_TaxController" sidebar="false" showHeader="false">
+    <apex:form id="pg1">
+        <apex:pageBlock tabStyle="Account" title="Policy {!policy.Name}">
+            <apex:pageBlockButtons location="top">
+                <apex:commandButton reRender="sectionsPanel" value="Add Policy Payment" action="{!addP}"/>
+            </apex:pageBlockButtons>
+            <apex:pageMessages ></apex:pageMessages>
+            <apex:outputPanel id="sectionsPanel">
+                <apex:repeat value="{!polPaymentList}" var="pps" rendered="{!(polPaymentList.size > 0)}">
+                    <apex:pageBlock >
+                        <apex:pageBlockSection columns="2" title="Policy Payment Amount" id="ps0">
+                            <apex:pageBlockSectionItem >
+                                <apex:outputLabel >Policy Amount</apex:outputLabel>
+                                <apex:outputPanel styleClass="requiredInput" layout="block" id="pwPanel2" >
+                                    <apex:outputPanel styleClass="requiredBlock"/>  
+                                    <apex:inputField value="{!pps.pp.VG_Policy_Payment_Amount__c}" label="Policy Amount" style="width:200px;"></apex:inputField>
+                                </apex:outputPanel>
+                            </apex:pageBlockSectionItem>
+                        </apex:pageBlockSection>
+                        <apex:pageBlockSection title="Policy Payment" id="ps1" rendered="{!showPaymetTax}">
+                            <apex:pageBlockTable columns="2" value="{!polPaymentList1}" var="pp"  rendered="{!(polPaymentList1.size > 0)}">
+                                <apex:column headerValue="Select Policy Schedule" style="width:100px;">
+                                    <apex:outputPanel styleClass="requiredInput" layout="block" id="pwPanel1" >
+                                        <apex:outputPanel styleClass="requiredBlock"/>  
+                                        <apex:selectList value="{!pp.psSelected}" size="1">
+                                            <apex:selectOptions value="{!psList}" ></apex:selectOptions>
+                                            <!--<apex:actionSupport event="onchange" action="{!setPSValues}"  reRender="ps1"/>-->
+                                        </apex:selectList>
+                                    </apex:outputPanel>
+                                </apex:column>
+                                <apex:column headerValue="Payment Amount" style="width:100px;">
+                                    <apex:outputPanel styleClass="requiredInput" layout="block" id="pwPanel2" >
+                                        <apex:outputPanel styleClass="requiredBlock"/>  
+                                        <apex:inputText value="{!pp.paymentAmount}" style="width:170px"></apex:inputText>
+                                    </apex:outputPanel>
+                                </apex:column>
+                            </apex:pageBlockTable>
+                        </apex:pageBlockSection>
+                        <apex:pageBlockButtons location="bottom">
+                            <apex:commandButton value="Split" action="{!splitPaymentTax}" rendered="{!pps.showSplit}"/>
+                            <apex:commandButton value="Add" action="{!addPayment}" rendered="{!showPaymetTax}"/>
+                        </apex:pageBlockButtons>
+                    </apex:pageBlock>
+                </apex:repeat>
+            </apex:outputPanel>
+            <apex:pageBlockButtons location="bottom">
+                <apex:commandButton value="Save" action="{!Finish}"/>
+                <apex:commandButton value="Cancel" action="{!Cancel}"/>
+            </apex:pageBlockButtons>
+            
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

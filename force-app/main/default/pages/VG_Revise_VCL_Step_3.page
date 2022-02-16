@@ -1,0 +1,52 @@
+<apex:page controller="VG_Revise_VCLController" sidebar="false" showHeader="false">
+    <apex:form style="width:1300px;">
+        <div style="width: 80%; margin-bottom:8px;margin-top: 8px;margin-left:140px;">
+            <img src="{!$Resource.LS_RR}" alt="Smiley face" height="45px" width="800px" style="margin-left: 15px;margin-top: 15px;margin-bottom:10px;"/>
+        </div> 
+               
+        <apex:pageBlock tabStyle="Account" title="Risk Rating Details" id="RRBlock">
+            <apex:pageMessages />  
+            <apex:pageBlockButtons location="top" >
+                <apex:commandButton value="Add Risk Rating" action="{!addRR}" rerender="RRBlock"/>
+            </apex:pageBlockButtons>
+            <apex:pageBlockButtons location="Bottom" >
+                <apex:commandButton value="Cancel" action="{!Cancel}" onclick="if(!confirm('Are you sure?')){return false;}"/><apex:commandButton action="{!gotoStep2}" value="Previous"/><apex:commandButton action="{!gotostep4}" value="Next" />
+            </apex:pageBlockButtons> 
+            
+             
+            <apex:pageBlockTable value="{!riskRatingList}" var="rrw" rendered="{!riskRatingList.size > 0}" >
+                <apex:column headerValue="Coverage" style="width:170px">
+                    <apex:selectList value="{!rrw.CoverageSelected}"  size="1" style="width:170px;">
+                        <apex:selectOptions value="{!RRCoverage_Select}"></apex:selectOptions>
+                    </apex:selectList>
+                </apex:column>               
+                <apex:column headerValue="Sum Insured" style="width:120px">
+                    <apex:inputField value="{!rrw.psa.VG_Sum_Insured__c}" style="width:120px">
+                    </apex:inputField>
+                </apex:column>
+                <apex:column headerValue="Type of Limit" style="width:170px;">
+                    <apex:selectList size="1" value="{!rrw.psa.Type_of_Limit__c}" style="width:170px;">
+                        <apex:selectOptions value="{!RRLimit_Select}"/>
+                    </apex:selectList>
+                </apex:column>
+                <apex:column title="Deductible/SIR" headerValue="Deductible/SIR" style="width:120px">
+                    <apex:inputField value="{!rrw.psa.VG_Deductible__c}" style="width:120px"/>
+                </apex:column>
+                <apex:column headerValue="Type of Deductible" style="width:170px;">
+                    <apex:selectList size="1" value="{!rrw.psa.VG_Deductible_Type__c}" style="width:170px;">
+                        <apex:selectOptions value="{!RRDeductible_Select}"/>
+                    </apex:selectList>
+                </apex:column>
+                 <apex:column title="Premium" headerValue="Annual Premium" style="width:120px" >
+                    <apex:inputText value="{!rrw.psa.VG_Premium__c}" ><apex:actionSupport event="onchange" action="{!RRCalc}"  reRender="RRBlock"/></apex:inputText>
+                </apex:column>
+                <apex:column style="width:20px" headerValue="Delete" >
+                    <apex:commandButton value="Remove" action="{!RemoveRR}" reRender="RRBlock" ><apex:param name="counter" assignTo="{!Index}"  value="{!rrw.Counter}"/></apex:commandButton>
+                </apex:column>
+            </apex:pageBlockTable>
+            <apex:outputPanel > 
+                <b><span style="margin-left:950px;">Total Annual Premium  : </span><span >{!sumAnnualPremium}</span></b>
+            </apex:outputPanel>
+        </apex:pageBlock>              
+    </apex:form>
+</apex:page>

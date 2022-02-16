@@ -1,0 +1,43 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 07-21-2021
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+  Modifications Log 
+  Ver   Date         Author                               Modification
+  1.0   07-20-2021   ChangeMeIn@UserSettingsUnder.SFDoc   Initial Version
+-->
+<template>
+    <article class="slds-card col">
+        <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <span class="slds-icon_container slds-icon-standard-account" title="Car Tile List">
+                        <lightning-icon icon-name="standard:account" alternative-text="Car Tile List" title="Car Tile List"></lightning-icon>
+                        <span class="slds-assistive-text">Car Tile List</span>
+                    </span>
+                </div>
+                <div class="slds-media__body">
+                    <h2 class="slds-card__header-title">
+                        <span>Car Tile List</span>
+                    </h2>
+                </div>
+            </header>
+        </div>
+        <div class="slds-card__body slds-card__body_inner">
+            <div class="slds-p-around_medium wrapper">
+                <template if:true={cars.length}>
+                    <div class="content">
+                        <template for:each={cars} for:item="car">
+                           <c-car-tile key={car.Id} car={car} onselected={handleCarSelected}></c-car-tile> 
+                        </template>
+                    </div>
+                </template>
+                <template if:false={cars.length}>
+                    <c-carplaceholder message="There are no car matching your current selection"></c-carplaceholder>
+                </template>
+            </div>
+        </div>
+    </article>
+</template>

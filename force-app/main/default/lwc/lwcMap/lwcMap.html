@@ -1,0 +1,52 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 07-05-2021
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+  Modifications Log 
+  Ver   Date         Author                               Modification
+  1.0   06-28-2021   ChangeMeIn@UserSettingsUnder.SFDoc   Initial Version
+-->
+<template>
+  <lightning-card  title="Account Location" icon-name="utility:location" variant="base">
+    <lightning-button variant="Brand" label="Map" onclick = {openMap} slot="actions"></lightning-button>
+  </lightning-card>
+    
+    <template if:true={isopenMap}>
+      <template if:true={loader}>
+        <div class="slds-backdrop slds-backdrop_open" style="padding: 20px;">
+          <div class="loader pos"></div>
+        </div>
+      </template>
+      <template if:false={loader}>
+        <c-modal>
+          <div slot="title" >
+            <lightning-card  title="Account Location" icon-name="utility:salesforce1">
+              <lightning-button-icon slot="actions" class="slds-m-around_small"  icon-name="action:refresh"  variant="brand"  alternative-text="Refresh" title="Refresh" onclick={refreshMap}></lightning-button-icon>
+              <lightning-button-icon slot="actions" class="slds-m-around_small" icon-name="action:close" variant="brand" alternative-text="Close" onclick={closeMap}></lightning-button-icon>
+            </lightning-card>
+          </div>
+          
+          <div slot="content">
+            <div class="slds-box">
+              <template if:true = {mapMarkers.length}>
+                <lightning-map
+                    map-markers = {mapMarkers}
+                    selected-marker-value ={selectedMap}
+                    markers-title={mapTitle}
+                    onmarkerselect={callMarkerHandler}>
+                </lightning-map>
+              </template>
+              <template if:false = {mapMarkers.length}>
+                  <div>
+                      <p><b>No Account Location</b></p>
+                  </div>
+              </template>
+            </div>
+          </div>
+
+        </c-modal>
+    </template>
+    </template>
+</template>

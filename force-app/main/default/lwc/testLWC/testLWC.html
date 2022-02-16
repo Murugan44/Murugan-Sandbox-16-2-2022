@@ -1,0 +1,12 @@
+<template>
+    <lightning-card title="test meta">
+        <lightning-button label="test" slot="actions" onclick={checkTest}></lightning-button>
+        
+        <template if:true={isCheck}>
+            Text Value - <strong>{text}</strong>
+        </template>
+        <template if:false={isCheck}>
+            Is Check is False
+        </template>
+    </lightning-card>
+</template>

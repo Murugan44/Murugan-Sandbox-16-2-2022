@@ -1,0 +1,42 @@
+.card {
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+	transition: 0.3s;
+	width: 100%;
+	border-radius: 5px;
+}
+
+.spins::after {
+    position: absolute;
+    content: 'Fetching Object......';
+    width: 100%;
+    text-align: center;
+    top: calc(50% + 3em);
+    font-weight: bold;
+}
+
+.spinsField::after {
+    position: absolute;
+    content: 'Fetching Fields of the Object......';
+    width: 100%;
+    text-align: center;
+    top: calc(50% + 3em);
+    font-weight: bold;
+}
+
+.spinsTable::after {
+    position: absolute;
+    content: 'Fetching Data from Object......';
+    width: 100%;
+    text-align: center;
+    top: calc(50% + 3em);
+    font-weight: bold;
+}
+
+.spinsModal::after {
+    position: absolute;
+    content: 'Loading Modal......';
+    width: 100%;
+    text-align: center;
+    top: calc(50% + 3em);
+    font-weight: bold;
+}

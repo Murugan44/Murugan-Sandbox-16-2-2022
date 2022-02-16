@@ -1,0 +1,358 @@
+<apex:page controller="VG_Revise_VCLController" showHeader="false" sidebar="false">
+    <apex:form style="width:1600px;">
+        <div style="width: 80%; margin-bottom:8px;margin-top: 8px;margin-left:80px;">
+            <img src="{!$Resource.Aesir_RR}" alt="Smiley face" height="45px" width="800px" style="margin-left: 15px;margin-top: 15px;margin-bottom:10px;"/>
+        </div>
+        <div style="width:1300px;">
+            <!-- <apex:pageblock tabStyle="Account" title="Risk Detail" id="pbmain">
+                <apex:pageBlockSection columns="1">
+                     <apex:pageBlockSectionItem >
+                            <apex:outputLabel >Type Of Operation</apex:outputLabel>
+                            <apex:selectList value="{!IndustrySelected}"  size="1" style="width:170px;">
+                                <apex:selectOptions value="{!TypeOfOperationList}"></apex:selectOptions>
+                            </apex:selectList>
+                     </apex:pageBlockSectionItem>
+                </apex:pageBlockSection>
+            </apex:pageblock> -->
+            <apex:pageblock tabStyle="Account" title="Risk Rating" id="RRBlock" >
+                <!-- <apex:pageMessages rendered="{!errmsg}"/> -->
+                <apex:pageMessages ></apex:pageMessages>
+                <apex:pageBlock tabStyle="Account">                       
+                        <apex:pageblocksection >
+                            <apex:outputLabel >Upload File</apex:outputLabel>
+                             <apex:inputFile id="file_File" value="{!fileBody}" filename="{!fileName}"/>
+                             <apex:commandButton action="{!processuploadAsset}" value="Upload" />                 
+                        </apex:pageblocksection>                                      
+                    </apex:pageBlock>
+                    <apex:pageblock tabStyle="Account" title="Added Assets" id="pb1">
+                    <apex:pageblockSection columns="1" >
+                        <apex:pageBlockSectionItem rendered="{!Product_Select=='Property' || Product_Select=='Property BI&I'}">
+                            <apex:outputPanel layout="block" style="overflow:auto;width:1250px;height:350px" >   
+                
+                            <apex:pageBlockTable value="{!AssetWrapperList}" rendered="{!!(AssetWrapperList.size == 0)}" style="width:1250px;" var="asw">
+                                <apex:column headerValue="Location" style="width:70px;">
+                                    <apex:outputText value="{!asw.ass.VG_Location__c}" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="Site Name" style="width:70px;">
+                                    <apex:outputText value="{!asw.ass.VG_Site_Name__c}" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="Street Number" style="width:70px;">
+                                    <apex:outputText value="{!asw.ass.VG_Street_Number__c}" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="Street Name" style="width:70px;">
+                                    <apex:outputText value="{!asw.ass.VG_Street_Name__c}" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="City" style="width:70px;">
+                                    <apex:outputText value="{!asw.ass.VG_City__c}" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="Province/State" style="width:70px;">
+                                    <apex:outputText value="{!asw.ass.VG_Province_State__c}" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="Country" style="width:70px;">
+                                    <apex:outputText value="{!asw.ass.VG_Country__c}" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="Type Of Operation" style="width:70px;">
+                                    <apex:outputText value="{!asw.typeOfOperation}" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="PostalCode ZipCode" style="width:70px;">
+                                    <apex:outputText value="{!asw.ass.VG_Postal_Code__c }" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="Latitude" style="width:70px;">
+                                    <apex:outputText value="{!asw.ass.VG_Latitude__c }" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="Longitude" style="width:70px;">
+                                    <apex:outputText value="{!asw.ass.VG_Longitude__c }" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="Flood Zone" style="width:70px;">
+                                    <apex:outputText value="{!asw.FloodZone}" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="EQ Hazard" style="width:70px;">
+                                    <apex:outputText value="{!asw.EQHazard}" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="Cresta Zone" style="width:70px;">
+                                    <apex:outputText value="{!asw.CrestaZone}" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="Asset Currency" style="width:70px;">
+                                    <apex:outputText value="{!asw.AssetCurrency}" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="Building SI" style="width:70px;">
+                                    <apex:outputText value="{!asw.BuildingSI}" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="Contents SI" style="width:70px;">
+                                    <apex:outputText value="{!asw.ContentsSI}" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="Annual Business Interruption SI " style="width:70px;">
+                                    <apex:outputText value="{!asw.AnnualBusinessInterruptionSI }" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="BI Indemnity Period months" style="width:70px;">
+                                    <apex:outputText value="{!asw.BIIndemnityPeriodmonths}" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="Total TIV" style="width:70px;">
+                                    <apex:outputText value="{!asw.TotalTIV}" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="Occupancy" style="width:70px;">
+                                    <apex:outputText value="{!asw.Occupancy}" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="Construction type" style="width:70px;">
+                                    <apex:outputText value="{!asw.ass.VG_Construction__c }" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="Storeys above grade" style="width:70px;">
+                                    <apex:outputText value="{!asw.Storeysabovegrade}" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="Storeys below grade" style="width:70px;">
+                                    <apex:outputText value="{!asw.Storeysbelowgrade}" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="Automatic sprinklers" style="width:70px;">
+                                    <apex:outputText value="{!asw.ass.VG_Automatic_sprinklers__c }" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="FUS Zone" style="width:70px;">
+                                    <apex:outputText value="{!asw.FUSZone}" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="PDMFL" style="width:70px;">
+                                    <apex:outputText value="{!asw.PDMFL}" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="PDMFL Percent" style="width:70px;">
+                                    <apex:outputText value="{!asw.PDMFLPercent }" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="BIMFL" style="width:70px;">
+                                    <apex:outputText value="{!asw.BIMFL}" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="BIMFL Percent" style="width:70px;">
+                                    <apex:outputText value="{!asw.BIMFLPercent}" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="Lloyds Constuction Code" style="width:70px;">
+                                    <apex:outputText value="{!asw.LloydsConstuctionCode}" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="Lloyds Occupancy Code" style="width:70px;">
+                                    <apex:outputText value="{!asw.LloydsOccupancyCode}" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="Year Built" style="width:70px;">
+                                    <apex:outputText value="{!asw.ass.VG_Year_Built__c }" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="Occupancy By Insured" style="width:70px;">
+                                    <apex:outputText value="{!asw.OccupancyByInsured}" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="Occupancy By Others" style="width:70px;">
+                                    <apex:outputText value="{!asw.OccupancyByOthers}" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="Fire Protection" style="width:70px;">
+                                    <apex:outputText value="{!asw.ass.VG_Fire_Protection__c }" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="Has Sprinkler System" style="width:70px;">
+                                    <apex:outputText value="{!asw.ass.VG_Has_Sprinkler_System__c }" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="Current Year Rate" style="width:70px;">
+                                    <apex:outputText value="{!asw.CurrentYearRate}" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="Expiring Rate" style="width:70px;">
+                                    <apex:outputText value="{!asw.ExpiringRate}" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="Is Earth quake Shake Covered" style="width:70px;">
+                                    <apex:outputText value="{!asw.IsEarthquakeShakeCovered}" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="Is Flood Covered" style="width:70px;">
+                                    <apex:outputText value="{!asw.IsFloodCovered}" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="Last Year Structurally Updated yyyy" style="width:70px;">
+                                    <apex:outputText value="{!asw.ass.VG_Last_Year_Structurally_Updated_YYYY__c }" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="Population" style="width:70px;">
+                                    <apex:outputText value="{!asw.ass.VG_Population__c }" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="ParticipationSchedule" style="width:70px;">
+                                    <apex:outputText value="{!asw.ass.VG_Participation_Schedule__c }" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="TechnicalFirePremium" style="width:70px;">
+                                    <apex:outputText value="{!asw.TechnicalFirePremium }" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="TechnicalFireBIPremium" style="width:70px;">
+                                    <apex:outputText value="{!asw.TechnicalFireBIPremium}" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="TechnicalEarthquakePremium" style="width:70px;">
+                                    <apex:outputText value="{!asw.TechnicalEarthquakePremium}" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="TechnicalFloodPremium " style="width:70px;">
+                                    <apex:outputText value="{!asw.TechnicalFloodPremium }" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="TechnicalPropertyOtherPremium " style="width:70px;">
+                                    <apex:outputText value="{!asw.TechnicalPropertyOtherPremium }" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="TechnicalBIIPremium " style="width:70px;">
+                                    <apex:outputText value="{!asw.TechnicalBIIPremium }" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="TotalTechnicalPremium " style="width:70px;">
+                                    <apex:outputText value="{!asw.TotalTechnicalPremium }" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="QuotedFirePremium" style="width:70px;">
+                                    <apex:outputText value="{!asw.ass.VG_Quoted_Fire_Premium__c }" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="QuotedFireBIPremium" style="width:70px;">
+                                    <apex:outputText value="{!asw.ass.VG_Quoted_Fire_BI_Premium__c }" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="QuotedEarthquakePremium" style="width:70px;">
+                                    <apex:outputText value="{!asw.ass.VG_Quoted_Earthquake_Premium__c }" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="QuotedFloodPremium" style="width:70px;">
+                                    <apex:outputText value="{!asw.ass.VG_Quoted_Flood_Premium__c }" style="width:70px;"/>
+                                </apex:column><apex:column headerValue="QuotedPropertyOtherPremium" style="width:70px;">
+                                    <apex:outputText value="{!asw.ass.VG_Quoted_Property_Other_Premium__c}" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="QuotedBIIPremium" style="width:70px;">
+                                    <apex:outputText value="{!asw.ass.VG_Quoted_BI_I_Premium__c }" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="TotalQuotedPremium" style="width:70px;">
+                                    <apex:outputText value="{!asw.ass.VG_Total_Quoted_Premium__c }" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="FirePremiumAdjustment" style="width:70px;">
+                                    <apex:outputText value="{!asw.ass.VG_Fire_Premium_Adjustment__c }" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="FireBIPremiumAdjustment" style="width:70px;">
+                                    <apex:outputText value="{!asw.ass.VG_Fire_BI_Premium_Adjustment__c }" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="EarthquakePremiumAdjustment" style="width:70px;">
+                                    <apex:outputText value="{!asw.ass.VG_Earthquake_Premium_Adjustment__c }" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="FloodPremiumAdjustment" style="width:70px;">
+                                    <apex:outputText value="{!asw.ass.VG_Flood_Premium_Adjustment__c }" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="PropertyOtherPremiumAdjustment" style="width:70px;">
+                                    <apex:outputText value="{!asw.ass.VG_Property_Other_Premium_Adjustment__c }" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="BIIPremiumAdjustment" style="width:70px;">
+                                    <apex:outputText value="{!asw.ass.VG_BI_I_Premium_Adjustment__c }" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="TotalPremiumAdjustment" style="width:70px;">
+                                    <apex:outputText value="{!asw.ass.VG_Total_Premium_Adjustment__c}" style="width:70px;"/>
+                                </apex:column>
+                            </apex:pageBlockTable> 
+                            </apex:outputPanel>
+                        </apex:pageBlockSectionItem>
+                    </apex:pageblockSection>
+                </apex:pageblock>
+                <!--<apex:pageBlockSection columns="2" title="Applicaple to all Risk Ratings"  rendered="{!RRCoverage == True}">
+                        <apex:pageBlockSectionItem >
+                            <apex:outputLabel ><b>Select Coverage</b></apex:outputLabel>
+                        </apex:pageBlockSectionItem>
+                        <apex:pageBlockSectionItem >
+                        <c:MultiselectPicklist leftLabel="Available"
+                            leftOption="{!RRCoverage_Select}"
+                            rightLabel="Selected"
+                            rightOption="{!Selected_RRCoverage_Select}"
+                            size="3"
+                            width="150px"/>                        
+                         </apex:pageBlockSectionItem>                                             
+                </apex:pageBlockSection>-->
+                <!--<apex:outputPanel id="pg2" >
+                    <apex:pageBlock tabStyle="Account" rendered="{!addRRMode}" >
+                        <apex:pageBlockSection columns="1">
+                            <apex:pageBlockSectionItem >
+                                <apex:outputLabel >Select No.Of Assets</apex:outputLabel>
+                                <apex:inputText value="{!RRSize}" html-placeholder="Enter Number "><apex:actionSupport event="onchange" action="{!generateReinstatement}"  reRender="RRBlock"  /></apex:inputText>
+                            </apex:pageBlockSectionItem>
+                            <apex:repeat value="{!createLoop}" id="repeat1"  var="s">
+                                <apex:pageBlockSectionItem >
+                                    <apex:outputLabel >{!s+1}<apex:outputLabel rendered="{!s+1==1}">st</apex:outputLabel><apex:outputLabel rendered="{!s+1==2}">nd</apex:outputLabel><apex:outputLabel rendered="{!s+1==3}">rd</apex:outputLabel><apex:outputLabel rendered="{!s+1>3}">th</apex:outputLabel> Asset</apex:outputLabel>
+                                    <apex:inputField value="{!assetValues[s].Asset__c}" />
+                                </apex:pageBlockSectionItem>
+                            </apex:repeat>
+                        </apex:pageBlockSection>
+                        <apex:pageBlockSection columns="1" rendered="{!addRRMode}" title="Applicaple to all Risk Ratings">
+                            <apex:pageBlockSectionItem >
+                                <apex:outputLabel >Select Coverage</apex:outputLabel>
+                                <apex:selectList value="{!Coverage_Select}"  size="1" style="width:170px;">
+                                    <apex:selectOptions value="{!RRCoverage_Select}"></apex:selectOptions>
+                                </apex:selectList>
+                            </apex:pageBlockSectionItem>
+                            <apex:pageBlockSectionItem >
+                                <apex:outputLabel >Select Territorial Limits</apex:outputLabel>
+                                <apex:selectList value="{!Teri_Select}"  size="1" style="width:170px;">
+                                    <apex:selectOptions value="{!Territorial_List}"></apex:selectOptions>
+                                </apex:selectList>
+                            </apex:pageBlockSectionItem>
+                        </apex:pageBlockSection>
+                        <apex:pageblockButtons location="bottom" >
+                            <apex:commandButton value="Save" action="{!SaveRR}"/><apex:commandButton value="Cancel" action="{!CancelRR}"/>
+                        </apex:pageblockButtons>
+                    </apex:pageBlock>
+                </apex:outputPanel>
+                <apex:pageblock tabStyle="Account" title="Added Risk Ratings" id="pb1">
+                    <apex:pageBlockButtons location="top">
+                        <apex:commandButton action="{!AddRiskRating}" value="Add Risk Rating" reRender=""/>
+                    </apex:pageBlockButtons>
+                    <apex:pageMessage severity="Info"  summary="No Risk Ratings Added" strength="3" rendered="{!addedRRList.size == 0}"/>
+                    <apex:pageblockSection columns="1" >
+                        <apex:pageBlockSectionItem rendered="{!Product_Select=='Property'}">
+                            <apex:pageBlockTable value="{!addedRRList}" rendered="{!!(addedRRList.size == 0)}" style="width:1250px;" var="rrw">
+                                <apex:column headerValue="Selected Asset" style="width:70px;">
+                                    <apex:outputText value="{!rrw.assName}" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="Coverage" style="width:70px;">
+                                    <apex:selectList size="1" value="{!rrw.psa.VG_Coverage__c}" style="width:70px;">
+                                        <apex:selectOptions value="{!RRCoverage_Select}"/>
+                                    </apex:selectList>
+                                </apex:column>
+                                    <apex:column headerValue="Sum Insured" style="width:80px;">
+                                    <apex:inputText value="{!rrw.sumInsured}" style="width:80px;"><apex:actionSupport event="onchange" action="{!RRCalc}"  reRender="pb1"/></apex:inputText>
+                                </apex:column>
+                                <apex:column headerValue="Sub-limit" style="width:80px;">
+                                    <apex:inputField value="{!rrw.psa.VG_Sub_limit__c}" style="width:80px;"></apex:inputField>
+                                </apex:column>
+                                <apex:column headerValue="Deductible Type" style="width:70px;">
+                                    <apex:inputField value="{!rrw.psa.VG_Deductible_Type__c}" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="Deductible" style="width:80px;">
+                                    <apex:inputField value="{!rrw.psa.VG_Deductible__c}" style="width:80px;"></apex:inputField>
+                                </apex:column>
+                                <apex:column headerValue="Rate (%)" style="width:70px;">
+                                    <apex:inputField value="{!rrw.psa.VG_Base_Premium_Rate__c}" style="width:70px;"><apex:actionSupport event="onchange" action="{!RRCalc}"  reRender="pb1"/></apex:inputField>
+                                </apex:column>
+                                <apex:column title="Premium" headerValue="Annual Premium" style="width:120px">
+                                    <apex:outputText value="{0, number,###,##0}"><apex:param value="{!rrw.Premium}"/></apex:outputText>
+                                </apex:column>
+                                <apex:column headerValue="Action" style="width:80px;">
+                                    <apex:commandButton value="Remove" action="{!RemoveRiskRating}" reRender="RRBlock" ><apex:param name="counter" assignTo="{!Index}"  value="{!rrw.Counter}"/></apex:commandButton>
+                                </apex:column>
+                            </apex:pageBlockTable>
+                        </apex:pageBlockSectionItem>
+                        <apex:pageBlockSectionItem rendered="{!Product_Select=='Property BI&I'}">
+                            <apex:pageBlockTable value="{!addedRRList}" rendered="{!!(addedRRList.size == 0)}" style="width:1250px;" var="rrw">
+                                <apex:column headerValue="Selected Asset" style="width:70px;">
+                                    <apex:outputText value="{!rrw.assName}" style="width:70px;"/>
+                                </apex:column>
+                                <apex:column headerValue="Coverage" style="width:70px;">
+                                    <apex:selectList size="1" value="{!rrw.psa.VG_Coverage__c}" style="width:70px;">
+                                        <apex:selectOptions value="{!RRCoverage_Select}"/>
+                                    </apex:selectList>
+                                </apex:column>
+                                    <apex:column headerValue="Sum Insured" style="width:80px;">
+                                    <apex:inputText value="{!rrw.sumInsured}" style="width:80px;"><apex:actionSupport event="onchange" action="{!RRCalc}"  reRender="pb1"/></apex:inputText>
+                                </apex:column>
+                                <apex:column headerValue="Sub-limit" style="width:80px;">
+                                    <apex:inputField value="{!rrw.psa.VG_Sub_limit__c}" style="width:80px;"></apex:inputField>
+                                </apex:column>
+                                <apex:column headerValue="Rate (%)" style="width:70px;">
+                                    <apex:inputField value="{!rrw.psa.VG_Base_Premium_Rate__c}" style="width:70px;"><apex:actionSupport event="onchange" action="{!RRCalc}"  reRender="pb1"/></apex:inputField>
+                                </apex:column>
+                                <apex:column title="Premium" headerValue="Annual Premium" style="width:120px">
+                                    <apex:outputText value="{0, number,###,##0}"><apex:param value="{!rrw.Premium}"/></apex:outputText>
+                                </apex:column>
+                                <apex:column headerValue="Action" style="width:80px;">
+                                    <apex:commandButton value="Remove" action="{!RemoveRiskRating}" reRender="RRBlock" ><apex:param name="counter" assignTo="{!Index}"  value="{!rrw.Counter}"/></apex:commandButton>
+                                </apex:column>
+                                
+                            </apex:pageBlockTable>
+                            
+                            
+                        </apex:pageBlockSectionItem>
+                       
+                    </apex:pageblockSection>
+                </apex:pageblock>-->
+                <apex:pageBlockButtons location="Bottom" >
+                    <apex:commandButton value="Cancel" action="{!Cancel}" onclick="if(!confirm('Are you sure?')){return false;}"/>
+                    <apex:commandButton action="{!gotoStep1}" value="Previous"/>
+                    <apex:commandButton action="{!gotostep4}" value="Next"/>
+                </apex:pageBlockButtons> 
+            </apex:pageblock>
+        </div>
+    </apex:form>
+</apex:page>

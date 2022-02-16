@@ -1,0 +1,57 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 07-21-2021
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+  Modifications Log 
+  Ver   Date         Author                               Modification
+  1.0   07-20-2021   ChangeMeIn@UserSettingsUnder.SFDoc   Initial Version
+-->
+<template>
+    <article class="slds-card col">
+        <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <span class="slds-icon_container slds-icon-standard-apex_plugin" title="Car Card">
+                        <lightning-icon icon-name="standard:apex_plugin" alternative-text="Car Card" title="Car Card"></lightning-icon>
+                        <span class="slds-assistive-text">{carName}</span>
+                    </span>
+                </div>
+                <div class="slds-media__body">
+                    <h2 class="slds-card__header-title">
+                        <a href="#" class="slds-card__header-link slds-truncate" title={carName}>
+                            <span onclick={handleNavigateToRecord}>{carName}</span>
+                        </a>
+                    </h2>
+                </div>
+            </header>
+        </div>
+        <div class="slds-card__body slds-card__body_inner">
+            <template if:true={recordId}>
+                <!-- <lightning-button-icon icon-name="utility:expand_alt" slot="actions" onclick={handleNavigateToRecord}></lightning-button-icon> -->
+                <div class="slds-m-horizontal_medium">
+                    <!-- <div class="slds-m-around-medium"> -->
+                        <img  src={carPictureUrl} alt="Car picture"/>
+                    <!-- </div> -->
+                    <lightning-record-view-form onload={handleRecordLoaded} record-id={recordId} object-api-name="Car__c" density="compact">
+                        <div class="align slds-m-around-medium">
+                            <!-- <section class="sec slds-m-around-small">Details</section> -->
+                            <lightning-output-field field-name={categoryField}></lightning-output-field>
+                            <lightning-output-field field-name={makeField}></lightning-output-field>
+                            <lightning-output-field field-name={msrpField}></lightning-output-field>
+                            <section class="sec slds-m-around-small">Other Features</section>
+                            <lightning-output-field field-name={fuelField}></lightning-output-field>
+                            <lightning-output-field field-name={seatsField}></lightning-output-field>
+                            <lightning-output-field field-name={controlField}></lightning-output-field>
+                        </div>
+                    </lightning-record-view-form> 
+                </div>
+            </template>
+            <template if:false={recordId}>
+                <c-carplaceholder message="Select a Car to see details"></c-carplaceholder>
+            </template>
+                
+        </div>
+    </article>
+</template>

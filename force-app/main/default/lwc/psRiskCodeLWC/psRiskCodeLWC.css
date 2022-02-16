@@ -1,0 +1,19 @@
+.color-only {
+    padding: 8px;
+    background-color: #344b97;
+}
+.colors-only {
+    padding: 8px;
+    align-items: center;
+    background-color: #344b97;
+    font-size: small;
+}
+.size-only{
+    margin-bottom: 25%;
+}
+.card {
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+	transition: 0.3s;
+	width: 100%;
+	border-radius: 5px;
+}

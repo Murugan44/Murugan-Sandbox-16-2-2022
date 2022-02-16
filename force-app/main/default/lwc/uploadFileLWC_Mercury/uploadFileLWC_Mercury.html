@@ -1,0 +1,75 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 08-25-2021
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+    <lightning-button variant="brand"
+      label="Upload Documents"
+      title="Upload Documents"
+      onclick={Step1}
+      class="slds-m-left_x-small">
+   </lightning-button>
+   <template if:true={isModalOpen}>
+    <template if:true={loader}>
+        <div class="slds-backdrop slds-backdrop_open">
+            <div class="loaders pos"></div>
+        </div>
+     </template>
+    <template if:false={loader}>
+       <section role="dialog"  tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_medium" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" >
+          <div class="slds-modal__container">
+             <header class="slds-modal__header">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                   <lightning-icon icon-name="utility:close"
+                      alternative-text="close"
+                      variant="inverse"
+                      size="small" ></lightning-icon>
+                   <span class="slds-assistive-text">Close</span>
+                </button>
+                <div class="slds-modal__content slds-p-around_large slds-box slds-box_small" id="modal-content-id-1">
+                   <div class="slds-text-color_inverse color-only">File Upload</div>
+                </div>
+             </header>
+             <div class="slds-modal__content slds-p-around_large " id="modal-content-id-2">
+                <div class="backgr">
+                   <lightning-record-edit-form >
+                      <lightning-messages>
+                      </lightning-messages>
+                      <lightning-combobox
+                         name="Document Folder"
+                         label="Document Folder"
+                         value=""
+                         placeholder="Choose Folder Name"
+                         options={options}
+                         onchange={handleChange}
+                         variant ="label-inline"
+                         required
+                         ></lightning-combobox>
+                      <lightning-file-upload
+                         label=""
+                         variant="label-inline"
+                         name="file Uploader"
+                         accept={accept}
+                         record-id={recordId}
+                         onuploadfinished={handleUploadFinished}
+                         disabled = {disabled}
+                         multiple>
+                         </lightning-file-upload>
+                      <div class="slds-p-bottom_small"></div>
+                      
+                   </lightning-record-edit-form>
+                </div>
+             </div>
+             <footer  class="slds-modal__footer">
+                <button class="slds-button slds-button_success" disabled={btnDisabled} onclick={saveToFile} title="Attach">Attach</button>
+                <button class="slds-button slds-button_destructive" onclick={closeModal} title="Cancel">Cancel</button>
+             </footer>
+          </div>
+       </section>
+       <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+ </template>
+</template>

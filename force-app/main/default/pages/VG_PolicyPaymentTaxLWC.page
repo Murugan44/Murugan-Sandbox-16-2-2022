@@ -1,0 +1,24 @@
+<apex:page docType="html-5.0" standardStylesheets="true" showHeader="false" lightningStylesheets="true" tabStyle="Policy__c">
+    <apex:slds />
+    <apex:includeLightning />
+    <apex:form >
+        <apex:pageBlock Id="policyBlock">
+            <div id="LightningAppDivId">
+                <!-- Lightning Web Component will be included here. -->
+            </div>
+        </apex:pageBlock>
+    </apex:form>
+    <script>
+    $Lightning.use(
+        "c:policyPaymentTaxApp", // Name of Aura Dependency app where c is namespace.
+        function() { // Callback function
+            $Lightning.createComponent(
+                "c:stripeLWC", // Name of Lightning Component where c is namespace.
+                {
+                }, // attribute parameters
+                "LightningAppDivId" // Id of the element where Lightning Component will be rendered.
+            );
+        }
+    );
+    </script>
+</apex:page>

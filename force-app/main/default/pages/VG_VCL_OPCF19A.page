@@ -1,0 +1,187 @@
+<apex:page contentType="application/msword#OPCF19A.doc" cache="true" showHeader="false" standardStylesheets="false" applyHtmlTag="false" applyBodyTag="false"> 
+    <!--<html xmlns:w="urn:schemas-microsoft-com:office:word">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>   
+        <head>        
+            <style type="text/css" media="print">    
+                @page {
+                size:8.27in 11.69in;
+                margin:0in 1in 0in 1in;
+                
+                } 
+                @font-face {
+                font-family: Open Sans Condensed Light;
+                src: url({!URLFOR($Resource.Font_OpenSan_CondLight, '/root/to/OpenSans-CondLight.ttf')});
+                }
+                @font-face {
+                font-family: Calibri light;
+                src: url({!URLFOR($Resource.Font_Calibri_Light, '/root/to/calibril.ttf')});
+                }
+                body{
+                font-family: Open Sans Condensed Light;              
+                }
+                @font-face {
+                font-family: Open Sans Condensed Light;
+                src: url({!URLFOR($Resource.Doc_Header_Font, '/root/to/OpenSans-CondLight.ttf')});
+                }
+                #Calibri{
+                font-family: Calibri light;
+                }
+                #header{
+                font-family: Open Sans Condensed Light;
+                font-size:30.0pt;
+                }
+                @page footer{
+                size:8.27in 11.69in;
+                margin:0in 0in 0in 0in;
+                mso-header-margin:0.5in;
+                mso-footer-margin:0.2in;
+                mso-pagination:widow-orphan;
+                mso-paper-source:0;
+                
+                }
+                div.footer
+                {page:footer;}
+                
+                #lasttable {
+                border-collapse:collapse;
+                border-color:#ADB5B0;
+                }
+                
+                @page Main {
+                mso-header:h1;
+                mso-footer:f1;
+                }
+                div.Main{
+                page:Main;
+                }
+                p.MyFoot, li.MyFoot, div.MyFoot{
+                mso-pagination:widow-orphan;
+                tab-stops:center 216.0pt right 432.0pt;
+                mso-header-margin:0.5in;
+                mso-footer-margin:0.2in;
+                }
+                p.MyHead {
+                
+                }
+                table#hrdftrtbl{
+                margin:0in 0in 0in 1in;
+                margin-top:-150px;
+                }   
+                
+                hr { 
+                margin-left: -1500px;
+                border:5px solid #DEDAD9;
+                margin-top:-150px;
+                
+                }  
+            </style>
+        </head>
+        
+        <body>
+            
+            <apex:outputText value="{!PrintView}" escape="false"/>           
+            <div class="Main" style="margin-right:1.0in;">    
+                <hr/>   
+                <p style="font-size:12.0pt;"><b>OPCF 19A – AGREED VALUE OF AUTOMOBILES</b></p>     
+                <table id="lasttable" border="1" class="AllowBreakAcrossPages" style="margin-right:1.0in;border-collapse: collapse;" >                                              
+                    <tr style="height:3.95pt;page-break-inside: avoid;margin-right:1.0in;">
+                        <div style="">
+                            <td width="448" style="border:1px solid black;font-size:
+                                                   9.0pt;">Issued to</td>
+                            <td width="222" style="border:1px solid black;font-size:
+                                                   9.0pt;">Policy Number</td>
+                            <td width="422" style="border:1px solid black;font-size:
+                                                   9.0pt;">Effective Date of Change<br/>(yy/mm/dd)</td>
+                            
+                        </div>
+                    </tr>       
+                    <tr style="height:3.95pt;page-break-inside: avoid;">
+                        <td width="448" style="border:1px solid black;font-size:
+                                               9.0pt;">{!ps.Policy__r.Insured__r.Name}</td>
+                        <td width="222" style="border:1px solid black;font-size:
+                                               9.0pt;">{!ps.Policy__r.Name}</td>
+                        <td width="422" style="border:1px solid black;font-size:
+                                               9.0pt;">{!ps.VG_Booked_Time__c}</td>                                            
+                    </tr> 
+                    <tr style="height:3.95pt;page-break-inside: avoid;">
+                        <div >                           
+                            <td colspan="3" style="font-size: 10.0px;"> The additional premium for this change is {!ps.CurrencyIsoCode}&nbsp;{!ps.Endorsement_Premium_Pro__c} or as indicated on your Certificate of Automobile Insurance.</td>                           
+                        </div>
+                        
+                    </tr>                                                     
+                </table> 
+                <br/>
+                <table >
+                    <tr><td colspan="2" width="888" style=""><span style="font-size:10.0pt;">1.&nbsp;&nbsp; <b>Purpose of This Change </b></span></td>
+                    </tr>
+                    <tr>    
+                        <td width="8" valign="top" style="margin-left:25px;margin-right:5px;font-size:10.0pt;">1.1</td><td width="888"><span style="margin-top:-118px;font-size:10.0pt;">This change is part of your policy.  It is an agreement as to the value of the automobile(s) shown below.  
+                            In certain circumstances, we will pay you that amount, and we give up our right to pay you this actual cash value.</span>
+                        </td>                                                     
+                    </tr>   
+                    
+                    <tr><td width="8" valign="top" style="margin-left:25px;margin-right:5px;font-size:10.0pt;">1.2</td><td width="888"><p style="margin-top:-118px;font-size:10.0pt;">This change applies to the following automobile(s):</p></td>                                      
+                    </tr>
+                </table>  
+                <br/>
+                <table id="lasttable" border="1" class="AllowBreakAcrossPages" style="font-family: Calibri light;border-collapse: collapse;" >                                              
+                    <apex:variable value="{!1}" var="s"/>
+                    <tr style="height:3.95pt;page-break-inside: avoid;">
+                        <div style="">
+                            <td width="100" style="border:1px solid black;font-size:
+                                                   9.0pt;">Auto #</td>
+                            <td width="150" style="border:1px solid black;font-size:
+                                                   9.0pt;">Model Year</td>
+                            <td width="150" style="border:1px solid black;font-size:
+                                                   9.0pt;">Trade Name (Make)</td>
+                            <td width="150" style="border:1px solid black;font-size:
+                                                   9.0pt;">Serial #/VIN</td>
+                            <td width="250" style="border:1px solid black;font-size:
+                                                   9.0pt;">Value (including taxes if applicable)</td>
+                        </div>
+                    </tr> 
+                    <apex:repeat rendered="{!!(psaList.size==0)}" value="{!psaList}" var="ass">    
+                        <tr style="height:3.95pt;page-break-inside: avoid;">
+                            <div style="">
+                                <td width="100" style="border:1px solid black;font-size:
+                                                       9.0pt;">{!ass.Type_of_use_or_description_of_automobile__c}</td>
+                                <td width="150" style="border:1px solid black;font-size:
+                                                       9.0pt;">{!ass.VG_Model_Year__c}</td>
+                                <td width="150" style="border:1px solid black;font-size:
+                                                       9.0pt;">{!ass.VG_Trade_Name_Make__c}</td>
+                                <td width="150" style="border:1px solid black;font-size:
+                                                       9.0pt;">{!ass.Type_of_use_or_description_of_automobile__c}</td>
+                                <td width="250" style="border:1px solid black;font-size:
+                                                       9.0pt;">{!ass.VG_Sum_Insured__c}</td>
+                            </div>
+                        </tr> 
+                        <br/><div style="page-break-after: always" />
+                        <apex:variable value="{!s+1}" var="s"/>
+                    </apex:repeat>
+                    
+                    
+                </table>  
+                <br/>
+                <table >
+                    <tr><td colspan="2" width="888" style=""><p style="font-size:10.0pt;">2.&nbsp;&nbsp; <b>What We Will Pay</b></p></td>                                            
+                    </tr>   
+                    <tr>
+                        <td width="8" valign="top" style="margin-left:25px;margin-right:5px;font-size:10.0pt;">2.1</td><td width="888"><p style="margin-top:-118px;font-size:10.0pt;">In return for the Premium charged, this section (2.1) replaces section 7.7 of your policy.  “What We Will Pay’.  We agree to pay up to the value indicated for the automobile(s) shown above.  We will provide coverage up to that amount under Section 7 of your policy, “Loss or Damage Coverages,” when loss or damage occurs caused by a peril for which you are insured.
+                        We will not pay more to repair the automobile than the value indicated above.
+                        <br/>If a part needed to repair the automobile is no longer available, we will pay an amount equal to the manufacturer’s latest list price for the part.
+                        <br/>This coverage is subject to the loss or damage coverage deductibles shown on your Certificate of Automobile Insurance.
+                        </p></td>  
+                        <td width="18" >
+                            <div  id="h1" style="margin-left:-1650px;margin-right:5px;mso-element:header;">
+                                <apex:image url="{!Logo}" height="70" width="180"/>                 
+                            </div> 
+                        </td>                                     
+                    </tr>
+                    <tr><td width="8" valign="top" style="margin-left:25px;font-size:10.0pt;">2.2</td><td width="888" colspan="3" ><p style="margin-top:-118px;font-size:10.0pt;">Where there is a loss under Section 6 of your policy,: Direct Compensation – Property Damage Coverage,” and the amount you are entitled to receive under Section 6 is less than what you would be entitled to receive in Section 2.1 above applied, we will pay the difference between the amounts.  We will only pay the difference if you have purchased All Perils or Collision or Upset coverage.<br/><br/>The amount payable on any claim made under this coverage does not include the Direct Compensation – Property Damage deductible that applies to the claim.</p></td>                                      
+                    </tr>
+                </table> 
+                <p style="font-size:10.0pt;">All other terms and conditions of your policy remain the same.  </p>       
+            </div>            
+        </body>
+    </html>-->
+</apex:page>

@@ -1,0 +1,17 @@
+.siz{
+    padding:7px
+}
+.sizs{
+    padding:4px
+}
+
+.sec{
+    font-weight: 900;
+    /* font-size: medium; */
+    background: #68a3c8;
+    text-align: center;
+}
+
+.col{
+    background: lightskyblue;
+}

@@ -1,0 +1,61 @@
+.cursor{
+	cursor: pointer;
+}
+
+.size-only {
+	font-size: 10px;
+}
+
+.grid {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	grid-template-rows: repeat(2, 0fr);
+	grid-column-gap: 18px;
+	grid-row-gap: 18px;
+}
+
+.doc{
+	display: grid;
+    grid-template-columns: 40px 400px;
+	align-items: center;
+    align-content: center;
+}
+
+.loaders {
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	display: block;
+	margin:15px auto;
+	position: relative;
+	background: #FFF;
+	box-shadow: -24px 0 #FFF, 24px 0 #FFF;
+	box-sizing: border-box;
+	animation: shadowPulse 2s linear infinite;
+  }
+  
+  @keyframes shadowPulse {
+	33% {
+	  background: #FFF;
+	  box-shadow: -24px 0 #FF3D00, 24px 0 #FFF;
+	}
+	66% {
+	  background: #FF3D00;
+	  box-shadow: -24px 0 #FFF, 24px 0 #FFF;
+	}
+	100% {
+	  background: #FFF;
+	  box-shadow: -24px 0 #FFF, 24px 0 #FF3D00;
+	}
+  }
+
+  .pos{
+	margin-top: 25%;
+  }
+
+  .card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 100%;
+    border-radius: 5px;
+  }

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>52.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__AppPage</target>
+        <target>lightning__HomePage</target>
+        <target>lightning__RecordPage</target>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__RecordPage">
+            <property label="Industry Hazard Level Options" name="hazardLevel" type="String"/>
+            <property label="Listing Territory Options" name="listingTerritory" type="String"/>
+            <property label="Litigation/Claims Within Past Year? Options" name="years" type="String"/>
+            <property label="ILF Layer Options" name="ilf" type="String"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

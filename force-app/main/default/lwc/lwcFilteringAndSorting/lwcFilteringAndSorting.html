@@ -1,0 +1,64 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 07-06-2021
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+  Modifications Log 
+  Ver   Date         Author                               Modification
+  1.0   07-05-2021   ChangeMeIn@UserSettingsUnder.SFDoc   Initial Version
+-->
+<template>
+    <lightning-card title="Account Filter" icon-name="utility:filter">
+        <button class="slds-button slds-button_success btn" onclick={openFliter} slot="actions">Open</button>
+        <template if:true={isFilter}>
+            <div class="slds-box slds-m-around_medium">
+                <div class="slds-p-around_x-small">
+                    <lightning-layout>
+                        <lightning-layout-item size="2" padding="around-small">
+                        <lightning-combobox name="filterBy" value={filterBy} label="Filter By"
+                        options={FilterByOptions} onchange={filterbyHandler}></lightning-combobox>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="4" padding="around-small">
+                            <lightning-input type="text" label="Filter" onkeyup={filterHandler}></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="2" alignment-bump="left" padding="around-small">
+                            <lightning-combobox name="sortedBy" value={sortedBy} label="Sort By"
+                           options={sortByOptions} onchange={sortHandler}></lightning-combobox>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                    <div style="position: relative;">
+                        <template if:true={loader}>
+                            <div class="slds-backdrop slds-backdrop_open" style="opacity: 0.95;position: relative;padding: 20px;background: #9b9b9b;">
+                                <div class="loader" ></div>
+                            </div>
+                        </template>
+                        <template if:false={loader}>
+                            <table>
+                                <thead>
+                                    <tr style="color: black;">
+                                        <template for:each={headings} for:item="heading">
+                                            <th key={heading}>{heading}</th>
+                                        </template>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={filteredData} for:item="data">
+                                        <tr key={data.Id}>
+                                            <td>{data.Id}</td>
+                                            <td>{data.Name}</td>
+                                            <td>{data.Industry}</td>
+                                            <td>{data.ShippingCountry}</td>
+                                            <!-- <td>{data.VG_TOBA_Uploaded__c}</td> -->
+                                            <td>{data.Comply_Advantage_Match_Status__c}</td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </lightning-card>
+</template>
